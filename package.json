@@ -8,7 +8,10 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "gulp": "gulp build-assets",
+    "compile": "tsc -p ./tsconfig-release.json",
+    "exports": "gulp build-exports"
   },
   "repository": {
     "type": "git",
