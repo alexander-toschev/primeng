@@ -12,7 +12,7 @@
     "build:assets": "guilp build-assets",
     "build:exports": "guilp build-exports",
     "compile": "tsc -p ./tsconfig-release.json",
-    "build:scc": "gulp build-css-prod"
+    "build:css": "gulp build-css-prod"
   },
   "repository": {
     "type": "git",
