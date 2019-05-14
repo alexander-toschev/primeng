@@ -10,6 +10,7 @@ import { BlockableUI } from '../common/blockableui';
 import { FilterMetadata } from '../common/filtermetadata';
 import { ObjectUtils } from '../utils/objectutils';
 import {ScrollingModule} from '@angular/cdk/scrolling';
+import {ScrollingModule as ExperimentalScrollingModule} from '@angular/cdk-experimental/scrolling';
 
 @Injectable()
 export class TreeTableService {
@@ -2995,8 +2996,8 @@ export class TreeTableToggler {
 }
 
 @NgModule({
-    imports: [CommonModule,PaginatorModule, ScrollingModule],
-    exports: [TreeTable,SharedModule,TreeTableToggler,TTSortableColumn,TTSortIcon,TTResizableColumn,TTRow,TTReorderableColumn,TTSelectableRow,TTSelectableRowDblClick,TTContextMenuRow,TTCheckbox,TTHeaderCheckbox,TTEditableColumn,TreeTableCellEditor,ScrollingModule],
+    imports: [CommonModule,PaginatorModule, ScrollingModule, ExperimentalScrollingModule],
+    exports: [TreeTable,SharedModule,TreeTableToggler,TTSortableColumn,TTSortIcon,TTResizableColumn,TTRow,TTReorderableColumn,TTSelectableRow,TTSelectableRowDblClick,TTContextMenuRow,TTCheckbox,TTHeaderCheckbox,TTEditableColumn,TreeTableCellEditor,ScrollingModule, ExperimentalScrollingModule],
     declarations: [TreeTable,TreeTableToggler,TTScrollableView,TTBody,TTSortableColumn,TTSortIcon,TTResizableColumn,TTRow,TTReorderableColumn,TTSelectableRow,TTSelectableRowDblClick,TTContextMenuRow,TTCheckbox,TTHeaderCheckbox,TTEditableColumn,TreeTableCellEditor]
 })
 export class TreeTableModule { }
