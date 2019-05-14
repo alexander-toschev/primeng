@@ -9,8 +9,8 @@
     "test": "ng test",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build:assets": "guilp build-assets",
-    "build:exports": "guilp build-exports",
+    "build:assets": "gulp build-assets",
+    "build:exports": "gulp build-exports",
     "compile": "tsc -p ./tsconfig-release.json",
     "build:css": "gulp build-css-prod"
   },
