@@ -190,6 +190,8 @@ export class TreeTable implements AfterContentInit, OnInit, OnDestroy, Blockable
 
     @Input() filterMode: string = 'lenient';
 
+    @Input() sdkVirtualScroll: boolean = false;
+
     @Output() onFilter: EventEmitter<any> = new EventEmitter();
 
     @Output() onNodeExpand: EventEmitter<any> = new EventEmitter();
@@ -1691,11 +1693,17 @@ export class TreeTable implements AfterContentInit, OnInit, OnDestroy, Blockable
 @Component({
     selector: '[pTreeTableBody]',
     template: `
-    <ng-template cdkVirtualFor let-serializedNode let-rowIndex="index" [cdkVirtualForOf]="tt.serializedValue" [cdkVirtualForTrackBy]="tt.rowTrackBy">
+    <ng-template *ngIf="tt.sdkVirtualScroll" cdkVirtualFor let-serializedNode let-rowIndex="index" [cdkVirtualForOf]="tt.serializedValue" [cdkVirtualForTrackBy]="tt.rowTrackBy">
         <ng-container *ngIf="serializedNode.visible">
             <ng-container *ngTemplateOutlet="template; context: {$implicit: serializedNode, node: serializedNode.node, rowData: serializedNode.node.data, columns: columns}"></ng-container>
         </ng-container>
     </ng-template>
+    <ng-template *ngIf="!tt.sdkVirtualScroll" ngFor let-serializedNode let-rowIndex="index" [ngForOf]="tt.serializedValue" [ngForTrackBy]="tt.rowTrackBy">
+        <ng-container *ngIf="serializedNode.visible">
+            <ng-container *ngTemplateOutlet="template; context: {$implicit: serializedNode, node: serializedNode.node, rowData: serializedNode.node.data, columns: columns}"></ng-container>
+        </ng-container>
+    </ng-template>
+
     <ng-container *ngIf="tt.isEmpty()">
         <ng-container *ngTemplateOutlet="tt.emptyMessageTemplate; context: {$implicit: columns}"></ng-container>
     </ng-container>
@@ -1724,12 +1732,17 @@ export class TTBody {
             </div>
         </div>
         <div #scrollBody class="ui-treetable-scrollable-body">
-            <cdk-virtual-scroll-viewport autosize style="height:180px">
+            <cdk-virtual-scroll-viewport itemSize="18" style="height:500px" *ngIf="tt.sdkVirtualScroll">
             <table #scrollTable [ngClass]="{'ui-treetable-scrollable-body-table': true, 'ui-treetable-virtual-table': tt.virtualScroll}">
                 <ng-container *ngTemplateOutlet="frozen ? tt.frozenColGroupTemplate||tt.colGroupTemplate : tt.colGroupTemplate; context {$implicit: columns}"></ng-container>
                 <tbody class="ui-treetable-tbody" [pTreeTableBody]="columns" [pTreeTableBodyTemplate]="frozen ? tt.frozenBodyTemplate||tt.bodyTemplate : tt.bodyTemplate"></tbody>
             </table>
             </cdk-virtual-scroll-viewport>
+
+            <table #scrollTable [ngClass]="{'ui-treetable-scrollable-body-table': true, 'ui-treetable-virtual-table': tt.virtualScroll}" *ngIf="!tt.sdkVirtualScroll">
+                <ng-container *ngTemplateOutlet="frozen ? tt.frozenColGroupTemplate||tt.colGroupTemplate : tt.colGroupTemplate; context {$implicit: columns}"></ng-container>
+                <tbody class="ui-treetable-tbody" [pTreeTableBody]="columns" [pTreeTableBodyTemplate]="frozen ? tt.frozenBodyTemplate||tt.bodyTemplate : tt.bodyTemplate"></tbody>
+            </table>
 
             <table #loadingTable *ngIf="tt.virtualScroll && tt.loadingBodyTemplate != null" [ngClass]="{'ui-treetable-scrollable-body-table ui-treetable-loading-virtual-table': true, 'ui-treetable-virtual-table': tt.virtualScroll}">
                 <tbody class="ui-treetable-tbody">
