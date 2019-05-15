@@ -12,7 +12,8 @@
     "build:assets": "gulp build-assets",
     "build:exports": "gulp build-exports",
     "compile": "tsc -p ./tsconfig-release.json",
-    "build:css": "gulp build-css-prod"
+    "build:css": "gulp build-css-prod",
+    "gulp:clean": "gulp clean"
   },
   "repository": {
     "type": "git",
