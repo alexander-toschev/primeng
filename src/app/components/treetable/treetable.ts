@@ -1,7 +1,7 @@
-import { NgModule, AfterContentInit, OnInit, OnDestroy, HostListener, Injectable, Directive, Component, Input, Output, EventEmitter, ContentChildren, TemplateRef, QueryList, ElementRef, NgZone, ViewChild, AfterViewInit, AfterViewChecked} from '@angular/core';
+import { NgModule, AfterContentInit, Self, Inject, OnInit, OnDestroy, HostListener, Injectable, Directive, Component, Input, Output, EventEmitter, ContentChildren, TemplateRef, QueryList, ElementRef, NgZone, ViewChild, AfterViewInit, AfterViewChecked} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TreeNode } from '../common/treenode';
-import { Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, fromEvent} from 'rxjs';
 import { DomHandler } from '../dom/domhandler';
 import { PaginatorModule } from '../paginator/paginator';
 import { PrimeTemplate, SharedModule } from '../common/shared';
@@ -11,6 +11,8 @@ import { FilterMetadata } from '../common/filtermetadata';
 import { ObjectUtils } from '../utils/objectutils';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {ScrollingModule as ExperimentalScrollingModule} from '@angular/cdk-experimental/scrolling';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling'
 
 @Injectable()
 export class TreeTableService {
@@ -3004,9 +3006,35 @@ export class TreeTableToggler {
     }
 }
 
+@Directive({
+    selector: 'cdk-virtual-scroll-viewport'
+})
+export class CdkVirtualScrollViewportPatchDirective implements OnInit, OnDestroy {
+	protected readonly destroy$ = new Subject();
+
+	constructor(
+		@Self() @Inject(CdkVirtualScrollViewport) private readonly viewportComponent: CdkVirtualScrollViewport,
+	) {}
+
+	ngOnInit() {
+		fromEvent(window, 'resize')
+			.pipe(
+				debounceTime(10),
+				takeUntil(this.destroy$),
+			)
+			.subscribe(() => this.viewportComponent.checkViewportSize())
+		;
+	}
+
+	ngOnDestroy() {
+		this.destroy$.next();
+		this.destroy$.complete();
+	}
+}
+
 @NgModule({
     imports: [CommonModule,PaginatorModule, ScrollingModule, ExperimentalScrollingModule],
-    exports: [TreeTable,SharedModule,TreeTableToggler,TTSortableColumn,TTSortIcon,TTResizableColumn,TTRow,TTReorderableColumn,TTSelectableRow,TTSelectableRowDblClick,TTContextMenuRow,TTCheckbox,TTHeaderCheckbox,TTEditableColumn,TreeTableCellEditor,ScrollingModule, ExperimentalScrollingModule],
-    declarations: [TreeTable,TreeTableToggler,TTScrollableView,TTBody,TTSortableColumn,TTSortIcon,TTResizableColumn,TTRow,TTReorderableColumn,TTSelectableRow,TTSelectableRowDblClick,TTContextMenuRow,TTCheckbox,TTHeaderCheckbox,TTEditableColumn,TreeTableCellEditor]
+    exports: [TreeTable,SharedModule,TreeTableToggler,TTSortableColumn,TTSortIcon,TTResizableColumn,TTRow,TTReorderableColumn,TTSelectableRow,TTSelectableRowDblClick,TTContextMenuRow,TTCheckbox,TTHeaderCheckbox,TTEditableColumn,TreeTableCellEditor,ScrollingModule,ExperimentalScrollingModule,CdkVirtualScrollViewportPatchDirective],
+    declarations: [TreeTable,TreeTableToggler,TTScrollableView,TTBody,TTSortableColumn,TTSortIcon,TTResizableColumn,TTRow,TTReorderableColumn,TTSelectableRow,TTSelectableRowDblClick,TTContextMenuRow,TTCheckbox,TTHeaderCheckbox,TTEditableColumn,TreeTableCellEditor,CdkVirtualScrollViewportPatchDirective]
 })
 export class TreeTableModule { }
