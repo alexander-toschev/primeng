@@ -12,7 +12,7 @@ import { ObjectUtils } from '../utils/objectutils';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import {ScrollingModule as ExperimentalScrollingModule} from '@angular/cdk-experimental/scrolling';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling'
+import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 
 @Injectable()
 export class TreeTableService {
@@ -1695,11 +1695,14 @@ export class TreeTable implements AfterContentInit, OnInit, OnDestroy, Blockable
 @Component({
     selector: '[pTreeTableBody]',
     template: `
-    <ng-template *ngIf="tt.sdkVirtualScroll" cdkVirtualFor let-serializedNode let-rowIndex="index" [cdkVirtualForOf]="tt.serializedValue" [cdkVirtualForTrackBy]="tt.rowTrackBy">
-        <ng-container *ngIf="serializedNode.visible">
-            <ng-container *ngTemplateOutlet="template; context: {$implicit: serializedNode, node: serializedNode.node, rowData: serializedNode.node.data, columns: columns}"></ng-container>
+    <ng-container *ngIf="tt.sdkVirtualScroll">
+        <ng-container *cdkVirtualFor="let serializedNode of tt.serializedValue; trackBy: tt.rowTrackBy; let i = index; templateCacheSize: 0">
+            <ng-container *ngIf="serializedNode.visible">
+                <ng-container *ngTemplateOutlet="template; context: {$implicit: serializedNode, node: serializedNode.node, rowData: serializedNode.node.data, columns: columns}"></ng-container>
+            </ng-container>
         </ng-container>
-    </ng-template>
+    </ng-container>
+
     <ng-template *ngIf="!tt.sdkVirtualScroll" ngFor let-serializedNode let-rowIndex="index" [ngForOf]="tt.serializedValue" [ngForTrackBy]="tt.rowTrackBy">
         <ng-container *ngIf="serializedNode.visible">
             <ng-container *ngTemplateOutlet="template; context: {$implicit: serializedNode, node: serializedNode.node, rowData: serializedNode.node.data, columns: columns}"></ng-container>
@@ -1734,12 +1737,14 @@ export class TTBody {
             </div>
         </div>
         <div #scrollBody class="ui-treetable-scrollable-body">
-            <cdk-virtual-scroll-viewport itemSize="18" style="height:500px" *ngIf="tt.sdkVirtualScroll">
-            <table #scrollTable [ngClass]="{'ui-treetable-scrollable-body-table': true, 'ui-treetable-virtual-table': tt.virtualScroll}">
-                <ng-container *ngTemplateOutlet="frozen ? tt.frozenColGroupTemplate||tt.colGroupTemplate : tt.colGroupTemplate; context {$implicit: columns}"></ng-container>
-                <tbody class="ui-treetable-tbody" [pTreeTableBody]="columns" [pTreeTableBodyTemplate]="frozen ? tt.frozenBodyTemplate||tt.bodyTemplate : tt.bodyTemplate"></tbody>
-            </table>
-            </cdk-virtual-scroll-viewport>
+            <div *ngIf="tt.sdkVirtualScroll">
+                <cdk-virtual-scroll-viewport itemSize="34" style="height:500px">
+                    <table #scrollTable [ngClass]="{'ui-treetable-scrollable-body-table': true, 'ui-treetable-virtual-table': tt.virtualScroll}">
+                        <ng-container *ngTemplateOutlet="frozen ? tt.frozenColGroupTemplate||tt.colGroupTemplate : tt.colGroupTemplate; context {$implicit: columns}"></ng-container>
+                        <tbody class="ui-treetable-tbody" [pTreeTableBody]="columns" [pTreeTableBodyTemplate]="frozen ? tt.frozenBodyTemplate||tt.bodyTemplate : tt.bodyTemplate"></tbody>
+                    </table>
+                </cdk-virtual-scroll-viewport>
+            </div>
 
             <table #scrollTable [ngClass]="{'ui-treetable-scrollable-body-table': true, 'ui-treetable-virtual-table': tt.virtualScroll}" *ngIf="!tt.sdkVirtualScroll">
                 <ng-container *ngTemplateOutlet="frozen ? tt.frozenColGroupTemplate||tt.colGroupTemplate : tt.colGroupTemplate; context {$implicit: columns}"></ng-container>
@@ -1945,7 +1950,6 @@ export class TTScrollableView implements AfterViewInit, OnDestroy, AfterViewChec
             let virtualTableHeight = DomHandler.getOuterHeight(this.virtualScrollerViewChild.nativeElement);
             let pageCount = (virtualTableHeight / pageHeight)||1;
             let scrollBodyTop = this.scrollTableViewChild.nativeElement.style.top||'0';
-
             if ((this.scrollBodyViewChild.nativeElement.scrollTop + viewport > parseFloat(scrollBodyTop) + tableHeight) || (this.scrollBodyViewChild.nativeElement.scrollTop < parseFloat(scrollBodyTop))) {
                 if (this.scrollLoadingTableViewChild && this.scrollLoadingTableViewChild.nativeElement) {
                     this.scrollLoadingTableViewChild.nativeElement.style.display = 'table';
