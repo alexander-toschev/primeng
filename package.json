@@ -13,7 +13,8 @@
     "build:exports": "gulp build-exports",
     "compile": "tsc -p ./tsconfig-release.json",
     "build:css": "gulp build-css-prod",
-    "gulp:clean": "gulp clean"
+    "gulp:clean": "gulp clean",
+    "build-styles": "node-sass src/assets/components -o src/assets/components"
   },
   "repository": {
     "type": "git",
