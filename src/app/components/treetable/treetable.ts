@@ -1,7 +1,7 @@
-import { NgModule, AfterContentInit, OnInit, OnDestroy, HostListener, Injectable, Directive, Component, Input, Output, EventEmitter, ContentChildren, TemplateRef, QueryList, ElementRef, NgZone, ViewChild, AfterViewInit, AfterViewChecked} from '@angular/core';
+import { NgModule, AfterContentInit, Self, Inject, OnInit, OnDestroy, HostListener, Injectable, Directive, Component, Input, Output, EventEmitter, ContentChildren, TemplateRef, QueryList, ElementRef, NgZone, ViewChild, AfterViewInit, AfterViewChecked} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { TreeNode } from '../common/treenode';
-import { Subject, Subscription } from 'rxjs';
+import { Subject, Subscription, fromEvent} from 'rxjs';
 import { DomHandler } from '../dom/domhandler';
 import { PaginatorModule } from '../paginator/paginator';
 import { PrimeTemplate, SharedModule } from '../common/shared';
@@ -9,6 +9,9 @@ import { SortMeta } from '../common/sortmeta';
 import { BlockableUI } from '../common/blockableui';
 import { FilterMetadata } from '../common/filtermetadata';
 import { ObjectUtils } from '../utils/objectutils';
+import {ScrollingModule} from '@angular/cdk/scrolling';
+import { debounceTime, takeUntil } from 'rxjs/operators';
+import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
 
 @Injectable()
 export class TreeTableService {
@@ -187,6 +190,8 @@ export class TreeTable implements AfterContentInit, OnInit, OnDestroy, Blockable
     @Input() filterDelay: number = 300;
 
     @Input() filterMode: string = 'lenient';
+
+    @Input() cdkVirtualScroll: boolean = false;
 
     @Output() onFilter: EventEmitter<any> = new EventEmitter();
 
@@ -1689,14 +1694,23 @@ export class TreeTable implements AfterContentInit, OnInit, OnDestroy, Blockable
 @Component({
     selector: '[pTreeTableBody]',
     template: `
-        <ng-template ngFor let-serializedNode let-rowIndex="index" [ngForOf]="tt.serializedValue" [ngForTrackBy]="tt.rowTrackBy">
+    <ng-container *ngIf="tt.cdkVirtualScroll">
+        <ng-container *cdkVirtualFor="let serializedNode of tt.serializedValue; trackBy: tt.rowTrackBy; let i = index; templateCacheSize: 0">
             <ng-container *ngIf="serializedNode.visible">
                 <ng-container *ngTemplateOutlet="template; context: {$implicit: serializedNode, node: serializedNode.node, rowData: serializedNode.node.data, columns: columns}"></ng-container>
             </ng-container>
-        </ng-template>
-        <ng-container *ngIf="tt.isEmpty()">
-            <ng-container *ngTemplateOutlet="tt.emptyMessageTemplate; context: {$implicit: columns}"></ng-container>
         </ng-container>
+    </ng-container>
+
+    <ng-template *ngIf="!tt.cdkVirtualScroll" ngFor let-serializedNode let-rowIndex="index" [ngForOf]="tt.serializedValue" [ngForTrackBy]="tt.rowTrackBy">
+        <ng-container *ngIf="serializedNode.visible">
+            <ng-container *ngTemplateOutlet="template; context: {$implicit: serializedNode, node: serializedNode.node, rowData: serializedNode.node.data, columns: columns}"></ng-container>
+        </ng-container>
+    </ng-template>
+
+    <ng-container *ngIf="tt.isEmpty()">
+        <ng-container *ngTemplateOutlet="tt.emptyMessageTemplate; context: {$implicit: columns}"></ng-container>
+    </ng-container>
     `
 })
 export class TTBody {
@@ -1722,10 +1736,20 @@ export class TTBody {
             </div>
         </div>
         <div #scrollBody class="ui-treetable-scrollable-body">
-            <table #scrollTable [ngClass]="{'ui-treetable-scrollable-body-table': true, 'ui-treetable-virtual-table': tt.virtualScroll}">
+            <div *ngIf="tt.cdkVirtualScroll">
+                <cdk-virtual-scroll-viewport itemSize="34" style="height:550px">
+                    <table #scrollTable [ngClass]="{'ui-treetable-scrollable-body-table': true, 'ui-treetable-virtual-table': tt.virtualScroll}">
+                        <ng-container *ngTemplateOutlet="frozen ? tt.frozenColGroupTemplate||tt.colGroupTemplate : tt.colGroupTemplate; context {$implicit: columns}"></ng-container>
+                        <tbody class="ui-treetable-tbody" [pTreeTableBody]="columns" [pTreeTableBodyTemplate]="frozen ? tt.frozenBodyTemplate||tt.bodyTemplate : tt.bodyTemplate"></tbody>
+                    </table>
+                </cdk-virtual-scroll-viewport>
+            </div>
+
+            <table #scrollTable [ngClass]="{'ui-treetable-scrollable-body-table': true, 'ui-treetable-virtual-table': tt.virtualScroll}" *ngIf="!tt.cdkVirtualScroll">
                 <ng-container *ngTemplateOutlet="frozen ? tt.frozenColGroupTemplate||tt.colGroupTemplate : tt.colGroupTemplate; context {$implicit: columns}"></ng-container>
                 <tbody class="ui-treetable-tbody" [pTreeTableBody]="columns" [pTreeTableBodyTemplate]="frozen ? tt.frozenBodyTemplate||tt.bodyTemplate : tt.bodyTemplate"></tbody>
             </table>
+
             <table #loadingTable *ngIf="tt.virtualScroll && tt.loadingBodyTemplate != null" [ngClass]="{'ui-treetable-scrollable-body-table ui-treetable-loading-virtual-table': true, 'ui-treetable-virtual-table': tt.virtualScroll}">
                 <tbody class="ui-treetable-tbody">
                     <ng-template ngFor [ngForOf]="loadingArray">
@@ -1925,7 +1949,6 @@ export class TTScrollableView implements AfterViewInit, OnDestroy, AfterViewChec
             let virtualTableHeight = DomHandler.getOuterHeight(this.virtualScrollerViewChild.nativeElement);
             let pageCount = (virtualTableHeight / pageHeight)||1;
             let scrollBodyTop = this.scrollTableViewChild.nativeElement.style.top||'0';
-
             if ((this.scrollBodyViewChild.nativeElement.scrollTop + viewport > parseFloat(scrollBodyTop) + tableHeight) || (this.scrollBodyViewChild.nativeElement.scrollTop < parseFloat(scrollBodyTop))) {
                 if (this.scrollLoadingTableViewChild && this.scrollLoadingTableViewChild.nativeElement) {
                     this.scrollLoadingTableViewChild.nativeElement.style.display = 'table';
@@ -2986,9 +3009,35 @@ export class TreeTableToggler {
     }
 }
 
+@Directive({
+    selector: 'cdk-virtual-scroll-viewport'
+})
+export class CdkVirtualScrollViewportPatchDirective implements OnInit, OnDestroy {
+	protected readonly destroy$ = new Subject();
+
+	constructor(
+		@Self() @Inject(CdkVirtualScrollViewport) private readonly viewportComponent: CdkVirtualScrollViewport,
+	) {}
+
+	ngOnInit() {
+		fromEvent(window, 'resize')
+			.pipe(
+				debounceTime(10),
+				takeUntil(this.destroy$),
+			)
+			.subscribe(() => this.viewportComponent.checkViewportSize())
+		;
+	}
+
+	ngOnDestroy() {
+		this.destroy$.next();
+		this.destroy$.complete();
+	}
+}
+
 @NgModule({
-    imports: [CommonModule,PaginatorModule],
-    exports: [TreeTable,SharedModule,TreeTableToggler,TTSortableColumn,TTSortIcon,TTResizableColumn,TTRow,TTReorderableColumn,TTSelectableRow,TTSelectableRowDblClick,TTContextMenuRow,TTCheckbox,TTHeaderCheckbox,TTEditableColumn,TreeTableCellEditor],
-    declarations: [TreeTable,TreeTableToggler,TTScrollableView,TTBody,TTSortableColumn,TTSortIcon,TTResizableColumn,TTRow,TTReorderableColumn,TTSelectableRow,TTSelectableRowDblClick,TTContextMenuRow,TTCheckbox,TTHeaderCheckbox,TTEditableColumn,TreeTableCellEditor]
+    imports: [CommonModule,PaginatorModule, ScrollingModule],
+    exports: [TreeTable,SharedModule,TreeTableToggler,TTSortableColumn,TTSortIcon,TTResizableColumn,TTRow,TTReorderableColumn,TTSelectableRow,TTSelectableRowDblClick,TTContextMenuRow,TTCheckbox,TTHeaderCheckbox,TTEditableColumn,TreeTableCellEditor,ScrollingModule,CdkVirtualScrollViewportPatchDirective],
+    declarations: [TreeTable,TreeTableToggler,TTScrollableView,TTBody,TTSortableColumn,TTSortIcon,TTResizableColumn,TTRow,TTReorderableColumn,TTSelectableRow,TTSelectableRowDblClick,TTContextMenuRow,TTCheckbox,TTHeaderCheckbox,TTEditableColumn,TreeTableCellEditor,CdkVirtualScrollViewportPatchDirective]
 })
 export class TreeTableModule { }

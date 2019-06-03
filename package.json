@@ -8,7 +8,13 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build:assets": "gulp build-assets",
+    "build:exports": "gulp build-exports",
+    "compile": "tsc -p ./tsconfig-release.json",
+    "build:css": "gulp build-css-prod",
+    "gulp:clean": "gulp clean",
+    "build-styles": "node-sass src/assets/components -o src/assets/components"
   },
   "repository": {
     "type": "git",
@@ -18,6 +24,7 @@
     "@angular-devkit/build-angular": "^0.13.7",
     "@angular/animations": "~7.1.0",
     "@angular/cdk": "~7.1.0",
+    "@angular/cdk-experimental": "~7.3.7",
     "@angular/cli": "~7.1.0",
     "@angular/common": "~7.1.0",
     "@angular/compiler": "~7.1.0",
