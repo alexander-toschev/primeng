@@ -11,7 +11,7 @@ import { FilterMetadata } from '../common/filtermetadata';
 import { ObjectUtils } from '../utils/objectutils';
 import {ScrollingModule} from '@angular/cdk/scrolling';
 import { debounceTime, takeUntil } from 'rxjs/operators';
-import {CdkVirtualScrollViewport} from '@angular/cdk/scrolling';
+import {CdkVirtualScrollViewport, ScrollDispatcher} from '@angular/cdk/scrolling';
 
 @Injectable()
 export class TreeTableService {
@@ -1727,7 +1727,7 @@ export class TTBody {
     template: `
         <div #scrollHeader class="ui-treetable-scrollable-header ui-widget-header">
             <div #scrollHeaderBox class="ui-treetable-scrollable-header-box">
-                <table class="ui-treetable-scrollable-header-table">
+                <table class="ui-treetable-scrollable-header-table" #tableHeader>
                     <ng-container *ngTemplateOutlet="frozen ? tt.frozenColGroupTemplate||tt.colGroupTemplate : tt.colGroupTemplate; context {$implicit: columns}"></ng-container>
                     <thead class="ui-treetable-thead">
                         <ng-container *ngTemplateOutlet="frozen ? tt.frozenHeaderTemplate||tt.headerTemplate : tt.headerTemplate; context {$implicit: columns}"></ng-container>
@@ -1736,8 +1736,8 @@ export class TTBody {
             </div>
         </div>
         <div #scrollBody class="ui-treetable-scrollable-body">
-            <div *ngIf="tt.cdkVirtualScroll">
-                <cdk-virtual-scroll-viewport itemSize="34" style="height:550px">
+            <div *ngIf="tt.cdkVirtualScroll" #virtualScrollBody>
+                <cdk-virtual-scroll-viewport #viewport itemSize="18" style="height:550px;">
                     <table #scrollTable [ngClass]="{'ui-treetable-scrollable-body-table': true, 'ui-treetable-virtual-table': tt.virtualScroll}">
                         <ng-container *ngTemplateOutlet="frozen ? tt.frozenColGroupTemplate||tt.colGroupTemplate : tt.colGroupTemplate; context {$implicit: columns}"></ng-container>
                         <tbody class="ui-treetable-tbody" [pTreeTableBody]="columns" [pTreeTableBodyTemplate]="frozen ? tt.frozenBodyTemplate||tt.bodyTemplate : tt.bodyTemplate"></tbody>
@@ -1783,6 +1783,12 @@ export class TTScrollableView implements AfterViewInit, OnDestroy, AfterViewChec
 
     @ViewChild('scrollBody') scrollBodyViewChild: ElementRef;
 
+    @ViewChild('tableHeader') tableHeaderBodyViewChild: ElementRef;
+
+    @ViewChild('virtualScrollBody') virtualScrollBodyViewChild: ElementRef;
+
+    @ViewChild('viewport') viewPortViewChild: CdkVirtualScrollViewport;
+
     @ViewChild('scrollTable') scrollTableViewChild: ElementRef;
 
     @ViewChild('loadingTable') scrollLoadingTableViewChild: ElementRef;
@@ -1811,7 +1817,9 @@ export class TTScrollableView implements AfterViewInit, OnDestroy, AfterViewChec
 
     loadingArray: number[] = [];
 
-    constructor(public tt: TreeTable, public el: ElementRef, public zone: NgZone) {
+    scrollDispatcherSubscription: Subscription;
+
+    constructor(public tt: TreeTable, public el: ElementRef, public zone: NgZone, private scrollDispatcher: ScrollDispatcher,) {
         this.subscription = this.tt.tableService.uiUpdateSource$.subscribe(() => {
             this.zone.runOutsideAngular(() => {
                 setTimeout(() => {
@@ -1859,6 +1867,13 @@ export class TTScrollableView implements AfterViewInit, OnDestroy, AfterViewChec
         this.bindEvents();
         this.setScrollHeight();
         this.alignScrollBar();
+
+        if (this.tt.cdkVirtualScroll) {
+            this.scrollDispatcherSubscription = this.scrollDispatcher.scrolled()
+                .subscribe(() => {
+                    this.scrollHeaderBoxViewChild.nativeElement.style.marginLeft = -1 * this.viewPortViewChild.elementRef.nativeElement.scrollLeft + 'px';
+            });
+        }
 
         if(!this.frozen) {
             if (this.tt.frozenColumns || this.tt.frozenBodyTemplate) {
@@ -2044,6 +2059,10 @@ export class TTScrollableView implements AfterViewInit, OnDestroy, AfterViewChec
 
         if(this.totalRecordsSubscription) {
             this.totalRecordsSubscription.unsubscribe();
+        }
+
+        if (this.tt.cdkVirtualScroll) {
+            this.scrollDispatcherSubscription.unsubscribe();
         }
 
         this.initialized = false;
