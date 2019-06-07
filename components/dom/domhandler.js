@@ -1,5 +1,3 @@
-"use strict";
-Object.defineProperty(exports, "__esModule", { value: true });
 var DomHandler = /** @class */ (function () {
     function DomHandler() {
     }
@@ -419,5 +417,5 @@ var DomHandler = /** @class */ (function () {
     DomHandler.calculatedScrollbarHeight = null;
     return DomHandler;
 }());
-exports.DomHandler = DomHandler;
+export { DomHandler };
 //# sourceMappingURL=domhandler.js.map

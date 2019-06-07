@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,9 +7,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var common_1 = require("@angular/common");
+import { NgModule, Component, Input } from '@angular/core';
+import { CommonModule } from '@angular/common';
 var UIMessage = /** @class */ (function () {
     function UIMessage() {
     }
@@ -42,33 +40,33 @@ var UIMessage = /** @class */ (function () {
         configurable: true
     });
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], UIMessage.prototype, "severity", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], UIMessage.prototype, "text", void 0);
     UIMessage = __decorate([
-        core_1.Component({
+        Component({
             selector: 'p-message',
             template: "\n        <div aria-live=\"polite\" class=\"ui-message ui-widget ui-corner-all\" *ngIf=\"severity\"\n        [ngClass]=\"{'ui-message-info': (severity === 'info'),\n                'ui-message-warn': (severity === 'warn'),\n                'ui-message-error': (severity === 'error'),\n                'ui-message-success': (severity === 'success')}\">\n            <span class=\"ui-message-icon\" [ngClass]=\"icon\"></span>\n            <span class=\"ui-message-text\" [innerHTML]=\"text\"></span>\n        </div>\n    "
         })
     ], UIMessage);
     return UIMessage;
 }());
-exports.UIMessage = UIMessage;
+export { UIMessage };
 var MessageModule = /** @class */ (function () {
     function MessageModule() {
     }
     MessageModule = __decorate([
-        core_1.NgModule({
-            imports: [common_1.CommonModule],
+        NgModule({
+            imports: [CommonModule],
             exports: [UIMessage],
             declarations: [UIMessage]
         })
     ], MessageModule);
     return MessageModule;
 }());
-exports.MessageModule = MessageModule;
+export { MessageModule };
 //# sourceMappingURL=message.js.map

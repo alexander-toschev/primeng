@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,15 +7,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var animations_1 = require("@angular/animations");
-var common_1 = require("@angular/common");
-var domhandler_1 = require("../dom/domhandler");
-var forms_1 = require("@angular/forms");
-exports.COLORPICKER_VALUE_ACCESSOR = {
-    provide: forms_1.NG_VALUE_ACCESSOR,
-    useExisting: core_1.forwardRef(function () { return ColorPicker; }),
+import { NgModule, Component, ElementRef, Input, Output, EventEmitter, forwardRef, Renderer2, ViewChild, ChangeDetectorRef } from '@angular/core';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { CommonModule } from '@angular/common';
+import { DomHandler } from '../dom/domhandler';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
+export var COLORPICKER_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(function () { return ColorPicker; }),
     multi: true
 };
 var ColorPicker = /** @class */ (function () {
@@ -29,7 +27,7 @@ var ColorPicker = /** @class */ (function () {
         this.baseZIndex = 0;
         this.showTransitionOptions = '225ms ease-out';
         this.hideTransitionOptions = '195ms ease-in';
-        this.onChange = new core_1.EventEmitter();
+        this.onChange = new EventEmitter();
         this.defaultColor = 'ff0000';
         this.onModelChange = function () { };
         this.onModelTouched = function () { };
@@ -175,7 +173,7 @@ var ColorPicker = /** @class */ (function () {
                     this.overlay = event.element;
                     this.appendOverlay();
                     if (this.autoZIndex) {
-                        this.overlay.style.zIndex = String(this.baseZIndex + (++domhandler_1.DomHandler.zindex));
+                        this.overlay.style.zIndex = String(this.baseZIndex + (++DomHandler.zindex));
                     }
                     this.alignOverlay();
                     this.bindDocumentClickListener();
@@ -193,7 +191,7 @@ var ColorPicker = /** @class */ (function () {
             if (this.appendTo === 'body')
                 document.body.appendChild(this.overlay);
             else
-                domhandler_1.DomHandler.appendChild(this.overlay, this.appendTo);
+                DomHandler.appendChild(this.overlay, this.appendTo);
         }
     };
     ColorPicker.prototype.restoreOverlayAppend = function () {
@@ -203,9 +201,9 @@ var ColorPicker = /** @class */ (function () {
     };
     ColorPicker.prototype.alignOverlay = function () {
         if (this.appendTo)
-            domhandler_1.DomHandler.absolutePosition(this.overlay, this.inputViewChild.nativeElement);
+            DomHandler.absolutePosition(this.overlay, this.inputViewChild.nativeElement);
         else
-            domhandler_1.DomHandler.relativePosition(this.overlay, this.inputViewChild.nativeElement);
+            DomHandler.relativePosition(this.overlay, this.inputViewChild.nativeElement);
     };
     ColorPicker.prototype.hide = function () {
         this.overlayVisible = false;
@@ -452,117 +450,117 @@ var ColorPicker = /** @class */ (function () {
         this.onOverlayHide();
     };
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object)
     ], ColorPicker.prototype, "style", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], ColorPicker.prototype, "styleClass", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], ColorPicker.prototype, "inline", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], ColorPicker.prototype, "format", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], ColorPicker.prototype, "appendTo", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], ColorPicker.prototype, "disabled", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], ColorPicker.prototype, "tabindex", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], ColorPicker.prototype, "inputId", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], ColorPicker.prototype, "autoZIndex", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Number)
     ], ColorPicker.prototype, "baseZIndex", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], ColorPicker.prototype, "showTransitionOptions", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], ColorPicker.prototype, "hideTransitionOptions", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], ColorPicker.prototype, "onChange", void 0);
     __decorate([
-        core_1.ViewChild('input'),
-        __metadata("design:type", core_1.ElementRef)
+        ViewChild('input'),
+        __metadata("design:type", ElementRef)
     ], ColorPicker.prototype, "inputViewChild", void 0);
     __decorate([
-        core_1.ViewChild('colorSelector'),
-        __metadata("design:type", core_1.ElementRef),
-        __metadata("design:paramtypes", [core_1.ElementRef])
+        ViewChild('colorSelector'),
+        __metadata("design:type", ElementRef),
+        __metadata("design:paramtypes", [ElementRef])
     ], ColorPicker.prototype, "colorSelector", null);
     __decorate([
-        core_1.ViewChild('colorHandle'),
-        __metadata("design:type", core_1.ElementRef),
-        __metadata("design:paramtypes", [core_1.ElementRef])
+        ViewChild('colorHandle'),
+        __metadata("design:type", ElementRef),
+        __metadata("design:paramtypes", [ElementRef])
     ], ColorPicker.prototype, "colorHandle", null);
     __decorate([
-        core_1.ViewChild('hue'),
-        __metadata("design:type", core_1.ElementRef),
-        __metadata("design:paramtypes", [core_1.ElementRef])
+        ViewChild('hue'),
+        __metadata("design:type", ElementRef),
+        __metadata("design:paramtypes", [ElementRef])
     ], ColorPicker.prototype, "hue", null);
     __decorate([
-        core_1.ViewChild('hueHandle'),
-        __metadata("design:type", core_1.ElementRef),
-        __metadata("design:paramtypes", [core_1.ElementRef])
+        ViewChild('hueHandle'),
+        __metadata("design:type", ElementRef),
+        __metadata("design:paramtypes", [ElementRef])
     ], ColorPicker.prototype, "hueHandle", null);
     ColorPicker = __decorate([
-        core_1.Component({
+        Component({
             selector: 'p-colorPicker',
             template: "\n        <div [ngStyle]=\"style\" [class]=\"styleClass\" [ngClass]=\"{'ui-colorpicker ui-widget':true,'ui-colorpicker-overlay':!inline,'ui-colorpicker-dragging':colorDragging||hueDragging}\">\n            <input #input type=\"text\" *ngIf=\"!inline\" class=\"ui-colorpicker-preview ui-inputtext ui-state-default ui-corner-all\" readonly=\"readonly\" [ngClass]=\"{'ui-state-disabled': disabled}\"\n                (focus)=\"onInputFocus()\" (click)=\"onInputClick()\" (keydown)=\"onInputKeydown($event)\" [attr.id]=\"inputId\" [attr.tabindex]=\"tabindex\" [disabled]=\"disabled\"\n                [style.backgroundColor]=\"inputBgColor\">\n            <div *ngIf=\"inline || overlayVisible\" [ngClass]=\"{'ui-colorpicker-panel ui-corner-all': true, 'ui-colorpicker-overlay-panel ui-shadow':!inline, 'ui-state-disabled': disabled}\" (click)=\"onPanelClick()\"\n                [@overlayAnimation]=\"{value: 'visible', params: {showTransitionParams: showTransitionOptions, hideTransitionParams: hideTransitionOptions}}\" [@.disabled]=\"inline === true\" (@overlayAnimation.start)=\"onOverlayAnimationStart($event)\">\n                <div class=\"ui-colorpicker-content\">\n                    <div #colorSelector class=\"ui-colorpicker-color-selector\" (mousedown)=\"onColorMousedown($event)\">\n                        <div class=\"ui-colorpicker-color\">\n                            <div #colorHandle class=\"ui-colorpicker-color-handle\"></div>\n                        </div>\n                    </div>\n                    <div #hue class=\"ui-colorpicker-hue\" (mousedown)=\"onHueMousedown($event)\">\n                        <div #hueHandle class=\"ui-colorpicker-hue-handle\"></div>\n                    </div>\n                </div>\n            </div>\n        </div>\n    ",
             animations: [
-                animations_1.trigger('overlayAnimation', [
-                    animations_1.state('void', animations_1.style({
+                trigger('overlayAnimation', [
+                    state('void', style({
                         transform: 'translateY(5%)',
                         opacity: 0
                     })),
-                    animations_1.state('visible', animations_1.style({
+                    state('visible', style({
                         transform: 'translateY(0)',
                         opacity: 1
                     })),
-                    animations_1.transition('void => visible', animations_1.animate('{{showTransitionParams}}')),
-                    animations_1.transition('visible => void', animations_1.animate('{{hideTransitionParams}}'))
+                    transition('void => visible', animate('{{showTransitionParams}}')),
+                    transition('visible => void', animate('{{hideTransitionParams}}'))
                 ])
             ],
-            providers: [exports.COLORPICKER_VALUE_ACCESSOR]
+            providers: [COLORPICKER_VALUE_ACCESSOR]
         }),
-        __metadata("design:paramtypes", [core_1.ElementRef, core_1.Renderer2, core_1.ChangeDetectorRef])
+        __metadata("design:paramtypes", [ElementRef, Renderer2, ChangeDetectorRef])
     ], ColorPicker);
     return ColorPicker;
 }());
-exports.ColorPicker = ColorPicker;
+export { ColorPicker };
 var ColorPickerModule = /** @class */ (function () {
     function ColorPickerModule() {
     }
     ColorPickerModule = __decorate([
-        core_1.NgModule({
-            imports: [common_1.CommonModule],
+        NgModule({
+            imports: [CommonModule],
             exports: [ColorPicker],
             declarations: [ColorPicker]
         })
     ], ColorPickerModule);
     return ColorPickerModule;
 }());
-exports.ColorPickerModule = ColorPickerModule;
+export { ColorPickerModule };
 //# sourceMappingURL=colorpicker.js.map

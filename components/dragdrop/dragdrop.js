@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,17 +7,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var common_1 = require("@angular/common");
-var domhandler_1 = require("../dom/domhandler");
+import { NgModule, Directive, ElementRef, HostListener, Input, Output, EventEmitter, NgZone } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { DomHandler } from '../dom/domhandler';
 var Draggable = /** @class */ (function () {
     function Draggable(el, zone) {
         this.el = el;
         this.zone = zone;
-        this.onDragStart = new core_1.EventEmitter();
-        this.onDragEnd = new core_1.EventEmitter();
-        this.onDrag = new core_1.EventEmitter();
+        this.onDragStart = new EventEmitter();
+        this.onDragEnd = new EventEmitter();
+        this.onDrag = new EventEmitter();
     }
     Draggable.prototype.ngAfterViewInit = function () {
         if (!this.pDraggableDisabled) {
@@ -94,7 +92,7 @@ var Draggable = /** @class */ (function () {
     };
     Draggable.prototype.allowDrag = function () {
         if (this.dragHandle && this.handle)
-            return domhandler_1.DomHandler.matches(this.handle, this.dragHandle);
+            return DomHandler.matches(this.handle, this.dragHandle);
         else
             return true;
     };
@@ -103,61 +101,61 @@ var Draggable = /** @class */ (function () {
         this.unbindMouseListeners();
     };
     __decorate([
-        core_1.Input('pDraggable'),
+        Input('pDraggable'),
         __metadata("design:type", String)
     ], Draggable.prototype, "scope", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], Draggable.prototype, "pDraggableDisabled", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], Draggable.prototype, "dragEffect", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], Draggable.prototype, "dragHandle", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], Draggable.prototype, "onDragStart", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], Draggable.prototype, "onDragEnd", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], Draggable.prototype, "onDrag", void 0);
     __decorate([
-        core_1.HostListener('dragstart', ['$event']),
+        HostListener('dragstart', ['$event']),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", void 0)
     ], Draggable.prototype, "dragStart", null);
     __decorate([
-        core_1.HostListener('dragend', ['$event']),
+        HostListener('dragend', ['$event']),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", void 0)
     ], Draggable.prototype, "dragEnd", null);
     Draggable = __decorate([
-        core_1.Directive({
+        Directive({
             selector: '[pDraggable]'
         }),
-        __metadata("design:paramtypes", [core_1.ElementRef, core_1.NgZone])
+        __metadata("design:paramtypes", [ElementRef, NgZone])
     ], Draggable);
     return Draggable;
 }());
-exports.Draggable = Draggable;
+export { Draggable };
 var Droppable = /** @class */ (function () {
     function Droppable(el, zone) {
         this.el = el;
         this.zone = zone;
-        this.onDragEnter = new core_1.EventEmitter();
-        this.onDragLeave = new core_1.EventEmitter();
-        this.onDrop = new core_1.EventEmitter();
+        this.onDragEnter = new EventEmitter();
+        this.onDragLeave = new EventEmitter();
+        this.onDrop = new EventEmitter();
     }
     Droppable.prototype.ngAfterViewInit = function () {
         if (!this.pDroppableDisabled) {
@@ -220,67 +218,67 @@ var Droppable = /** @class */ (function () {
         this.unbindDragOverListener();
     };
     __decorate([
-        core_1.Input('pDroppable'),
+        Input('pDroppable'),
         __metadata("design:type", Object)
     ], Droppable.prototype, "scope", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], Droppable.prototype, "pDroppableDisabled", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], Droppable.prototype, "dropEffect", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], Droppable.prototype, "onDragEnter", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], Droppable.prototype, "onDragLeave", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], Droppable.prototype, "onDrop", void 0);
     __decorate([
-        core_1.HostListener('drop', ['$event']),
+        HostListener('drop', ['$event']),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", void 0)
     ], Droppable.prototype, "drop", null);
     __decorate([
-        core_1.HostListener('dragenter', ['$event']),
+        HostListener('dragenter', ['$event']),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", void 0)
     ], Droppable.prototype, "dragEnter", null);
     __decorate([
-        core_1.HostListener('dragleave', ['$event']),
+        HostListener('dragleave', ['$event']),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", void 0)
     ], Droppable.prototype, "dragLeave", null);
     Droppable = __decorate([
-        core_1.Directive({
+        Directive({
             selector: '[pDroppable]'
         }),
-        __metadata("design:paramtypes", [core_1.ElementRef, core_1.NgZone])
+        __metadata("design:paramtypes", [ElementRef, NgZone])
     ], Droppable);
     return Droppable;
 }());
-exports.Droppable = Droppable;
+export { Droppable };
 var DragDropModule = /** @class */ (function () {
     function DragDropModule() {
     }
     DragDropModule = __decorate([
-        core_1.NgModule({
-            imports: [common_1.CommonModule],
+        NgModule({
+            imports: [CommonModule],
             exports: [Draggable, Droppable],
             declarations: [Draggable, Droppable]
         })
     ], DragDropModule);
     return DragDropModule;
 }());
-exports.DragDropModule = DragDropModule;
+export { DragDropModule };
 //# sourceMappingURL=dragdrop.js.map

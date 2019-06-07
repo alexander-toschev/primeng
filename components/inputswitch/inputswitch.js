@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,19 +7,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var common_1 = require("@angular/common");
-var forms_1 = require("@angular/forms");
-exports.INPUTSWITCH_VALUE_ACCESSOR = {
-    provide: forms_1.NG_VALUE_ACCESSOR,
-    useExisting: core_1.forwardRef(function () { return InputSwitch; }),
+import { NgModule, Component, Input, forwardRef, EventEmitter, Output, ChangeDetectorRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { NG_VALUE_ACCESSOR } from '@angular/forms';
+export var INPUTSWITCH_VALUE_ACCESSOR = {
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(function () { return InputSwitch; }),
     multi: true
 };
 var InputSwitch = /** @class */ (function () {
     function InputSwitch(cd) {
         this.cd = cd;
-        this.onChange = new core_1.EventEmitter();
+        this.onChange = new EventEmitter();
         this.checked = false;
         this.focused = false;
         this.onModelChange = function () { };
@@ -70,59 +68,59 @@ var InputSwitch = /** @class */ (function () {
         this.disabled = val;
     };
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object)
     ], InputSwitch.prototype, "style", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], InputSwitch.prototype, "styleClass", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Number)
     ], InputSwitch.prototype, "tabindex", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], InputSwitch.prototype, "inputId", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], InputSwitch.prototype, "name", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], InputSwitch.prototype, "disabled", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], InputSwitch.prototype, "readonly", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], InputSwitch.prototype, "onChange", void 0);
     InputSwitch = __decorate([
-        core_1.Component({
+        Component({
             selector: 'p-inputSwitch',
             template: "\n        <div [ngClass]=\"{'ui-inputswitch ui-widget': true, 'ui-inputswitch-checked': checked, 'ui-state-disabled': disabled, 'ui-inputswitch-readonly': readonly, 'ui-inputswitch-focus': focused}\" \n            [ngStyle]=\"style\" [class]=\"styleClass\" (click)=\"onClick($event, cb)\" role=\"checkbox\" [attr.aria-checked]=\"checked\">\n            <div class=\"ui-helper-hidden-accessible\">\n                <input #cb type=\"checkbox\" [attr.id]=\"inputId\" [attr.name]=\"name\" [attr.tabindex]=\"tabindex\" [checked]=\"checked\" (change)=\"onInputChange($event)\"\n                        (focus)=\"onFocus($event)\" (blur)=\"onBlur($event)\" [disabled]=\"disabled\" />\n            </div>\n            <span class=\"ui-inputswitch-slider\"></span>\n        </div>\n    ",
-            providers: [exports.INPUTSWITCH_VALUE_ACCESSOR]
+            providers: [INPUTSWITCH_VALUE_ACCESSOR]
         }),
-        __metadata("design:paramtypes", [core_1.ChangeDetectorRef])
+        __metadata("design:paramtypes", [ChangeDetectorRef])
     ], InputSwitch);
     return InputSwitch;
 }());
-exports.InputSwitch = InputSwitch;
+export { InputSwitch };
 var InputSwitchModule = /** @class */ (function () {
     function InputSwitchModule() {
     }
     InputSwitchModule = __decorate([
-        core_1.NgModule({
-            imports: [common_1.CommonModule],
+        NgModule({
+            imports: [CommonModule],
             exports: [InputSwitch],
             declarations: [InputSwitch]
         })
     ], InputSwitchModule);
     return InputSwitchModule;
 }());
-exports.InputSwitchModule = InputSwitchModule;
+export { InputSwitchModule };
 //# sourceMappingURL=inputswitch.js.map

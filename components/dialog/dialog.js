@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,12 +7,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var animations_1 = require("@angular/animations");
-var common_1 = require("@angular/common");
-var domhandler_1 = require("../dom/domhandler");
-var shared_1 = require("../common/shared");
+import { NgModule, Component, ElementRef, Input, Output, EventEmitter, Renderer2, ContentChildren, QueryList, ViewChild, NgZone } from '@angular/core';
+import { trigger, state, style, transition, animate } from '@angular/animations';
+import { CommonModule } from '@angular/common';
+import { DomHandler } from '../dom/domhandler';
+import { Header, Footer, SharedModule } from '../common/shared';
 var idx = 0;
 var Dialog = /** @class */ (function () {
     function Dialog(el, renderer, zone) {
@@ -38,9 +36,9 @@ var Dialog = /** @class */ (function () {
         this.closeIcon = 'pi pi-times';
         this.minimizeIcon = 'pi pi-window-minimize';
         this.maximizeIcon = 'pi pi-window-maximize';
-        this.onShow = new core_1.EventEmitter();
-        this.onHide = new core_1.EventEmitter();
-        this.visibleChange = new core_1.EventEmitter();
+        this.onShow = new EventEmitter();
+        this.onHide = new EventEmitter();
+        this.visibleChange = new EventEmitter();
         this.id = "ui-dialog-" + idx++;
     }
     Object.defineProperty(Dialog.prototype, "width", {
@@ -88,7 +86,7 @@ var Dialog = /** @class */ (function () {
         configurable: true
     });
     Dialog.prototype.focus = function () {
-        var focusable = domhandler_1.DomHandler.findSingle(this.container, 'button');
+        var focusable = DomHandler.findSingle(this.container, 'button');
         if (focusable) {
             this.zone.runOutsideAngular(function () {
                 setTimeout(function () { return focusable.focus(); }, 5);
@@ -96,8 +94,8 @@ var Dialog = /** @class */ (function () {
         }
     };
     Dialog.prototype.positionOverlay = function () {
-        var viewport = domhandler_1.DomHandler.getViewport();
-        if (domhandler_1.DomHandler.getOuterHeight(this.container) > viewport.height) {
+        var viewport = DomHandler.getViewport();
+        if (DomHandler.getOuterHeight(this.container) > viewport.height) {
             this.contentViewChild.nativeElement.style.height = (viewport.height * .75) + 'px';
             this.container.style.height = 'auto';
         }
@@ -124,17 +122,17 @@ var Dialog = /** @class */ (function () {
         event.preventDefault();
     };
     Dialog.prototype.center = function () {
-        var elementWidth = domhandler_1.DomHandler.getOuterWidth(this.container);
-        var elementHeight = domhandler_1.DomHandler.getOuterHeight(this.container);
+        var elementWidth = DomHandler.getOuterWidth(this.container);
+        var elementHeight = DomHandler.getOuterHeight(this.container);
         if (elementWidth == 0 && elementHeight == 0) {
             this.container.style.visibility = 'hidden';
             this.container.style.display = 'block';
-            elementWidth = domhandler_1.DomHandler.getOuterWidth(this.container);
-            elementHeight = domhandler_1.DomHandler.getOuterHeight(this.container);
+            elementWidth = DomHandler.getOuterWidth(this.container);
+            elementHeight = DomHandler.getOuterHeight(this.container);
             this.container.style.display = 'none';
             this.container.style.visibility = 'visible';
         }
-        var viewport = domhandler_1.DomHandler.getViewport();
+        var viewport = DomHandler.getViewport();
         var x = Math.max(Math.floor((viewport.width - elementWidth) / 2), 0);
         var y = Math.max(Math.floor((viewport.height - elementHeight) / 2), 0);
         this.container.style.left = x + 'px';
@@ -149,7 +147,7 @@ var Dialog = /** @class */ (function () {
             if (this.blockScroll) {
                 maskStyleClass += ' ui-dialog-mask-scrollblocker';
             }
-            domhandler_1.DomHandler.addMultipleClasses(this.mask, maskStyleClass);
+            DomHandler.addMultipleClasses(this.mask, maskStyleClass);
             if (this.closable && this.dismissableMask) {
                 this.maskClickListener = this.renderer.listen(this.mask, 'click', function (event) {
                     _this.close(event);
@@ -157,7 +155,7 @@ var Dialog = /** @class */ (function () {
             }
             document.body.appendChild(this.mask);
             if (this.blockScroll) {
-                domhandler_1.DomHandler.addClass(document.body, 'ui-overflow-hidden');
+                DomHandler.addClass(document.body, 'ui-overflow-hidden');
             }
         }
     };
@@ -170,13 +168,13 @@ var Dialog = /** @class */ (function () {
                 var hasBlockerMasks = void 0;
                 for (var i = 0; i < bodyChildren.length; i++) {
                     var bodyChild = bodyChildren[i];
-                    if (domhandler_1.DomHandler.hasClass(bodyChild, 'ui-dialog-mask-scrollblocker')) {
+                    if (DomHandler.hasClass(bodyChild, 'ui-dialog-mask-scrollblocker')) {
                         hasBlockerMasks = true;
                         break;
                     }
                 }
                 if (!hasBlockerMasks) {
-                    domhandler_1.DomHandler.removeClass(document.body, 'ui-overflow-hidden');
+                    DomHandler.removeClass(document.body, 'ui-overflow-hidden');
                 }
             }
             this.mask = null;
@@ -192,23 +190,23 @@ var Dialog = /** @class */ (function () {
     Dialog.prototype.maximize = function () {
         this.preMaximizePageX = parseFloat(this.container.style.top);
         this.preMaximizePageY = parseFloat(this.container.style.left);
-        this.preMaximizeContainerWidth = domhandler_1.DomHandler.getOuterWidth(this.container);
-        this.preMaximizeContainerHeight = domhandler_1.DomHandler.getOuterHeight(this.container);
-        this.preMaximizeContentHeight = domhandler_1.DomHandler.getOuterHeight(this.contentViewChild.nativeElement);
+        this.preMaximizeContainerWidth = DomHandler.getOuterWidth(this.container);
+        this.preMaximizeContainerHeight = DomHandler.getOuterHeight(this.container);
+        this.preMaximizeContentHeight = DomHandler.getOuterHeight(this.contentViewChild.nativeElement);
         this.container.style.top = '0px';
         this.container.style.left = '0px';
         this.container.style.width = '100vw';
         this.container.style.height = '100vh';
         var diffHeight = parseFloat(this.container.style.top);
         if (this.headerViewChild && this.headerViewChild.nativeElement) {
-            diffHeight += domhandler_1.DomHandler.getOuterHeight(this.headerViewChild.nativeElement);
+            diffHeight += DomHandler.getOuterHeight(this.headerViewChild.nativeElement);
         }
         if (this.footerViewChild && this.footerViewChild.nativeElement) {
-            diffHeight += domhandler_1.DomHandler.getOuterHeight(this.footerViewChild.nativeElement);
+            diffHeight += DomHandler.getOuterHeight(this.footerViewChild.nativeElement);
         }
         this.contentViewChild.nativeElement.style.height = 'calc(100vh - ' + diffHeight + 'px)';
-        domhandler_1.DomHandler.addClass(this.container, 'ui-dialog-maximized');
-        domhandler_1.DomHandler.addClass(document.body, 'ui-overflow-hidden');
+        DomHandler.addClass(this.container, 'ui-dialog-maximized');
+        DomHandler.addClass(document.body, 'ui-overflow-hidden');
         this.moveOnTop();
         this.maximized = true;
     };
@@ -219,10 +217,10 @@ var Dialog = /** @class */ (function () {
         this.container.style.width = this.preMaximizeContainerWidth + 'px';
         this.container.style.height = this.preMaximizeContainerHeight + 'px';
         this.contentViewChild.nativeElement.style.height = this.preMaximizeContentHeight + 'px';
-        domhandler_1.DomHandler.removeClass(document.body, 'ui-overflow-hidden');
+        DomHandler.removeClass(document.body, 'ui-overflow-hidden');
         this.maximized = false;
         this.zone.runOutsideAngular(function () {
-            setTimeout(function () { return domhandler_1.DomHandler.removeClass(_this.container, 'ui-dialog-maximized'); }, 300);
+            setTimeout(function () { return DomHandler.removeClass(_this.container, 'ui-dialog-maximized'); }, 300);
         });
     };
     Dialog.prototype.unbindMaskClickListener = function () {
@@ -233,7 +231,7 @@ var Dialog = /** @class */ (function () {
     };
     Dialog.prototype.moveOnTop = function () {
         if (this.autoZIndex) {
-            this.container.style.zIndex = String(this.baseZIndex + (++domhandler_1.DomHandler.zindex));
+            this.container.style.zIndex = String(this.baseZIndex + (++DomHandler.zindex));
         }
     };
     Dialog.prototype.onCloseMouseDown = function (event) {
@@ -248,11 +246,11 @@ var Dialog = /** @class */ (function () {
             this.dragging = true;
             this.lastPageX = event.pageX;
             this.lastPageY = event.pageY;
-            domhandler_1.DomHandler.addClass(document.body, 'ui-unselectable-text');
+            DomHandler.addClass(document.body, 'ui-unselectable-text');
         }
     };
     Dialog.prototype.getFocusableElements = function () {
-        var focusableElements = domhandler_1.DomHandler.find(this.container, "button:not([tabindex = \"-1\"]):not([disabled]):not([style*=\"display:none\"]):not([hidden]), \n                [href][clientHeight][clientWidth]:not([tabindex = \"-1\"]):not([disabled]):not([style*=\"display:none\"]):not([hidden]), \n                input:not([tabindex = \"-1\"]):not([disabled]):not([style*=\"display:none\"]):not([hidden]), select:not([tabindex = \"-1\"]):not([disabled]):not([style*=\"display:none\"]):not([hidden]), \n                textarea:not([tabindex = \"-1\"]):not([disabled]):not([style*=\"display:none\"]):not([hidden]), [tabIndex]:not([tabIndex = \"-1\"]):not([disabled]):not([style*=\"display:none\"]):not([hidden]), \n                [contenteditable]:not([tabIndex = \"-1\"]):not([disabled]):not([style*=\"display:none\"]):not([hidden])");
+        var focusableElements = DomHandler.find(this.container, "button:not([tabindex = \"-1\"]):not([disabled]):not([style*=\"display:none\"]):not([hidden]), \n                [href][clientHeight][clientWidth]:not([tabindex = \"-1\"]):not([disabled]):not([style*=\"display:none\"]):not([hidden]), \n                input:not([tabindex = \"-1\"]):not([disabled]):not([style*=\"display:none\"]):not([hidden]), select:not([tabindex = \"-1\"]):not([disabled]):not([style*=\"display:none\"]):not([hidden]), \n                textarea:not([tabindex = \"-1\"]):not([disabled]):not([style*=\"display:none\"]):not([hidden]), [tabIndex]:not([tabIndex = \"-1\"]):not([disabled]):not([style*=\"display:none\"]):not([hidden]), \n                [contenteditable]:not([tabIndex = \"-1\"]):not([disabled]):not([style*=\"display:none\"]):not([hidden])");
         var visibleFocusableElements = [];
         for (var _i = 0, focusableElements_1 = focusableElements; _i < focusableElements_1.length; _i++) {
             var focusableElement = focusableElements_1[_i];
@@ -291,14 +289,14 @@ var Dialog = /** @class */ (function () {
     };
     Dialog.prototype.onDrag = function (event) {
         if (this.dragging) {
-            var containerWidth = domhandler_1.DomHandler.getOuterWidth(this.container);
-            var containerHeight = domhandler_1.DomHandler.getOuterHeight(this.container);
+            var containerWidth = DomHandler.getOuterWidth(this.container);
+            var containerHeight = DomHandler.getOuterHeight(this.container);
             var deltaX = event.pageX - this.lastPageX;
             var deltaY = event.pageY - this.lastPageY;
-            var offset = domhandler_1.DomHandler.getOffset(this.container);
+            var offset = DomHandler.getOffset(this.container);
             var leftPos = offset.left + deltaX;
             var topPos = offset.top + deltaY;
-            var viewport = domhandler_1.DomHandler.getViewport();
+            var viewport = DomHandler.getViewport();
             if (leftPos >= this.minX && (leftPos + containerWidth) < viewport.width) {
                 this.container.style.left = leftPos + 'px';
             }
@@ -312,7 +310,7 @@ var Dialog = /** @class */ (function () {
     Dialog.prototype.endDrag = function (event) {
         if (this.draggable) {
             this.dragging = false;
-            domhandler_1.DomHandler.removeClass(document.body, 'ui-unselectable-text');
+            DomHandler.removeClass(document.body, 'ui-unselectable-text');
         }
     };
     Dialog.prototype.initResize = function (event) {
@@ -321,22 +319,22 @@ var Dialog = /** @class */ (function () {
             this.resizing = true;
             this.lastPageX = event.pageX;
             this.lastPageY = event.pageY;
-            domhandler_1.DomHandler.addClass(document.body, 'ui-unselectable-text');
+            DomHandler.addClass(document.body, 'ui-unselectable-text');
         }
     };
     Dialog.prototype.onResize = function (event) {
         if (this.resizing) {
             var deltaX = event.pageX - this.lastPageX;
             var deltaY = event.pageY - this.lastPageY;
-            var containerWidth = domhandler_1.DomHandler.getOuterWidth(this.container);
-            var containerHeight = domhandler_1.DomHandler.getOuterHeight(this.container);
-            var contentHeight = domhandler_1.DomHandler.getOuterHeight(this.contentViewChild.nativeElement);
+            var containerWidth = DomHandler.getOuterWidth(this.container);
+            var containerHeight = DomHandler.getOuterHeight(this.container);
+            var contentHeight = DomHandler.getOuterHeight(this.contentViewChild.nativeElement);
             var newWidth = containerWidth + deltaX;
             var newHeight = containerHeight + deltaY;
             var minWidth = this.container.style.minWidth;
             var minHeight = this.container.style.minHeight;
-            var offset = domhandler_1.DomHandler.getOffset(this.container);
-            var viewport = domhandler_1.DomHandler.getViewport();
+            var offset = DomHandler.getOffset(this.container);
+            var viewport = DomHandler.getViewport();
             if ((!minWidth || newWidth > parseInt(minWidth)) && (offset.left + newWidth) < viewport.width) {
                 this.container.style.width = newWidth + 'px';
             }
@@ -351,7 +349,7 @@ var Dialog = /** @class */ (function () {
     Dialog.prototype.onResizeEnd = function () {
         if (this.resizing) {
             this.resizing = false;
-            domhandler_1.DomHandler.removeClass(document.body, 'ui-unselectable-text');
+            DomHandler.removeClass(document.body, 'ui-unselectable-text');
         }
     };
     Dialog.prototype.bindGlobalListeners = function () {
@@ -453,8 +451,8 @@ var Dialog = /** @class */ (function () {
         if (this.maximized) {
             return;
         }
-        var viewport = domhandler_1.DomHandler.getViewport();
-        var width = domhandler_1.DomHandler.getOuterWidth(this.container);
+        var viewport = DomHandler.getViewport();
+        var width = DomHandler.getOuterWidth(this.container);
         if (viewport.width <= this.breakpoint) {
             if (!this.preWidth) {
                 this.preWidth = width;
@@ -471,7 +469,7 @@ var Dialog = /** @class */ (function () {
         var _this = this;
         this.documentEscapeListener = this.renderer.listen('document', 'keydown', function (event) {
             if (event.which == 27) {
-                if (parseInt(_this.container.style.zIndex) === (domhandler_1.DomHandler.zindex + _this.baseZIndex)) {
+                if (parseInt(_this.container.style.zIndex) === (DomHandler.zindex + _this.baseZIndex)) {
                     _this.close(event);
                 }
             }
@@ -502,7 +500,7 @@ var Dialog = /** @class */ (function () {
             if (this.appendTo === 'body')
                 document.body.appendChild(this.container);
             else
-                domhandler_1.DomHandler.appendChild(this.container, this.appendTo);
+                DomHandler.appendChild(this.container, this.appendTo);
         }
     };
     Dialog.prototype.restoreAppend = function () {
@@ -521,7 +519,7 @@ var Dialog = /** @class */ (function () {
                 this.positionOverlay();
                 this.bindGlobalListeners();
                 if (this.maximized) {
-                    domhandler_1.DomHandler.addClass(document.body, 'ui-overflow-hidden');
+                    DomHandler.addClass(document.body, 'ui-overflow-hidden');
                 }
                 if (this.modal) {
                     this.enableModality();
@@ -543,7 +541,7 @@ var Dialog = /** @class */ (function () {
         this.unbindGlobalListeners();
         this.dragging = false;
         if (this.maximized) {
-            domhandler_1.DomHandler.removeClass(document.body, 'ui-overflow-hidden');
+            DomHandler.removeClass(document.body, 'ui-overflow-hidden');
             this.maximized = false;
         }
         if (this.modal) {
@@ -558,211 +556,211 @@ var Dialog = /** @class */ (function () {
         }
     };
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], Dialog.prototype, "visible", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], Dialog.prototype, "header", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], Dialog.prototype, "draggable", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], Dialog.prototype, "resizable", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Number)
     ], Dialog.prototype, "positionLeft", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Number)
     ], Dialog.prototype, "positionTop", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object)
     ], Dialog.prototype, "contentStyle", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], Dialog.prototype, "modal", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], Dialog.prototype, "closeOnEscape", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], Dialog.prototype, "dismissableMask", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], Dialog.prototype, "rtl", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], Dialog.prototype, "closable", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], Dialog.prototype, "responsive", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object)
     ], Dialog.prototype, "appendTo", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object)
     ], Dialog.prototype, "style", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], Dialog.prototype, "styleClass", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], Dialog.prototype, "showHeader", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Number)
     ], Dialog.prototype, "breakpoint", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], Dialog.prototype, "blockScroll", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], Dialog.prototype, "autoZIndex", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Number)
     ], Dialog.prototype, "baseZIndex", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Number)
     ], Dialog.prototype, "minX", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Number)
     ], Dialog.prototype, "minY", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], Dialog.prototype, "focusOnShow", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], Dialog.prototype, "maximizable", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], Dialog.prototype, "focusTrap", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], Dialog.prototype, "transitionOptions", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], Dialog.prototype, "closeIcon", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], Dialog.prototype, "minimizeIcon", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], Dialog.prototype, "maximizeIcon", void 0);
     __decorate([
-        core_1.ContentChildren(shared_1.Header, { descendants: false }),
-        __metadata("design:type", core_1.QueryList)
+        ContentChildren(Header, { descendants: false }),
+        __metadata("design:type", QueryList)
     ], Dialog.prototype, "headerFacet", void 0);
     __decorate([
-        core_1.ContentChildren(shared_1.Footer, { descendants: false }),
-        __metadata("design:type", core_1.QueryList)
+        ContentChildren(Footer, { descendants: false }),
+        __metadata("design:type", QueryList)
     ], Dialog.prototype, "footerFacet", void 0);
     __decorate([
-        core_1.ViewChild('titlebar'),
-        __metadata("design:type", core_1.ElementRef)
+        ViewChild('titlebar'),
+        __metadata("design:type", ElementRef)
     ], Dialog.prototype, "headerViewChild", void 0);
     __decorate([
-        core_1.ViewChild('content'),
-        __metadata("design:type", core_1.ElementRef)
+        ViewChild('content'),
+        __metadata("design:type", ElementRef)
     ], Dialog.prototype, "contentViewChild", void 0);
     __decorate([
-        core_1.ViewChild('footer'),
-        __metadata("design:type", core_1.ElementRef)
+        ViewChild('footer'),
+        __metadata("design:type", ElementRef)
     ], Dialog.prototype, "footerViewChild", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], Dialog.prototype, "onShow", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], Dialog.prototype, "onHide", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], Dialog.prototype, "visibleChange", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object),
         __metadata("design:paramtypes", [Object])
     ], Dialog.prototype, "width", null);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object),
         __metadata("design:paramtypes", [Object])
     ], Dialog.prototype, "height", null);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object),
         __metadata("design:paramtypes", [Object])
     ], Dialog.prototype, "minWidth", null);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object),
         __metadata("design:paramtypes", [Object])
     ], Dialog.prototype, "minHeight", null);
     Dialog = __decorate([
-        core_1.Component({
+        Component({
             selector: 'p-dialog',
             template: "\n        <div #container [ngClass]=\"{'ui-dialog ui-widget ui-widget-content ui-corner-all ui-shadow':true, 'ui-dialog-rtl':rtl,'ui-dialog-draggable':draggable,'ui-dialog-resizable':resizable}\"\n            [ngStyle]=\"style\" [class]=\"styleClass\"\n            [@animation]=\"{value: 'visible', params: {transitionParams: transitionOptions}}\" (@animation.start)=\"onAnimationStart($event)\" role=\"dialog\" [attr.aria-labelledby]=\"id + '-label'\" *ngIf=\"visible\">\n            <div #titlebar class=\"ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-top\" (mousedown)=\"initDrag($event)\" *ngIf=\"showHeader\">\n                <span [attr.id]=\"id + '-label'\" class=\"ui-dialog-title\" *ngIf=\"header\">{{header}}</span>\n                <span [attr.id]=\"id + '-label'\" class=\"ui-dialog-title\" *ngIf=\"headerFacet && headerFacet.first\">\n                    <ng-content select=\"p-header\"></ng-content>\n                </span>\n                <a *ngIf=\"closable\" [ngClass]=\"{'ui-dialog-titlebar-icon ui-dialog-titlebar-close ui-corner-all':true}\" tabindex=\"0\" role=\"button\" (click)=\"close($event)\" (keydown.enter)=\"close($event)\" (mousedown)=\"onCloseMouseDown($event)\">\n                    <span [class]=\"closeIcon\"></span>\n                </a>\n                <a *ngIf=\"maximizable\" [ngClass]=\"{'ui-dialog-titlebar-icon ui-dialog-titlebar-maximize ui-corner-all':true}\" tabindex=\"0\" role=\"button\" (click)=\"toggleMaximize($event)\" (keydown.enter)=\"toggleMaximize($event)\">\n                    <span [ngClass]=\"maximized ? minimizeIcon : maximizeIcon\"></span>\n                </a>\n            </div>\n            <div #content class=\"ui-dialog-content ui-widget-content\" [ngStyle]=\"contentStyle\">\n                <ng-content></ng-content>\n            </div>\n            <div #footer class=\"ui-dialog-footer ui-widget-content\" *ngIf=\"footerFacet && footerFacet.first\">\n                <ng-content select=\"p-footer\"></ng-content>\n            </div>\n            <div *ngIf=\"resizable\" class=\"ui-resizable-handle ui-resizable-se ui-icon ui-icon-gripsmall-diagonal-se\" style=\"z-index: 90;\" (mousedown)=\"initResize($event)\"></div>\n        </div>\n    ",
             animations: [
-                animations_1.trigger('animation', [
-                    animations_1.state('void', animations_1.style({
+                trigger('animation', [
+                    state('void', style({
                         transform: 'scale(0.7)',
                         opacity: 0
                     })),
-                    animations_1.state('visible', animations_1.style({
+                    state('visible', style({
                         transform: 'none',
                         opacity: 1
                     })),
-                    animations_1.transition('* => *', animations_1.animate('{{transitionParams}}'))
+                    transition('* => *', animate('{{transitionParams}}'))
                 ])
             ]
         }),
-        __metadata("design:paramtypes", [core_1.ElementRef, core_1.Renderer2, core_1.NgZone])
+        __metadata("design:paramtypes", [ElementRef, Renderer2, NgZone])
     ], Dialog);
     return Dialog;
 }());
-exports.Dialog = Dialog;
+export { Dialog };
 var DialogModule = /** @class */ (function () {
     function DialogModule() {
     }
     DialogModule = __decorate([
-        core_1.NgModule({
-            imports: [common_1.CommonModule],
-            exports: [Dialog, shared_1.SharedModule],
+        NgModule({
+            imports: [CommonModule],
+            exports: [Dialog, SharedModule],
             declarations: [Dialog]
         })
     ], DialogModule);
     return DialogModule;
 }());
-exports.DialogModule = DialogModule;
+export { DialogModule };
 //# sourceMappingURL=dialog.js.map

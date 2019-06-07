@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,17 +7,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var common_1 = require("@angular/common");
-var tooltip_1 = require("../tooltip/tooltip");
-var shared_1 = require("../common/shared");
+import { NgModule, Component, ElementRef, Input, Output, EventEmitter, ContentChildren, QueryList, ViewContainerRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { TooltipModule } from '../tooltip/tooltip';
+import { SharedModule, PrimeTemplate } from '../common/shared';
 var idx = 0;
 var TabViewNav = /** @class */ (function () {
     function TabViewNav() {
         this.orientation = 'top';
-        this.onTabClick = new core_1.EventEmitter();
-        this.onTabCloseClick = new core_1.EventEmitter();
+        this.onTabClick = new EventEmitter();
+        this.onTabCloseClick = new EventEmitter();
     }
     TabViewNav.prototype.getDefaultHeaderClass = function (tab) {
         var styleClass = 'ui-state-default ui-corner-' + this.orientation;
@@ -40,23 +38,23 @@ var TabViewNav = /** @class */ (function () {
         });
     };
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Array)
     ], TabViewNav.prototype, "tabs", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], TabViewNav.prototype, "orientation", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], TabViewNav.prototype, "onTabClick", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], TabViewNav.prototype, "onTabCloseClick", void 0);
     TabViewNav = __decorate([
-        core_1.Component({
+        Component({
             selector: '[p-tabViewNav]',
             host: {
                 '[class.ui-tabview-nav]': 'true',
@@ -70,7 +68,7 @@ var TabViewNav = /** @class */ (function () {
     ], TabViewNav);
     return TabViewNav;
 }());
-exports.TabViewNav = TabViewNav;
+export { TabViewNav };
 var TabPanel = /** @class */ (function () {
     function TabPanel(viewContainer) {
         this.viewContainer = viewContainer;
@@ -108,67 +106,67 @@ var TabPanel = /** @class */ (function () {
         this.view = null;
     };
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], TabPanel.prototype, "header", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], TabPanel.prototype, "disabled", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], TabPanel.prototype, "closable", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object)
     ], TabPanel.prototype, "headerStyle", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], TabPanel.prototype, "headerStyleClass", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], TabPanel.prototype, "leftIcon", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], TabPanel.prototype, "rightIcon", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], TabPanel.prototype, "cache", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object)
     ], TabPanel.prototype, "tooltip", void 0);
     __decorate([
-        core_1.ContentChildren(shared_1.PrimeTemplate),
-        __metadata("design:type", core_1.QueryList)
+        ContentChildren(PrimeTemplate),
+        __metadata("design:type", QueryList)
     ], TabPanel.prototype, "templates", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean),
         __metadata("design:paramtypes", [Boolean])
     ], TabPanel.prototype, "selected", null);
     TabPanel = __decorate([
-        core_1.Component({
+        Component({
             selector: 'p-tabPanel',
             template: "\n        <div [attr.id]=\"id\" class=\"ui-tabview-panel ui-widget-content\" [ngClass]=\"{'ui-helper-hidden': !selected}\"\n            role=\"tabpanel\" [attr.aria-hidden]=\"!selected\" [attr.aria-labelledby]=\"id + '-label'\" *ngIf=\"!closed\">\n            <ng-content></ng-content>\n            <ng-container *ngIf=\"contentTemplate && (cache ? loaded : selected)\">\n                <ng-container *ngTemplateOutlet=\"contentTemplate\"></ng-container>\n            </ng-container>\n        </div>\n    "
         }),
-        __metadata("design:paramtypes", [core_1.ViewContainerRef])
+        __metadata("design:paramtypes", [ViewContainerRef])
     ], TabPanel);
     return TabPanel;
 }());
-exports.TabPanel = TabPanel;
+export { TabPanel };
 var TabView = /** @class */ (function () {
     function TabView(el) {
         this.el = el;
         this.orientation = 'top';
-        this.onChange = new core_1.EventEmitter();
-        this.onClose = new core_1.EventEmitter();
-        this.activeIndexChange = new core_1.EventEmitter();
+        this.onChange = new EventEmitter();
+        this.onClose = new EventEmitter();
+        this.activeIndexChange = new EventEmitter();
     }
     TabView.prototype.ngAfterContentInit = function () {
         var _this = this;
@@ -285,63 +283,63 @@ var TabView = /** @class */ (function () {
         configurable: true
     });
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], TabView.prototype, "orientation", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object)
     ], TabView.prototype, "style", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], TabView.prototype, "styleClass", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], TabView.prototype, "controlClose", void 0);
     __decorate([
-        core_1.ContentChildren(TabPanel),
-        __metadata("design:type", core_1.QueryList)
+        ContentChildren(TabPanel),
+        __metadata("design:type", QueryList)
     ], TabView.prototype, "tabPanels", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], TabView.prototype, "onChange", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], TabView.prototype, "onClose", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], TabView.prototype, "activeIndexChange", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Number),
         __metadata("design:paramtypes", [Number])
     ], TabView.prototype, "activeIndex", null);
     TabView = __decorate([
-        core_1.Component({
+        Component({
             selector: 'p-tabView',
             template: "\n        <div [ngClass]=\"'ui-tabview ui-widget ui-widget-content ui-corner-all ui-tabview-' + orientation\" [ngStyle]=\"style\" [class]=\"styleClass\">\n            <ul p-tabViewNav role=\"tablist\" *ngIf=\"orientation!='bottom'\" [tabs]=\"tabs\" [orientation]=\"orientation\"\n                (onTabClick)=\"open($event.originalEvent, $event.tab)\" (onTabCloseClick)=\"close($event.originalEvent, $event.tab)\"></ul>\n            <div class=\"ui-tabview-panels\">\n                <ng-content></ng-content>\n            </div>\n            <ul p-tabViewNav role=\"tablist\" *ngIf=\"orientation=='bottom'\" [tabs]=\"tabs\" [orientation]=\"orientation\"\n                (onTabClick)=\"open($event.originalEvent, $event.tab)\" (onTabCloseClick)=\"close($event.originalEvent, $event.tab)\"></ul>\n        </div>\n    ",
         }),
-        __metadata("design:paramtypes", [core_1.ElementRef])
+        __metadata("design:paramtypes", [ElementRef])
     ], TabView);
     return TabView;
 }());
-exports.TabView = TabView;
+export { TabView };
 var TabViewModule = /** @class */ (function () {
     function TabViewModule() {
     }
     TabViewModule = __decorate([
-        core_1.NgModule({
-            imports: [common_1.CommonModule, shared_1.SharedModule, tooltip_1.TooltipModule],
-            exports: [TabView, TabPanel, TabViewNav, shared_1.SharedModule],
+        NgModule({
+            imports: [CommonModule, SharedModule, TooltipModule],
+            exports: [TabView, TabPanel, TabViewNav, SharedModule],
             declarations: [TabView, TabPanel, TabViewNav]
         })
     ], TabViewModule);
     return TabViewModule;
 }());
-exports.TabViewModule = TabViewModule;
+export { TabViewModule };
 //# sourceMappingURL=tabview.js.map

@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -11,10 +10,9 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var forms_1 = require("@angular/forms");
-var common_1 = require("@angular/common");
+import { NgModule, Directive, ElementRef, HostListener, Optional } from '@angular/core';
+import { NgModel } from '@angular/forms';
+import { CommonModule } from '@angular/common';
 var InputText = /** @class */ (function () {
     function InputText(el, ngModel) {
         this.el = el;
@@ -32,13 +30,13 @@ var InputText = /** @class */ (function () {
             (this.ngModel && this.ngModel.model);
     };
     __decorate([
-        core_1.HostListener('input', ['$event']),
+        HostListener('input', ['$event']),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", void 0)
     ], InputText.prototype, "onInput", null);
     InputText = __decorate([
-        core_1.Directive({
+        Directive({
             selector: '[pInputText]',
             host: {
                 '[class.ui-inputtext]': 'true',
@@ -48,23 +46,23 @@ var InputText = /** @class */ (function () {
                 '[class.ui-state-filled]': 'filled'
             }
         }),
-        __param(1, core_1.Optional()),
-        __metadata("design:paramtypes", [core_1.ElementRef, forms_1.NgModel])
+        __param(1, Optional()),
+        __metadata("design:paramtypes", [ElementRef, NgModel])
     ], InputText);
     return InputText;
 }());
-exports.InputText = InputText;
+export { InputText };
 var InputTextModule = /** @class */ (function () {
     function InputTextModule() {
     }
     InputTextModule = __decorate([
-        core_1.NgModule({
-            imports: [common_1.CommonModule],
+        NgModule({
+            imports: [CommonModule],
             exports: [InputText],
             declarations: [InputText]
         })
     ], InputTextModule);
     return InputTextModule;
 }());
-exports.InputTextModule = InputTextModule;
+export { InputTextModule };
 //# sourceMappingURL=inputtext.js.map

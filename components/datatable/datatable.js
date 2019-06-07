@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -11,42 +10,41 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var common_1 = require("@angular/common");
-var forms_1 = require("@angular/forms");
-var shared_1 = require("../common/shared");
-var paginator_1 = require("../paginator/paginator");
-var shared_2 = require("../common/shared");
-var domhandler_1 = require("../dom/domhandler");
-var objectutils_1 = require("../utils/objectutils");
+import { NgModule, Component, ElementRef, Input, ViewChild, IterableDiffers, Output, EventEmitter, ContentChild, ContentChildren, Renderer2, QueryList, ChangeDetectorRef, Inject, forwardRef, NgZone } from '@angular/core';
+import { CommonModule } from '@angular/common';
+import { FormsModule } from '@angular/forms';
+import { SharedModule } from '../common/shared';
+import { PaginatorModule } from '../paginator/paginator';
+import { Column, Header, Footer, HeaderColumnGroup, FooterColumnGroup, PrimeTemplate } from '../common/shared';
+import { DomHandler } from '../dom/domhandler';
+import { ObjectUtils } from '../utils/objectutils';
 var DTRadioButton = /** @class */ (function () {
     function DTRadioButton() {
-        this.onClick = new core_1.EventEmitter();
+        this.onClick = new EventEmitter();
     }
     DTRadioButton.prototype.handleClick = function (event) {
         this.onClick.emit(event);
     };
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], DTRadioButton.prototype, "checked", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DTRadioButton.prototype, "onClick", void 0);
     DTRadioButton = __decorate([
-        core_1.Component({
+        Component({
             selector: 'p-dtRadioButton',
             template: "\n        <div class=\"ui-radiobutton ui-widget\">\n            <div class=\"ui-helper-hidden-accessible\">\n                <input type=\"radio\" [checked]=\"checked\">\n            </div>\n            <div class=\"ui-radiobutton-box ui-widget ui-radiobutton-relative ui-state-default\" (click)=\"handleClick($event)\"\n                        [ngClass]=\"{'ui-state-active':checked}\">\n                <span class=\"ui-radiobutton-icon ui-clickable\" [ngClass]=\"{'fa fa-circle':checked}\"></span>\n            </div>\n        </div>\n    "
         })
     ], DTRadioButton);
     return DTRadioButton;
 }());
-exports.DTRadioButton = DTRadioButton;
+export { DTRadioButton };
 var DTCheckbox = /** @class */ (function () {
     function DTCheckbox() {
-        this.onChange = new core_1.EventEmitter();
+        this.onChange = new EventEmitter();
     }
     DTCheckbox.prototype.handleClick = function (event) {
         if (!this.disabled) {
@@ -54,64 +52,64 @@ var DTCheckbox = /** @class */ (function () {
         }
     };
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], DTCheckbox.prototype, "checked", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], DTCheckbox.prototype, "disabled", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DTCheckbox.prototype, "onChange", void 0);
     DTCheckbox = __decorate([
-        core_1.Component({
+        Component({
             selector: 'p-dtCheckbox',
             template: "\n        <div class=\"ui-chkbox ui-widget\">\n            <div class=\"ui-helper-hidden-accessible\">\n                <input type=\"checkbox\" [checked]=\"checked\">\n            </div>\n            <div class=\"ui-chkbox-box ui-widget ui-corner-all ui-state-default\" (click)=\"handleClick($event)\"\n                        [ngClass]=\"{'ui-state-active':checked&&!disabled,'ui-state-disabled':disabled}\">\n                <span class=\"ui-chkbox-icon ui-clickable\" [ngClass]=\"{'fa fa-check':checked}\"></span>\n            </div>\n        </div>\n    "
         })
     ], DTCheckbox);
     return DTCheckbox;
 }());
-exports.DTCheckbox = DTCheckbox;
+export { DTCheckbox };
 var ColumnHeaders = /** @class */ (function () {
     function ColumnHeaders(dt) {
         this.dt = dt;
     }
     __decorate([
-        core_1.Input("pColumnHeaders"),
+        Input("pColumnHeaders"),
         __metadata("design:type", Array)
     ], ColumnHeaders.prototype, "columns", void 0);
     ColumnHeaders = __decorate([
-        core_1.Component({
+        Component({
             selector: '[pColumnHeaders]',
             template: "\n        <ng-template ngFor let-col [ngForOf]=\"columns\" let-lastCol=\"last\">\n            <th #headerCell [attr.id]=\"col.colId\" [ngStyle]=\"col.headerStyle||col.style\" [class]=\"col.headerStyleClass||col.styleClass\" (click)=\"dt.sort($event,col)\" [attr.colspan]=\"col.colspan\" [attr.rowspan]=\"col.rowspan\"\n                [ngClass]=\"{'ui-state-default ui-unselectable-text':true, 'ui-sortable-column': col.sortable, 'ui-state-active': dt.isSorted(col), 'ui-resizable-column': dt.resizableColumns, 'ui-selection-column':col.selectionMode,\n                            'ui-helper-hidden': col.hidden}\"\n                (dragstart)=\"dt.onColumnDragStart($event)\" (dragleave)=\"dt.onColumnDragleave($event)\" (drop)=\"dt.onColumnDrop($event)\" (mousedown)=\"dt.onHeaderMousedown($event,headerCell)\"\n                [attr.tabindex]=\"col.sortable ? dt.tabindex : null\" (keydown)=\"dt.onHeaderKeydown($event,col)\"\n                [attr.scope]=\"col.scope||(col.colspan ? 'colgroup' : 'col')\">\n                <span class=\"ui-column-resizer ui-clickable\" *ngIf=\"dt.resizableColumns && col.resizable && ((dt.columnResizeMode == 'fit' && !lastCol) || dt.columnResizeMode == 'expand')\" (mousedown)=\"dt.initColumnResize($event)\"></span>\n                <span class=\"ui-column-title\" *ngIf=\"!col.selectionMode&&!col.headerTemplate\">{{col.header}}</span>\n                <span class=\"ui-column-title\" *ngIf=\"col.headerTemplate\">\n                    <ng-container *ngTemplateOutlet=\"col.headerTemplate; context: {$implicit: col}\"></ng-container>\n                </span>\n                <span class=\"ui-sortable-column-icon fa fa-fw fa-sort\" *ngIf=\"col.sortable\"\n                     [ngClass]=\"{'fa-sort-desc': (dt.getSortOrder(col) == -1),'fa-sort-asc': (dt.getSortOrder(col) == 1)}\"></span>\n                <input [attr.type]=\"col.filterType\" class=\"ui-column-filter ui-inputtext ui-widget ui-state-default ui-corner-all\" [attr.maxlength]=\"col.filterMaxlength\" [attr.placeholder]=\"col.filterPlaceholder\" *ngIf=\"col.filter&&!col.filterTemplate\" [value]=\"dt.filters[col.filterField||col.field] ? dt.filters[col.filterField||col.field].value : ''\"\n                    (click)=\"dt.onFilterInputClick($event)\" (input)=\"dt.onFilterKeyup($event.target.value, col.filterField||col.field, col.filterMatchMode)\"/>\n                <ng-container *ngIf=\"col.filter && col.filterTemplate\">\n                    <ng-container *ngTemplateOutlet=\"col.filterTemplate; context: {$implicit: col}\"></ng-container>\n                </ng-container>\n                <p-dtCheckbox *ngIf=\"col.selectionMode=='multiple' && dt.showHeaderCheckbox === true\" (onChange)=\"dt.toggleRowsWithCheckbox($event)\" [checked]=\"dt.allSelected\" [disabled]=\"dt.isEmpty()\"></p-dtCheckbox>\n            </th>\n        </ng-template>\n    "
         }),
-        __param(0, core_1.Inject(core_1.forwardRef(function () { return DataTable; }))),
+        __param(0, Inject(forwardRef(function () { return DataTable; }))),
         __metadata("design:paramtypes", [DataTable])
     ], ColumnHeaders);
     return ColumnHeaders;
 }());
-exports.ColumnHeaders = ColumnHeaders;
+export { ColumnHeaders };
 var ColumnFooters = /** @class */ (function () {
     function ColumnFooters(dt) {
         this.dt = dt;
     }
     __decorate([
-        core_1.Input("pColumnFooters"),
+        Input("pColumnFooters"),
         __metadata("design:type", Array)
     ], ColumnFooters.prototype, "columns", void 0);
     ColumnFooters = __decorate([
-        core_1.Component({
+        Component({
             selector: '[pColumnFooters]',
             template: "\n        <td *ngFor=\"let col of columns\" [ngStyle]=\"col.footerStyle||col.style\" [class]=\"col.footerStyleClass||col.styleClass\"\n            [attr.colspan]=\"col.colspan\" [attr.rowspan]=\"col.rowspan\"\n            [ngClass]=\"{'ui-state-default':true, 'ui-helper-hidden': col.hidden}\">\n            <span class=\"ui-column-footer\" *ngIf=\"!col.footerTemplate\">{{col.footer}}</span>\n            <span class=\"ui-column-footer\" *ngIf=\"col.footerTemplate\">\n                <ng-container *ngTemplateOutlet=\"col.footerTemplate; context: {$implicit: col}\"></ng-container>\n            </span>\n        </td>\n    "
         }),
-        __param(0, core_1.Inject(core_1.forwardRef(function () { return DataTable; }))),
+        __param(0, Inject(forwardRef(function () { return DataTable; }))),
         __metadata("design:paramtypes", [DataTable])
     ], ColumnFooters);
     return ColumnFooters;
 }());
-exports.ColumnFooters = ColumnFooters;
+export { ColumnFooters };
 var TableBody = /** @class */ (function () {
     function TableBody(dt) {
         this.dt = dt;
@@ -120,31 +118,31 @@ var TableBody = /** @class */ (function () {
         return this.columns ? this.columns.filter(function (c) { return !c.hidden; }) : [];
     };
     __decorate([
-        core_1.Input("pTableBody"),
+        Input("pTableBody"),
         __metadata("design:type", Array)
     ], TableBody.prototype, "columns", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Array)
     ], TableBody.prototype, "data", void 0);
     TableBody = __decorate([
-        core_1.Component({
+        Component({
             selector: '[pTableBody]',
             template: "\n        <ng-template ngFor let-rowData [ngForOf]=\"data\" let-even=\"even\" let-odd=\"odd\" let-rowIndex=\"index\" [ngForTrackBy]=\"dt.rowTrackBy\">\n            <tr #rowGroupElement class=\"ui-widget-header ui-rowgroup-header\"\n                *ngIf=\"dt.rowGroupMode=='subheader' && (rowIndex === 0||(dt.resolveFieldData(rowData,dt.groupField) !== dt.resolveFieldData(dt.dataToRender[rowIndex - 1], dt.groupField)))\"\n                (click)=\"dt.onRowGroupClick($event)\" [ngStyle]=\"{'cursor': dt.sortableRowGroup ? 'pointer' : 'auto'}\">\n                <td [attr.colspan]=\"dt.visibleColumns().length\">\n                    <a href=\"#\" *ngIf=\"dt.expandableRowGroups\" (click)=\"dt.toggleRowGroup($event,rowData)\">\n                        <span class=\"fa fa-fw\" [ngClass]=\"dt.isRowGroupExpanded(rowData) ? dt.expandedIcon : dt.collapsedIcon\"></span>\n                    </a>\n                    <span class=\"ui-rowgroup-header-name\">\n                        <ng-container *ngTemplateOutlet=\"dt.rowGroupHeaderTemplate; context: {$implicit: rowData}\"></ng-container>\n                    </span>\n                </td>\n            </tr>\n            <tr #rowElement *ngIf=\"!dt.expandableRowGroups||dt.isRowGroupExpanded(rowData)\"\n                    (click)=\"dt.handleRowClick($event, rowData, rowIndex)\" (dblclick)=\"dt.rowDblclick($event,rowData)\" (contextmenu)=\"dt.onRowRightClick($event,rowData)\" (touchend)=\"dt.handleRowTouchEnd($event)\"\n                    [ngClass]=\"[even&&dt.rowGroupMode!='rowspan'? 'ui-datatable-even':'',\n                                odd&&dt.rowGroupMode!='rowspan'?'ui-datatable-odd':'',\n                                dt.isSelected(rowData)? 'ui-state-highlight': '',\n                                dt.isRowExpanded(rowData) ? 'ui-expanded-row': '',\n                                dt.getRowStyleClass(rowData,rowIndex)]\">\n                <ng-template ngFor let-col [ngForOf]=\"columns\" let-colIndex=\"index\">\n                    <td #cell *ngIf=\"!dt.rowGroupMode || (dt.rowGroupMode == 'subheader') ||\n                        (dt.rowGroupMode=='rowspan' && ((dt.sortField==col.field && dt.rowGroupMetadata[dt.resolveFieldData(rowData,dt.sortField)].index == rowIndex) || (dt.sortField!=col.field)))\"\n                        [ngStyle]=\"col.bodyStyle||col.style\" [class]=\"col.bodyStyleClass||col.styleClass\" (click)=\"dt.switchCellToEditMode(cell,col,rowData)\"\n                        [ngClass]=\"{'ui-editable-column':col.editable,'ui-selection-column':col.selectionMode, 'ui-helper-hidden': col.hidden}\"\n                        [attr.rowspan]=\"(dt.rowGroupMode=='rowspan' && dt.sortField == col.field && dt.rowGroupMetadata[dt.resolveFieldData(rowData,dt.sortField)].index == rowIndex) ? dt.rowGroupMetadata[dt.resolveFieldData(rowData,dt.sortField)].size : null\">\n                        <span class=\"ui-column-title\" *ngIf=\"dt.responsive\">{{col.header}}</span>\n                        <span class=\"ui-cell-data\" *ngIf=\"!col.bodyTemplate && !col.expander && !col.selectionMode\">{{dt.resolveFieldData(rowData,col.field)}}</span>\n                        <span class=\"ui-cell-data\" *ngIf=\"col.bodyTemplate\">\n                            <ng-container *ngTemplateOutlet=\"col.bodyTemplate; context: {$implicit: col, rowData: rowData, rowIndex: (rowIndex + dt.first)}\"></ng-container>\n                        </span>\n                        <div class=\"ui-cell-editor\" *ngIf=\"col.editable\">\n                            <input *ngIf=\"!col.editorTemplate\" type=\"text\" [(ngModel)]=\"rowData[col.field]\"\n                                (keydown)=\"dt.onCellEditorKeydown($event, col, rowData, rowIndex)\" (blur)=\"dt.onCellEditorBlur($event, col, rowData, rowIndex)\"\n                                (input)=\"dt.onCellEditorInput($event, col, rowData, rowIndex)\" (change)=\"dt.onCellEditorChange($event, col, rowData, rowIndex)\"\n                                class=\"ui-inputtext ui-widget ui-state-default ui-corner-all\"/>\n                            <a *ngIf=\"col.editorTemplate\" class=\"ui-cell-editor-proxy-focus\" href=\"#\" (focus)=\"dt.onCustomEditorFocusPrev($event)\"></a>\n                            <ng-container *ngTemplateOutlet=\"col.editorTemplate; context: {$implicit: col, rowData: rowData, rowIndex: rowIndex}\"></ng-container>\n                            <a *ngIf=\"col.editorTemplate\" class=\"ui-cell-editor-proxy-focus\" href=\"#\" (focus)=\"dt.onCustomEditorFocusNext($event)\"></a>\n                        </div>\n                        <a href=\"#\" *ngIf=\"col.expander\" (click)=\"dt.toggleRow(rowData,$event)\">\n                            <span class=\"ui-row-toggler fa fa-fw ui-clickable\" [ngClass]=\"dt.isRowExpanded(rowData) ? dt.expandedIcon : dt.collapsedIcon\"></span>\n                        </a>\n                        <p-dtRadioButton *ngIf=\"col.selectionMode=='single'\" (onClick)=\"dt.selectRowWithRadio($event, rowData)\" [checked]=\"dt.isSelected(rowData)\"></p-dtRadioButton>\n                        <p-dtCheckbox *ngIf=\"col.selectionMode=='multiple'\" (onChange)=\"dt.toggleRowWithCheckbox($event,rowData)\" [checked]=\"dt.isSelected(rowData)\"></p-dtCheckbox>\n                    </td>\n                </ng-template>\n            </tr>\n            <tr *ngIf=\"dt.expandableRows && dt.isRowExpanded(rowData)\" class=\"ui-expanded-row-content\">\n                <td [attr.colspan]=\"dt.visibleColumns().length\">\n                    <ng-container *ngTemplateOutlet=\"dt.rowExpansionTemplate; context: {$implicit: rowData, rowIndex: rowIndex}\"></ng-container>\n                </td>\n            </tr>\n            <tr class=\"ui-widget-header ui-rowgroup-footer\" *ngIf=\"dt.rowGroupFooterTemplate && dt.rowGroupMode=='subheader' && ((rowIndex === dt.dataToRender.length - 1)||(dt.resolveFieldData(rowData,dt.groupField) !== dt.resolveFieldData(dt.dataToRender[rowIndex + 1],dt.groupField))) && (!dt.expandableRowGroups || dt.isRowGroupExpanded(rowData))\">\n                <ng-container *ngTemplateOutlet=\"dt.rowGroupFooterTemplate; context: {$implicit: rowData}\"></ng-container>\n            </tr>\n        </ng-template>\n\n        <tr *ngIf=\"dt.isEmpty()\" class=\"ui-widget-content ui-datatable-emptymessage-row\" [style.visibility]=\"dt.loading ? 'hidden' : 'visible'\">\n            <td [attr.colspan]=\"dt.visibleColumns().length\" class=\"ui-datatable-emptymessage\">\n                <span *ngIf=\"!dt.emptyMessageTemplate\">{{dt.emptyMessage}}</span>\n                <ng-container *ngIf=\"dt.emptyMessageTemplate\">\n                    <ng-container *ngTemplateOutlet=\"dt.emptyMessageTemplate\"></ng-container>\n                </ng-container>\n            </td>\n        </tr>\n    "
         }),
-        __param(0, core_1.Inject(core_1.forwardRef(function () { return DataTable; }))),
+        __param(0, Inject(forwardRef(function () { return DataTable; }))),
         __metadata("design:paramtypes", [DataTable])
     ], TableBody);
     return TableBody;
 }());
-exports.TableBody = TableBody;
+export { TableBody };
 var ScrollableView = /** @class */ (function () {
     function ScrollableView(dt, el, renderer, zone) {
         this.dt = dt;
         this.el = el;
         this.renderer = renderer;
         this.zone = zone;
-        this.onVirtualScroll = new core_1.EventEmitter();
+        this.onVirtualScroll = new EventEmitter();
     }
     ScrollableView.prototype.ngAfterViewInit = function () {
         this.initScrolling();
@@ -152,9 +150,9 @@ var ScrollableView = /** @class */ (function () {
     ScrollableView.prototype.ngAfterViewChecked = function () {
         var _this = this;
         if (this.virtualScroll && !this.rowHeight) {
-            var row = domhandler_1.DomHandler.findSingle(this.scrollTable, 'tr.ui-widget-content:not(.ui-datatable-emptymessage-row)');
+            var row = DomHandler.findSingle(this.scrollTable, 'tr.ui-widget-content:not(.ui-datatable-emptymessage-row)');
             if (row) {
-                this.rowHeight = domhandler_1.DomHandler.getOuterHeight(row);
+                this.rowHeight = DomHandler.getOuterHeight(row);
             }
         }
         if (!this.frozen) {
@@ -185,14 +183,14 @@ var ScrollableView = /** @class */ (function () {
             this.alignScrollBar();
         }
         else {
-            this.scrollBody.style.paddingBottom = domhandler_1.DomHandler.calculateScrollbarWidth() + 'px';
+            this.scrollBody.style.paddingBottom = DomHandler.calculateScrollbarWidth() + 'px';
         }
     };
     ScrollableView.prototype.onBodyScroll = function (event) {
         var _this = this;
         var frozenView = this.el.nativeElement.previousElementSibling;
         if (frozenView) {
-            var frozenScrollBody = domhandler_1.DomHandler.findSingle(frozenView, '.ui-datatable-scrollable-body');
+            var frozenScrollBody = DomHandler.findSingle(frozenView, '.ui-datatable-scrollable-body');
         }
         this.scrollHeaderBox.style.marginLeft = -1 * this.scrollBody.scrollLeft + 'px';
         if (this.scrollFooterBox) {
@@ -202,10 +200,10 @@ var ScrollableView = /** @class */ (function () {
             frozenScrollBody.scrollTop = this.scrollBody.scrollTop;
         }
         if (this.virtualScroll) {
-            var viewport = domhandler_1.DomHandler.getOuterHeight(this.scrollBody);
-            var tableHeight = domhandler_1.DomHandler.getOuterHeight(this.scrollTable);
+            var viewport = DomHandler.getOuterHeight(this.scrollBody);
+            var tableHeight = DomHandler.getOuterHeight(this.scrollTable);
             var pageHeight_1 = this.rowHeight * this.dt.rows;
-            var virtualTableHeight = domhandler_1.DomHandler.getOuterHeight(this.scrollTableWrapper);
+            var virtualTableHeight = DomHandler.getOuterHeight(this.scrollTableWrapper);
             var pageCount = (virtualTableHeight / pageHeight_1) || 1;
             if (this.scrollBody.scrollTop + viewport > parseFloat(this.scrollTable.style.top) + tableHeight || this.scrollBody.scrollTop < parseFloat(this.scrollTable.style.top)) {
                 var page_1 = Math.floor((this.scrollBody.scrollTop * pageCount) / (this.scrollBody.scrollHeight)) + 1;
@@ -223,8 +221,8 @@ var ScrollableView = /** @class */ (function () {
             if (this.dt.scrollHeight.indexOf('%') !== -1) {
                 this.scrollBody.style.visibility = 'hidden';
                 this.scrollBody.style.height = '100px'; //temporary height to calculate static height
-                var containerHeight = domhandler_1.DomHandler.getOuterHeight(this.dt.el.nativeElement.children[0]);
-                var relativeHeight = domhandler_1.DomHandler.getOuterHeight(this.dt.el.nativeElement.parentElement) * parseInt(this.dt.scrollHeight) / 100;
+                var containerHeight = DomHandler.getOuterHeight(this.dt.el.nativeElement.children[0]);
+                var relativeHeight = DomHandler.getOuterHeight(this.dt.el.nativeElement.parentElement) * parseInt(this.dt.scrollHeight) / 100;
                 var staticHeight = containerHeight - 100; //total height of headers, footers, paginators
                 var scrollBodyHeight = (relativeHeight - staticHeight);
                 this.scrollBody.style.height = 'auto';
@@ -240,10 +238,10 @@ var ScrollableView = /** @class */ (function () {
         this.scrollHeader.scrollLeft = 0;
     };
     ScrollableView.prototype.hasVerticalOverflow = function () {
-        return domhandler_1.DomHandler.getOuterHeight(this.scrollTable) > domhandler_1.DomHandler.getOuterHeight(this.scrollBody);
+        return DomHandler.getOuterHeight(this.scrollTable) > DomHandler.getOuterHeight(this.scrollBody);
     };
     ScrollableView.prototype.alignScrollBar = function () {
-        var scrollBarWidth = this.hasVerticalOverflow() ? domhandler_1.DomHandler.calculateScrollbarWidth() : 0;
+        var scrollBarWidth = this.hasVerticalOverflow() ? DomHandler.calculateScrollbarWidth() : 0;
         this.scrollHeaderBox.style.marginRight = scrollBarWidth + 'px';
         if (this.scrollFooterBox) {
             this.scrollFooterBox.style.marginRight = scrollBarWidth + 'px';
@@ -254,72 +252,72 @@ var ScrollableView = /** @class */ (function () {
         this.scrollBody.removeEventListener('scroll', this.onBodyScroll);
     };
     __decorate([
-        core_1.Input("pScrollableView"),
+        Input("pScrollableView"),
         __metadata("design:type", Array)
     ], ScrollableView.prototype, "columns", void 0);
     __decorate([
-        core_1.Input(),
-        __metadata("design:type", shared_2.HeaderColumnGroup)
+        Input(),
+        __metadata("design:type", HeaderColumnGroup)
     ], ScrollableView.prototype, "headerColumnGroup", void 0);
     __decorate([
-        core_1.Input(),
-        __metadata("design:type", shared_2.HeaderColumnGroup)
+        Input(),
+        __metadata("design:type", HeaderColumnGroup)
     ], ScrollableView.prototype, "footerColumnGroup", void 0);
     __decorate([
-        core_1.ViewChild('scrollHeader'),
-        __metadata("design:type", core_1.ElementRef)
+        ViewChild('scrollHeader'),
+        __metadata("design:type", ElementRef)
     ], ScrollableView.prototype, "scrollHeaderViewChild", void 0);
     __decorate([
-        core_1.ViewChild('scrollHeaderBox'),
-        __metadata("design:type", core_1.ElementRef)
+        ViewChild('scrollHeaderBox'),
+        __metadata("design:type", ElementRef)
     ], ScrollableView.prototype, "scrollHeaderBoxViewChild", void 0);
     __decorate([
-        core_1.ViewChild('scrollBody'),
-        __metadata("design:type", core_1.ElementRef)
+        ViewChild('scrollBody'),
+        __metadata("design:type", ElementRef)
     ], ScrollableView.prototype, "scrollBodyViewChild", void 0);
     __decorate([
-        core_1.ViewChild('scrollTable'),
-        __metadata("design:type", core_1.ElementRef)
+        ViewChild('scrollTable'),
+        __metadata("design:type", ElementRef)
     ], ScrollableView.prototype, "scrollTableViewChild", void 0);
     __decorate([
-        core_1.ViewChild('scrollTableWrapper'),
-        __metadata("design:type", core_1.ElementRef)
+        ViewChild('scrollTableWrapper'),
+        __metadata("design:type", ElementRef)
     ], ScrollableView.prototype, "scrollTableWrapperViewChild", void 0);
     __decorate([
-        core_1.ViewChild('scrollFooter'),
-        __metadata("design:type", core_1.ElementRef)
+        ViewChild('scrollFooter'),
+        __metadata("design:type", ElementRef)
     ], ScrollableView.prototype, "scrollFooterViewChild", void 0);
     __decorate([
-        core_1.ViewChild('scrollFooterBox'),
-        __metadata("design:type", core_1.ElementRef)
+        ViewChild('scrollFooterBox'),
+        __metadata("design:type", ElementRef)
     ], ScrollableView.prototype, "scrollFooterBoxViewChild", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], ScrollableView.prototype, "frozen", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], ScrollableView.prototype, "width", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], ScrollableView.prototype, "virtualScroll", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], ScrollableView.prototype, "onVirtualScroll", void 0);
     ScrollableView = __decorate([
-        core_1.Component({
+        Component({
             selector: '[pScrollableView]',
             template: "\n        <div #scrollHeader class=\"ui-widget-header ui-datatable-scrollable-header\" [ngStyle]=\"{'width': width}\">\n            <div #scrollHeaderBox  class=\"ui-datatable-scrollable-header-box\">\n                <table [ngClass]=\"dt.tableStyleClass\" [ngStyle]=\"dt.tableStyle\">\n                    <thead class=\"ui-datatable-thead\">\n                        <tr *ngIf=\"!headerColumnGroup\" class=\"ui-state-default\" [pColumnHeaders]=\"columns\"></tr>\n                        <ng-template [ngIf]=\"headerColumnGroup\">\n                            <tr *ngFor=\"let headerRow of headerColumnGroup.rows\" class=\"ui-state-default\" [pColumnHeaders]=\"headerRow.columns\"></tr>\n                        </ng-template>\n                    </thead>\n                    <tbody *ngIf=\"dt.frozenValue\" [ngClass]=\"{'ui-datatable-data ui-widget-content': true, 'ui-datatable-hoverable-rows': (dt.rowHover||dt.selectionMode)}\" [pTableBody]=\"columns\" [data]=\"dt.frozenValue\"></tbody>\n                </table>\n            </div>\n        </div>\n        <div #scrollBody class=\"ui-datatable-scrollable-body\" [ngStyle]=\"{'width': width}\">\n            <div #scrollTableWrapper class=\"ui-datatable-scrollable-table-wrapper\" style=\"position:relative\">\n                <table #scrollTable [class]=\"dt.tableStyleClass\" [ngStyle]=\"dt.tableStyle\" [ngClass]=\"{'ui-datatable-virtual-table':virtualScroll}\" style=\"top:0px\">\n                    <colgroup class=\"ui-datatable-scrollable-colgroup\">\n                        <col *ngFor=\"let col of columns\" [ngStyle]=\"col.headerStyle||col.style\" [ngClass]=\"{'ui-helper-hidden': col.hidden}\"/>\n                    </colgroup>\n                    <tbody [ngClass]=\"{'ui-datatable-data ui-widget-content': true, 'ui-datatable-hoverable-rows': (dt.rowHover||dt.selectionMode)}\" [pTableBody]=\"columns\" [data]=\"dt.dataToRender\"></tbody>\n                </table>\n            </div>\n        </div>\n        <div #scrollFooter class=\"ui-widget-header ui-datatable-scrollable-footer\" [ngStyle]=\"{'width': width}\" *ngIf=\"dt.hasFooter()\">\n            <div #scrollFooterBox  class=\"ui-datatable-scrollable-footer-box\">\n                <table [ngClass]=\"dt.tableStyleClass\" [ngStyle]=\"dt.tableStyle\">\n                    <tfoot class=\"ui-datatable-tfoot\">\n                        <tr *ngIf=\"!footerColumnGroup\" [pColumnFooters]=\"columns\" class=\"ui-state-default\"></tr>\n                        <ng-template [ngIf]=\"footerColumnGroup\">\n                            <tr *ngFor=\"let footerRow of footerColumnGroup.rows\" class=\"ui-state-default\" [pColumnFooters]=\"footerRow.columns\"></tr>\n                        </ng-template>\n                    </tfoot>\n                </table>\n            </div>\n        </div>\n    "
         }),
-        __param(0, core_1.Inject(core_1.forwardRef(function () { return DataTable; }))),
-        __metadata("design:paramtypes", [DataTable, core_1.ElementRef, core_1.Renderer2, core_1.NgZone])
+        __param(0, Inject(forwardRef(function () { return DataTable; }))),
+        __metadata("design:paramtypes", [DataTable, ElementRef, Renderer2, NgZone])
     ], ScrollableView);
     return ScrollableView;
 }());
-exports.ScrollableView = ScrollableView;
+export { ScrollableView };
 var DataTable = /** @class */ (function () {
     function DataTable(el, differs, renderer, changeDetector, zone) {
         this.el = el;
@@ -328,19 +326,19 @@ var DataTable = /** @class */ (function () {
         this.changeDetector = changeDetector;
         this.zone = zone;
         this.pageLinks = 5;
-        this.selectionChange = new core_1.EventEmitter();
+        this.selectionChange = new EventEmitter();
         this.showHeaderCheckbox = true;
-        this.onRowClick = new core_1.EventEmitter();
-        this.onRowSelect = new core_1.EventEmitter();
-        this.onRowUnselect = new core_1.EventEmitter();
-        this.onRowDblclick = new core_1.EventEmitter();
-        this.onHeaderCheckboxToggle = new core_1.EventEmitter();
-        this.onContextMenuSelect = new core_1.EventEmitter();
+        this.onRowClick = new EventEmitter();
+        this.onRowSelect = new EventEmitter();
+        this.onRowUnselect = new EventEmitter();
+        this.onRowDblclick = new EventEmitter();
+        this.onHeaderCheckboxToggle = new EventEmitter();
+        this.onContextMenuSelect = new EventEmitter();
         this.filterDelay = 300;
-        this.onLazyLoad = new core_1.EventEmitter();
+        this.onLazyLoad = new EventEmitter();
         this.columnResizeMode = 'fit';
-        this.onColResize = new core_1.EventEmitter();
-        this.onColReorder = new core_1.EventEmitter();
+        this.onColResize = new EventEmitter();
+        this.onColReorder = new EventEmitter();
         this.sortMode = 'single';
         this.defaultSortOrder = 1;
         this.csvSeparator = ',';
@@ -352,13 +350,13 @@ var DataTable = /** @class */ (function () {
         this.rowTrackBy = function (index, item) { return item; };
         this.immutable = true;
         this.compareSelectionBy = 'deepEquals';
-        this.onEditInit = new core_1.EventEmitter();
-        this.onEditComplete = new core_1.EventEmitter();
-        this.onEdit = new core_1.EventEmitter();
-        this.onEditCancel = new core_1.EventEmitter();
-        this.onPage = new core_1.EventEmitter();
-        this.onSort = new core_1.EventEmitter();
-        this.onFilter = new core_1.EventEmitter();
+        this.onEditInit = new EventEmitter();
+        this.onEditComplete = new EventEmitter();
+        this.onEdit = new EventEmitter();
+        this.onEditCancel = new EventEmitter();
+        this.onPage = new EventEmitter();
+        this.onSort = new EventEmitter();
+        this.onFilter = new EventEmitter();
         this.rowExpandMode = 'multiple';
         this.expandedIcon = 'fa-chevron-circle-down';
         this.collapsedIcon = 'fa-chevron-circle-right';
@@ -368,12 +366,12 @@ var DataTable = /** @class */ (function () {
         this.loadingIcon = 'fa-circle-o-notch';
         this.virtualScrollDelay = 500;
         this.rowGroupExpandMode = 'multiple';
-        this.valueChange = new core_1.EventEmitter();
-        this.firstChange = new core_1.EventEmitter();
-        this.onRowExpand = new core_1.EventEmitter();
-        this.onRowCollapse = new core_1.EventEmitter();
-        this.onRowGroupExpand = new core_1.EventEmitter();
-        this.onRowGroupCollapse = new core_1.EventEmitter();
+        this.valueChange = new EventEmitter();
+        this.firstChange = new EventEmitter();
+        this.onRowExpand = new EventEmitter();
+        this.onRowCollapse = new EventEmitter();
+        this.onRowGroupExpand = new EventEmitter();
+        this.onRowGroupCollapse = new EventEmitter();
         this.page = 0;
         this.columnsChanged = false;
         this._first = 0;
@@ -489,8 +487,8 @@ var DataTable = /** @class */ (function () {
             this.columnsChanged = false;
         }
         if (this.totalRecordsChanged && this.virtualScroll && this.virtualScrollableTableWrapper && this.virtualScrollableTableWrapper.offsetParent) {
-            var row = domhandler_1.DomHandler.findSingle(this.virtualScrollableTableWrapper, 'tr.ui-widget-content');
-            var rowHeight = domhandler_1.DomHandler.getOuterHeight(row);
+            var row = DomHandler.findSingle(this.virtualScrollableTableWrapper, 'tr.ui-widget-content');
+            var rowHeight = DomHandler.getOuterHeight(row);
             this.virtualTableHeight = this._totalRecords * rowHeight;
             this.virtualScrollableTableWrapper.style.height = this.virtualTableHeight + 'px';
             this.totalRecordsChanged = false;
@@ -509,7 +507,7 @@ var DataTable = /** @class */ (function () {
                 }, _this.filterDelay);
             });
         }
-        this.virtualScrollableTableWrapper = domhandler_1.DomHandler.findSingle(this.el.nativeElement, 'div.ui-datatable-scrollable-table-wrapper');
+        this.virtualScrollableTableWrapper = DomHandler.findSingle(this.el.nativeElement, 'div.ui-datatable-scrollable-table-wrapper');
         this.initialized = true;
     };
     Object.defineProperty(DataTable.prototype, "multiSortMeta", {
@@ -605,11 +603,11 @@ var DataTable = /** @class */ (function () {
                     if (Array.isArray(this._selection)) {
                         for (var _i = 0, _a = this._selection; _i < _a.length; _i++) {
                             var data = _a[_i];
-                            this.selectionKeys[String(objectutils_1.ObjectUtils.resolveFieldData(data, this.dataKey))] = 1;
+                            this.selectionKeys[String(ObjectUtils.resolveFieldData(data, this.dataKey))] = 1;
                         }
                     }
                     else {
-                        this.selectionKeys[String(objectutils_1.ObjectUtils.resolveFieldData(this._selection, this.dataKey))] = 1;
+                        this.selectionKeys[String(ObjectUtils.resolveFieldData(this._selection, this.dataKey))] = 1;
                     }
                 }
             }
@@ -688,7 +686,7 @@ var DataTable = /** @class */ (function () {
         }
     };
     DataTable.prototype.resolveFieldData = function (data, field) {
-        return objectutils_1.ObjectUtils.resolveFieldData(data, field);
+        return ObjectUtils.resolveFieldData(data, field);
     };
     DataTable.prototype.updateRowGroupMetadata = function () {
         this.rowGroupMetadata = {};
@@ -797,7 +795,7 @@ var DataTable = /** @class */ (function () {
             return;
         }
         var targetNode = event.target;
-        if (domhandler_1.DomHandler.hasClass(targetNode, 'ui-sortable-column') || domhandler_1.DomHandler.hasClass(targetNode, 'ui-column-title') || domhandler_1.DomHandler.hasClass(targetNode, 'ui-sortable-column-icon')) {
+        if (DomHandler.hasClass(targetNode, 'ui-sortable-column') || DomHandler.hasClass(targetNode, 'ui-column-title') || DomHandler.hasClass(targetNode, 'ui-sortable-column-icon')) {
             if (!this.immutable) {
                 this.preventSortPropagation = true;
             }
@@ -953,7 +951,7 @@ var DataTable = /** @class */ (function () {
         }
         if (this.sortableRowGroup) {
             var targetNode = event.target.nodeName;
-            if ((targetNode == 'TD' || (targetNode == 'SPAN' && !domhandler_1.DomHandler.hasClass(event.target, 'ui-clickable')))) {
+            if ((targetNode == 'TD' || (targetNode == 'SPAN' && !DomHandler.hasClass(event.target, 'ui-clickable')))) {
                 if (this.sortField != this.groupField) {
                     this._sortField = this.groupField;
                     this.sortSingle();
@@ -1025,13 +1023,13 @@ var DataTable = /** @class */ (function () {
             return;
         }
         var targetNode = event.target.nodeName;
-        if (targetNode == 'INPUT' || targetNode == 'BUTTON' || targetNode == 'A' || (domhandler_1.DomHandler.hasClass(event.target, 'ui-clickable'))) {
+        if (targetNode == 'INPUT' || targetNode == 'BUTTON' || targetNode == 'A' || (DomHandler.hasClass(event.target, 'ui-clickable'))) {
             return;
         }
         this.onRowClick.next({ originalEvent: event, data: rowData });
         if (this.selectionMode) {
             if (this.isMultipleSelectionMode() && event.shiftKey && this.anchorRowIndex != null) {
-                domhandler_1.DomHandler.clearSelection();
+                DomHandler.clearSelection();
                 if (this.rangeRowIndex != null) {
                     this.clearSelectionRange(event);
                 }
@@ -1230,7 +1228,7 @@ var DataTable = /** @class */ (function () {
     DataTable.prototype.isSelected = function (rowData) {
         if (rowData && this.selection) {
             if (this.dataKey) {
-                return this.selectionKeys[objectutils_1.ObjectUtils.resolveFieldData(rowData, this.dataKey)] !== undefined;
+                return this.selectionKeys[ObjectUtils.resolveFieldData(rowData, this.dataKey)] !== undefined;
             }
             else {
                 if (this.selection instanceof Array)
@@ -1242,7 +1240,7 @@ var DataTable = /** @class */ (function () {
         return false;
     };
     DataTable.prototype.equals = function (data1, data2) {
-        return this.compareSelectionBy === 'equals' ? (data1 === data2) : objectutils_1.ObjectUtils.equals(data1, data2, this.dataKey);
+        return this.compareSelectionBy === 'equals' ? (data1 === data2) : ObjectUtils.equals(data1, data2, this.dataKey);
     };
     Object.defineProperty(DataTable.prototype, "allSelected", {
         get: function () {
@@ -1365,15 +1363,15 @@ var DataTable = /** @class */ (function () {
             this.editorClick = true;
             this.bindDocumentEditListener();
             if (cell != this.editingCell) {
-                if (this.editingCell && domhandler_1.DomHandler.find(this.editingCell, '.ng-invalid.ng-dirty').length == 0) {
-                    domhandler_1.DomHandler.removeClass(this.editingCell, 'ui-cell-editing');
+                if (this.editingCell && DomHandler.find(this.editingCell, '.ng-invalid.ng-dirty').length == 0) {
+                    DomHandler.removeClass(this.editingCell, 'ui-cell-editing');
                 }
                 this.editingCell = cell;
                 this.onEditInit.emit({ column: column, data: rowData });
-                domhandler_1.DomHandler.addClass(cell, 'ui-cell-editing');
-                var focusable_1 = domhandler_1.DomHandler.findSingle(cell, '.ui-cell-editor input, .ui-cell-editor textarea');
+                DomHandler.addClass(cell, 'ui-cell-editing');
+                var focusable_1 = DomHandler.findSingle(cell, '.ui-cell-editor input, .ui-cell-editor textarea');
                 if (focusable_1) {
-                    setTimeout(function () { return domhandler_1.DomHandler.invokeElementMethod(focusable_1, 'focus'); }, 50);
+                    setTimeout(function () { return DomHandler.invokeElementMethod(focusable_1, 'focus'); }, 50);
                 }
             }
         }
@@ -1381,12 +1379,12 @@ var DataTable = /** @class */ (function () {
     DataTable.prototype.switchCellToViewMode = function (element) {
         this.editingCell = null;
         var cell = this.findCell(element);
-        domhandler_1.DomHandler.removeClass(cell, 'ui-cell-editing');
+        DomHandler.removeClass(cell, 'ui-cell-editing');
         this.unbindDocumentEditListener();
     };
     DataTable.prototype.closeCell = function () {
         if (this.editingCell) {
-            domhandler_1.DomHandler.removeClass(this.editingCell, 'ui-cell-editing');
+            DomHandler.removeClass(this.editingCell, 'ui-cell-editing');
             this.editingCell = null;
             this.unbindDocumentEditListener();
         }
@@ -1412,7 +1410,7 @@ var DataTable = /** @class */ (function () {
         if (this.editable) {
             //enter
             if (event.keyCode == 13) {
-                if (domhandler_1.DomHandler.find(this.editingCell, '.ng-invalid.ng-dirty').length == 0) {
+                if (DomHandler.find(this.editingCell, '.ng-invalid.ng-dirty').length == 0) {
                     this.switchCellToViewMode(event.target);
                     event.preventDefault();
                 }
@@ -1455,7 +1453,7 @@ var DataTable = /** @class */ (function () {
         var row = currentCell.parentElement;
         var targetCell = this.findPreviousEditableColumn(currentCell);
         if (targetCell) {
-            domhandler_1.DomHandler.invokeElementMethod(targetCell, 'click');
+            DomHandler.invokeElementMethod(targetCell, 'click');
             event.preventDefault();
         }
     };
@@ -1464,7 +1462,7 @@ var DataTable = /** @class */ (function () {
         var row = currentCell.parentElement;
         var targetCell = this.findNextEditableColumn(currentCell);
         if (targetCell) {
-            domhandler_1.DomHandler.invokeElementMethod(targetCell, 'click');
+            DomHandler.invokeElementMethod(targetCell, 'click');
             event.preventDefault();
         }
     };
@@ -1477,7 +1475,7 @@ var DataTable = /** @class */ (function () {
             }
         }
         if (prevCell) {
-            if (domhandler_1.DomHandler.hasClass(prevCell, 'ui-editable-column'))
+            if (DomHandler.hasClass(prevCell, 'ui-editable-column'))
                 return prevCell;
             else
                 return this.findPreviousEditableColumn(prevCell);
@@ -1495,7 +1493,7 @@ var DataTable = /** @class */ (function () {
             }
         }
         if (nextCell) {
-            if (domhandler_1.DomHandler.hasClass(nextCell, 'ui-editable-column'))
+            if (DomHandler.hasClass(nextCell, 'ui-editable-column'))
                 return nextCell;
             else
                 return this.findNextEditableColumn(nextCell);
@@ -1523,8 +1521,8 @@ var DataTable = /** @class */ (function () {
         }
     };
     DataTable.prototype.initResizableColumns = function () {
-        this.tbody = domhandler_1.DomHandler.findSingle(this.el.nativeElement, 'tbody.ui-datatable-data');
-        this.resizerHelper = domhandler_1.DomHandler.findSingle(this.el.nativeElement, 'div.ui-column-resizer-helper');
+        this.tbody = DomHandler.findSingle(this.el.nativeElement, 'tbody.ui-datatable-data');
+        this.resizerHelper = DomHandler.findSingle(this.el.nativeElement, 'div.ui-column-resizer-helper');
         this.fixColumnWidths();
     };
     DataTable.prototype.onDocumentMouseMove = function (event) {
@@ -1560,15 +1558,15 @@ var DataTable = /** @class */ (function () {
     DataTable.prototype.initColumnResize = function (event) {
         this.bindColumnResizeEvents();
         var container = this.el.nativeElement.children[0];
-        var containerLeft = domhandler_1.DomHandler.getOffset(container).left;
+        var containerLeft = DomHandler.getOffset(container).left;
         this.resizeColumn = event.target.parentElement;
         this.columnResizing = true;
         this.lastResizerHelperX = (event.pageX - containerLeft + container.scrollLeft);
     };
     DataTable.prototype.onColumnResize = function (event) {
         var container = this.el.nativeElement.children[0];
-        var containerLeft = domhandler_1.DomHandler.getOffset(container).left;
-        domhandler_1.DomHandler.addClass(container, 'ui-unselectable-text');
+        var containerLeft = DomHandler.getOffset(container).left;
+        DomHandler.addClass(container, 'ui-unselectable-text');
         this.resizerHelper.style.height = container.offsetHeight + 'px';
         this.resizerHelper.style.top = 0 + 'px';
         this.resizerHelper.style.left = (event.pageX - containerLeft + container.scrollLeft) + 'px';
@@ -1582,7 +1580,7 @@ var DataTable = /** @class */ (function () {
         if (columnWidth + delta > parseInt(minWidth)) {
             if (this.columnResizeMode === 'fit') {
                 var nextColumn = this.resizeColumn.nextElementSibling;
-                while (domhandler_1.DomHandler.hasClass(nextColumn, 'ui-helper-hidden')) {
+                while (DomHandler.hasClass(nextColumn, 'ui-helper-hidden')) {
                     nextColumn = nextColumn.nextElementSibling;
                 }
                 if (nextColumn) {
@@ -1594,8 +1592,8 @@ var DataTable = /** @class */ (function () {
                             nextColumn.style.width = nextColumnWidth + 'px';
                         }
                         if (this.scrollable) {
-                            var colGroup = domhandler_1.DomHandler.findSingle(this.el.nativeElement, 'colgroup.ui-datatable-scrollable-colgroup');
-                            var resizeColumnIndex = domhandler_1.DomHandler.index(this.resizeColumn);
+                            var colGroup = DomHandler.findSingle(this.el.nativeElement, 'colgroup.ui-datatable-scrollable-colgroup');
+                            var resizeColumnIndex = DomHandler.index(this.resizeColumn);
                             colGroup.children[resizeColumnIndex].style.width = newColumnWidth + 'px';
                             if (nextColumn) {
                                 colGroup.children[resizeColumnIndex + 1].style.width = nextColumnWidth + 'px';
@@ -1609,9 +1607,9 @@ var DataTable = /** @class */ (function () {
                 this.resizeColumn.style.width = newColumnWidth + 'px';
                 var containerWidth = this.tbody.parentElement.style.width;
                 if (this.scrollable) {
-                    domhandler_1.DomHandler.findSingle(this.el.nativeElement, '.ui-datatable-scrollable-header-box').children[0].style.width = containerWidth;
-                    var colGroup = domhandler_1.DomHandler.findSingle(this.el.nativeElement, 'colgroup.ui-datatable-scrollable-colgroup');
-                    var resizeColumnIndex = domhandler_1.DomHandler.index(this.resizeColumn);
+                    DomHandler.findSingle(this.el.nativeElement, '.ui-datatable-scrollable-header-box').children[0].style.width = containerWidth;
+                    var colGroup = DomHandler.findSingle(this.el.nativeElement, 'colgroup.ui-datatable-scrollable-colgroup');
+                    var resizeColumnIndex = DomHandler.index(this.resizeColumn);
                     colGroup.children[resizeColumnIndex].style.width = newColumnWidth + 'px';
                 }
                 else {
@@ -1625,17 +1623,17 @@ var DataTable = /** @class */ (function () {
         }
         this.resizerHelper.style.display = 'none';
         this.resizeColumn = null;
-        domhandler_1.DomHandler.removeClass(this.el.nativeElement.children[0], 'ui-unselectable-text');
+        DomHandler.removeClass(this.el.nativeElement.children[0], 'ui-unselectable-text');
         this.unbindColumnResizeEvents();
     };
     DataTable.prototype.fixColumnWidths = function () {
-        var columns = domhandler_1.DomHandler.find(this.el.nativeElement, 'th.ui-resizable-column');
+        var columns = DomHandler.find(this.el.nativeElement, 'th.ui-resizable-column');
         var bodyCols;
         for (var i = 0; i < columns.length; i++) {
             columns[i].style.width = columns[i].offsetWidth + 'px';
         }
         if (this.scrollable) {
-            var colGroup = domhandler_1.DomHandler.findSingle(this.el.nativeElement, 'colgroup.ui-datatable-scrollable-colgroup');
+            var colGroup = DomHandler.findSingle(this.el.nativeElement, 'colgroup.ui-datatable-scrollable-colgroup');
             bodyCols = colGroup.children;
             if (bodyCols) {
                 for (var i = 0; i < bodyCols.length; i++) {
@@ -1661,8 +1659,8 @@ var DataTable = /** @class */ (function () {
         if (this.reorderableColumns && this.draggedColumn && dropHeader) {
             event.preventDefault();
             var container = this.el.nativeElement.children[0];
-            var containerOffset = domhandler_1.DomHandler.getOffset(container);
-            var dropHeaderOffset = domhandler_1.DomHandler.getOffset(dropHeader);
+            var containerOffset = DomHandler.getOffset(container);
+            var dropHeaderOffset = DomHandler.getOffset(dropHeader);
             if (this.draggedColumn != dropHeader) {
                 var targetLeft = dropHeaderOffset.left - containerOffset.left;
                 var targetTop = containerOffset.top - dropHeaderOffset.top;
@@ -1698,14 +1696,14 @@ var DataTable = /** @class */ (function () {
     DataTable.prototype.onColumnDrop = function (event) {
         event.preventDefault();
         if (this.draggedColumn) {
-            var dragIndex = domhandler_1.DomHandler.index(this.draggedColumn);
-            var dropIndex = domhandler_1.DomHandler.index(this.findParentHeader(event.target));
+            var dragIndex = DomHandler.index(this.draggedColumn);
+            var dropIndex = DomHandler.index(this.findParentHeader(event.target));
             var allowDrop = (dragIndex != dropIndex);
             if (allowDrop && ((dropIndex - dragIndex == 1 && this.dropPosition === -1) || (dragIndex - dropIndex == 1 && this.dropPosition === 1))) {
                 allowDrop = false;
             }
             if (allowDrop) {
-                objectutils_1.ObjectUtils.reorderArray(this.columns, dragIndex, dropIndex);
+                ObjectUtils.reorderArray(this.columns, dragIndex, dropIndex);
                 if (this.scrollable) {
                     this.initScrollableColumns();
                 }
@@ -1723,10 +1721,10 @@ var DataTable = /** @class */ (function () {
         }
     };
     DataTable.prototype.initColumnReordering = function () {
-        this.reorderIndicatorUp = domhandler_1.DomHandler.findSingle(this.el.nativeElement.children[0], 'span.ui-datatable-reorder-indicator-up');
-        this.reorderIndicatorDown = domhandler_1.DomHandler.findSingle(this.el.nativeElement.children[0], 'span.ui-datatable-reorder-indicator-down');
-        this.iconWidth = domhandler_1.DomHandler.getHiddenElementOuterWidth(this.reorderIndicatorUp);
-        this.iconHeight = domhandler_1.DomHandler.getHiddenElementOuterHeight(this.reorderIndicatorUp);
+        this.reorderIndicatorUp = DomHandler.findSingle(this.el.nativeElement.children[0], 'span.ui-datatable-reorder-indicator-up');
+        this.reorderIndicatorDown = DomHandler.findSingle(this.el.nativeElement.children[0], 'span.ui-datatable-reorder-indicator-down');
+        this.iconWidth = DomHandler.getHiddenElementOuterWidth(this.reorderIndicatorUp);
+        this.iconHeight = DomHandler.getHiddenElementOuterHeight(this.reorderIndicatorUp);
     };
     DataTable.prototype.findParentHeader = function (element) {
         if (element.nodeName == 'TH') {
@@ -1984,419 +1982,419 @@ var DataTable = /** @class */ (function () {
         }
     };
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], DataTable.prototype, "paginator", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Number)
     ], DataTable.prototype, "rows", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Number)
     ], DataTable.prototype, "pageLinks", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Array)
     ], DataTable.prototype, "rowsPerPageOptions", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], DataTable.prototype, "responsive", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], DataTable.prototype, "stacked", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], DataTable.prototype, "selectionMode", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "selectionChange", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], DataTable.prototype, "editable", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], DataTable.prototype, "showHeaderCheckbox", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "onRowClick", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "onRowSelect", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "onRowUnselect", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "onRowDblclick", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "onHeaderCheckboxToggle", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], DataTable.prototype, "headerCheckboxToggleAllPages", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "onContextMenuSelect", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Number)
     ], DataTable.prototype, "filterDelay", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], DataTable.prototype, "lazy", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "onLazyLoad", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], DataTable.prototype, "resizableColumns", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], DataTable.prototype, "columnResizeMode", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "onColResize", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], DataTable.prototype, "reorderableColumns", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "onColReorder", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], DataTable.prototype, "scrollable", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], DataTable.prototype, "virtualScroll", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object)
     ], DataTable.prototype, "scrollHeight", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object)
     ], DataTable.prototype, "scrollWidth", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object)
     ], DataTable.prototype, "frozenWidth", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object)
     ], DataTable.prototype, "unfrozenWidth", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object)
     ], DataTable.prototype, "style", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], DataTable.prototype, "styleClass", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object)
     ], DataTable.prototype, "tableStyle", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], DataTable.prototype, "tableStyleClass", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object)
     ], DataTable.prototype, "globalFilter", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], DataTable.prototype, "sortMode", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Number)
     ], DataTable.prototype, "defaultSortOrder", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], DataTable.prototype, "groupField", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object)
     ], DataTable.prototype, "contextMenu", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], DataTable.prototype, "csvSeparator", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], DataTable.prototype, "exportFilename", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], DataTable.prototype, "emptyMessage", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], DataTable.prototype, "paginatorPosition", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], DataTable.prototype, "alwaysShowPaginator", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], DataTable.prototype, "metaKeySelection", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Function)
     ], DataTable.prototype, "rowTrackBy", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], DataTable.prototype, "immutable", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Array)
     ], DataTable.prototype, "frozenValue", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], DataTable.prototype, "compareSelectionBy", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "onEditInit", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "onEditComplete", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "onEdit", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "onEditCancel", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "onPage", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "onSort", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "onFilter", void 0);
     __decorate([
-        core_1.ContentChild(shared_2.Header),
+        ContentChild(Header),
         __metadata("design:type", Object)
     ], DataTable.prototype, "header", void 0);
     __decorate([
-        core_1.ContentChild(shared_2.Footer),
+        ContentChild(Footer),
         __metadata("design:type", Object)
     ], DataTable.prototype, "footer", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], DataTable.prototype, "expandableRows", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Array)
     ], DataTable.prototype, "expandedRows", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], DataTable.prototype, "expandableRowGroups", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], DataTable.prototype, "rowExpandMode", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Array)
     ], DataTable.prototype, "expandedRowsGroups", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], DataTable.prototype, "expandedIcon", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], DataTable.prototype, "collapsedIcon", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Number)
     ], DataTable.prototype, "tabindex", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Function)
     ], DataTable.prototype, "rowStyleClass", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object)
     ], DataTable.prototype, "rowStyleMap", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], DataTable.prototype, "rowGroupMode", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], DataTable.prototype, "sortableRowGroup", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], DataTable.prototype, "sortFile", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], DataTable.prototype, "rowHover", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object)
     ], DataTable.prototype, "filters", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], DataTable.prototype, "dataKey", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Boolean)
     ], DataTable.prototype, "loading", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], DataTable.prototype, "loadingIcon", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Number)
     ], DataTable.prototype, "virtualScrollDelay", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], DataTable.prototype, "rowGroupExpandMode", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "valueChange", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "firstChange", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "onRowExpand", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "onRowCollapse", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "onRowGroupExpand", void 0);
     __decorate([
-        core_1.Output(),
-        __metadata("design:type", core_1.EventEmitter)
+        Output(),
+        __metadata("design:type", EventEmitter)
     ], DataTable.prototype, "onRowGroupCollapse", void 0);
     __decorate([
-        core_1.ContentChildren(shared_2.PrimeTemplate),
-        __metadata("design:type", core_1.QueryList)
+        ContentChildren(PrimeTemplate),
+        __metadata("design:type", QueryList)
     ], DataTable.prototype, "templates", void 0);
     __decorate([
-        core_1.ContentChildren(shared_2.Column),
-        __metadata("design:type", core_1.QueryList)
+        ContentChildren(Column),
+        __metadata("design:type", QueryList)
     ], DataTable.prototype, "cols", void 0);
     __decorate([
-        core_1.ContentChildren(shared_2.HeaderColumnGroup),
-        __metadata("design:type", core_1.QueryList)
+        ContentChildren(HeaderColumnGroup),
+        __metadata("design:type", QueryList)
     ], DataTable.prototype, "headerColumnGroups", void 0);
     __decorate([
-        core_1.ContentChildren(shared_2.FooterColumnGroup),
-        __metadata("design:type", core_1.QueryList)
+        ContentChildren(FooterColumnGroup),
+        __metadata("design:type", QueryList)
     ], DataTable.prototype, "footerColumnGroups", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Array),
         __metadata("design:paramtypes", [Array])
     ], DataTable.prototype, "multiSortMeta", null);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String),
         __metadata("design:paramtypes", [String])
     ], DataTable.prototype, "sortField", null);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Number),
         __metadata("design:paramtypes", [Number])
     ], DataTable.prototype, "sortOrder", null);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Array),
         __metadata("design:paramtypes", [Array])
     ], DataTable.prototype, "value", null);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Number),
         __metadata("design:paramtypes", [Number])
     ], DataTable.prototype, "first", null);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Number),
         __metadata("design:paramtypes", [Number])
     ], DataTable.prototype, "totalRecords", null);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object),
         __metadata("design:paramtypes", [Object])
     ], DataTable.prototype, "selection", null);
     DataTable = __decorate([
-        core_1.Component({
+        Component({
             selector: 'p-dataTable',
             template: "\n        <div [ngStyle]=\"style\" [class]=\"styleClass\" [style.width]=\"containerWidth\"\n            [ngClass]=\"{'ui-datatable ui-widget':true,'ui-datatable-reflow':responsive,'ui-datatable-stacked':stacked,'ui-datatable-resizable':resizableColumns,'ui-datatable-scrollable':scrollable}\">\n            <div class=\"ui-datatable-loading ui-widget-overlay\" *ngIf=\"loading\"></div>\n            <div class=\"ui-datatable-loading-content\" *ngIf=\"loading\">\n                <i [class]=\"'fa fa-spin fa-2x ' + loadingIcon\"></i>\n            </div>\n            <div class=\"ui-datatable-header ui-widget-header\" *ngIf=\"header\">\n                <ng-content select=\"p-header\"></ng-content>\n            </div>\n            <p-paginator [rows]=\"rows\" [first]=\"first\" [totalRecords]=\"totalRecords\" [pageLinkSize]=\"pageLinks\" styleClass=\"ui-paginator-top\" [alwaysShow]=\"alwaysShowPaginator\"\n                (onPageChange)=\"onPageChange($event)\" [rowsPerPageOptions]=\"rowsPerPageOptions\" *ngIf=\"paginator && (paginatorPosition === 'top' || paginatorPosition =='both')\"\n                [templateLeft]=\"paginatorLeftTemplate\" [templateRight]=\"paginatorRightTemplate\"></p-paginator>\n            <div class=\"ui-datatable-tablewrapper\" *ngIf=\"!scrollable\">\n                <table [ngClass]=\"tableStyleClass\" [ngStyle]=\"tableStyle\">\n                    <thead class=\"ui-datatable-thead\">\n                        <tr *ngIf=\"!headerColumnGroups || !headerColumnGroups.first\" class=\"ui-state-default\" [pColumnHeaders]=\"columns\"></tr>\n                        <ng-template [ngIf]=\"headerColumnGroups && headerColumnGroups.first\">\n                            <tr *ngFor=\"let headerRow of headerColumnGroups.first.rows\" class=\"ui-state-default\" [pColumnHeaders]=\"headerRow.columns\"></tr>\n                        </ng-template>\n                    </thead>\n                    <tfoot *ngIf=\"hasFooter()\" class=\"ui-datatable-tfoot\">\n                        <tr *ngIf=\"!footerColumnGroups.first\" class=\"ui-state-default\" [pColumnFooters]=\"columns\"></tr>\n                        <ng-template [ngIf]=\"footerColumnGroups.first\">\n                            <tr *ngFor=\"let footerRow of footerColumnGroups.first.rows\" class=\"ui-state-default\" [pColumnFooters]=\"footerRow.columns\"></tr>\n                        </ng-template>\n                    </tfoot>\n                    <tbody [ngClass]=\"{'ui-datatable-data ui-widget-content': true, 'ui-datatable-hoverable-rows': (rowHover||selectionMode)}\" [pTableBody]=\"columns\" [data]=\"dataToRender\"></tbody>\n                </table>\n            </div>\n            \n            <ng-template [ngIf]=\"scrollable\">\n                <div class=\"ui-datatable-scrollable-wrapper ui-helper-clearfix\">\n                    <div *ngIf=\"hasFrozenColumns()\" [pScrollableView]=\"frozenColumns\" frozen=\"true\"\n                        [headerColumnGroup]=\"frozenHeaderColumnGroup\" [footerColumnGroup]=\"frozenFooterColumnGroup\"\n                        [ngStyle]=\"{'width':this.frozenWidth}\" class=\"ui-datatable-scrollable-view ui-datatable-frozen-view\"></div>\n                    <div [pScrollableView]=\"scrollableColumns\" [ngStyle]=\"{'width':this.unfrozenWidth, 'left': this.frozenWidth}\"\n                        [headerColumnGroup]=\"scrollableHeaderColumnGroup\" [footerColumnGroup]=\"scrollableFooterColumnGroup\"\n                        class=\"ui-datatable-scrollable-view\" [virtualScroll]=\"virtualScroll\" (onVirtualScroll)=\"onVirtualScroll($event)\"\n                        [ngClass]=\"{'ui-datatable-unfrozen-view': hasFrozenColumns()}\"></div>\n                </div>\n            </ng-template>\n            \n            <p-paginator [rows]=\"rows\" [first]=\"first\" [totalRecords]=\"totalRecords\" [pageLinkSize]=\"pageLinks\" styleClass=\"ui-paginator-bottom\" [alwaysShow]=\"alwaysShowPaginator\"\n                (onPageChange)=\"onPageChange($event)\" [rowsPerPageOptions]=\"rowsPerPageOptions\" *ngIf=\"paginator && (paginatorPosition === 'bottom' || paginatorPosition =='both')\"\n                [templateLeft]=\"paginatorLeftTemplate\" [templateRight]=\"paginatorRightTemplate\"></p-paginator>\n            <div class=\"ui-datatable-footer ui-widget-header\" *ngIf=\"footer\">\n                <ng-content select=\"p-footer\"></ng-content>\n            </div>\n            \n            <div class=\"ui-column-resizer-helper ui-state-highlight\" style=\"display:none\"></div>\n            <span class=\"fa fa-arrow-down ui-datatable-reorder-indicator-up\" style=\"position: absolute; display: none;\"></span>\n            <span class=\"fa fa-arrow-up ui-datatable-reorder-indicator-down\" style=\"position: absolute; display: none;\"></span>\n        </div>\n    "
         }),
-        __metadata("design:paramtypes", [core_1.ElementRef, core_1.IterableDiffers,
-            core_1.Renderer2, core_1.ChangeDetectorRef,
-            core_1.NgZone])
+        __metadata("design:paramtypes", [ElementRef, IterableDiffers,
+            Renderer2, ChangeDetectorRef,
+            NgZone])
     ], DataTable);
     return DataTable;
 }());
-exports.DataTable = DataTable;
+export { DataTable };
 var DataTableModule = /** @class */ (function () {
     function DataTableModule() {
     }
     DataTableModule = __decorate([
-        core_1.NgModule({
-            imports: [common_1.CommonModule, shared_1.SharedModule, paginator_1.PaginatorModule, forms_1.FormsModule],
-            exports: [DataTable, shared_1.SharedModule],
+        NgModule({
+            imports: [CommonModule, SharedModule, PaginatorModule, FormsModule],
+            exports: [DataTable, SharedModule],
             declarations: [DataTable, DTRadioButton, DTCheckbox, ColumnHeaders, ColumnFooters, TableBody, ScrollableView]
         })
     ], DataTableModule);
     return DataTableModule;
 }());
-exports.DataTableModule = DataTableModule;
+export { DataTableModule };
 //# sourceMappingURL=datatable.js.map

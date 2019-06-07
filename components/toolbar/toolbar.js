@@ -1,4 +1,3 @@
-"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -8,9 +7,8 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-Object.defineProperty(exports, "__esModule", { value: true });
-var core_1 = require("@angular/core");
-var common_1 = require("@angular/common");
+import { NgModule, Component, Input, ElementRef } from '@angular/core';
+import { CommonModule } from '@angular/common';
 var Toolbar = /** @class */ (function () {
     function Toolbar(el) {
         this.el = el;
@@ -19,34 +17,34 @@ var Toolbar = /** @class */ (function () {
         return this.el.nativeElement.children[0];
     };
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", Object)
     ], Toolbar.prototype, "style", void 0);
     __decorate([
-        core_1.Input(),
+        Input(),
         __metadata("design:type", String)
     ], Toolbar.prototype, "styleClass", void 0);
     Toolbar = __decorate([
-        core_1.Component({
+        Component({
             selector: 'p-toolbar',
             template: "\n        <div [ngClass]=\"'ui-toolbar ui-widget ui-widget-header ui-corner-all ui-helper-clearfix'\" [ngStyle]=\"style\" [class]=\"styleClass\">\n            <ng-content></ng-content>\n        </div>\n    "
         }),
-        __metadata("design:paramtypes", [core_1.ElementRef])
+        __metadata("design:paramtypes", [ElementRef])
     ], Toolbar);
     return Toolbar;
 }());
-exports.Toolbar = Toolbar;
+export { Toolbar };
 var ToolbarModule = /** @class */ (function () {
     function ToolbarModule() {
     }
     ToolbarModule = __decorate([
-        core_1.NgModule({
-            imports: [common_1.CommonModule],
+        NgModule({
+            imports: [CommonModule],
             exports: [Toolbar],
             declarations: [Toolbar]
         })
     ], ToolbarModule);
     return ToolbarModule;
 }());
-exports.ToolbarModule = ToolbarModule;
+export { ToolbarModule };
 //# sourceMappingURL=toolbar.js.map
