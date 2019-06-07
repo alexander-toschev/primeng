@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7,25 +8,26 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { NgModule, Component, ElementRef, Input, Output, EventEmitter, ContentChildren, QueryList, forwardRef, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { SharedModule, PrimeTemplate } from '../common/shared';
-import { InputTextModule } from '../inputtext/inputtext';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
-export var CHIPS_VALUE_ACCESSOR = {
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(function () { return Chips; }),
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var common_1 = require("@angular/common");
+var shared_1 = require("../common/shared");
+var inputtext_1 = require("../inputtext/inputtext");
+var forms_1 = require("@angular/forms");
+exports.CHIPS_VALUE_ACCESSOR = {
+    provide: forms_1.NG_VALUE_ACCESSOR,
+    useExisting: core_1.forwardRef(function () { return Chips; }),
     multi: true
 };
 var Chips = /** @class */ (function () {
     function Chips(el) {
         this.el = el;
         this.allowDuplicate = true;
-        this.onAdd = new EventEmitter();
-        this.onRemove = new EventEmitter();
-        this.onFocus = new EventEmitter();
-        this.onBlur = new EventEmitter();
-        this.onChipClick = new EventEmitter();
+        this.onAdd = new core_1.EventEmitter();
+        this.onRemove = new core_1.EventEmitter();
+        this.onFocus = new core_1.EventEmitter();
+        this.onBlur = new core_1.EventEmitter();
+        this.onChipClick = new core_1.EventEmitter();
         this.onModelChange = function () { };
         this.onModelTouched = function () { };
     }
@@ -165,107 +167,107 @@ var Chips = /** @class */ (function () {
         }
     };
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], Chips.prototype, "style", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Chips.prototype, "styleClass", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Chips.prototype, "disabled", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Chips.prototype, "field", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Chips.prototype, "placeholder", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], Chips.prototype, "max", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], Chips.prototype, "tabindex", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Chips.prototype, "inputId", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Chips.prototype, "allowDuplicate", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], Chips.prototype, "inputStyle", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], Chips.prototype, "inputStyleClass", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Chips.prototype, "addOnTab", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Chips.prototype, "addOnBlur", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], Chips.prototype, "onAdd", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], Chips.prototype, "onRemove", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], Chips.prototype, "onFocus", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], Chips.prototype, "onBlur", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], Chips.prototype, "onChipClick", void 0);
     __decorate([
-        ViewChild('inputtext'),
-        __metadata("design:type", ElementRef)
+        core_1.ViewChild('inputtext'),
+        __metadata("design:type", core_1.ElementRef)
     ], Chips.prototype, "inputViewChild", void 0);
     __decorate([
-        ContentChildren(PrimeTemplate),
-        __metadata("design:type", QueryList)
+        core_1.ContentChildren(shared_1.PrimeTemplate),
+        __metadata("design:type", core_1.QueryList)
     ], Chips.prototype, "templates", void 0);
     Chips = __decorate([
-        Component({
+        core_1.Component({
             selector: 'p-chips',
             template: "\n        <div [ngClass]=\"'ui-chips ui-widget'\" [ngStyle]=\"style\" [class]=\"styleClass\" (click)=\"onClick($event)\">\n            <ul [ngClass]=\"{'ui-inputtext ui-state-default ui-corner-all':true,'ui-state-focus':focus,'ui-state-disabled':disabled}\">\n                <li #token *ngFor=\"let item of value; let i = index;\" class=\"ui-chips-token ui-state-highlight ui-corner-all\" (click)=\"onItemClick($event, item)\">\n                    <span *ngIf=\"!disabled\" class=\"ui-chips-token-icon pi pi-fw pi-times\" (click)=\"removeItem($event,i)\"></span>\n                    <span *ngIf=\"!itemTemplate\" class=\"ui-chips-token-label\">{{field ? resolveFieldData(item,field) : item}}</span>\n                    <ng-container *ngTemplateOutlet=\"itemTemplate; context: {$implicit: item}\"></ng-container>\n                </li>\n                <li class=\"ui-chips-input-token\">\n                    <input #inputtext type=\"text\" [attr.id]=\"inputId\" [attr.placeholder]=\"(value && value.length ? null : placeholder)\" [attr.tabindex]=\"tabindex\" (keydown)=\"onKeydown($event)\" \n                        (focus)=\"onInputFocus($event)\" (blur)=\"onInputBlur($event)\" [disabled]=\"disabled\" [ngStyle]=\"inputStyle\" [class]=\"inputStyleClass\">\n                </li>\n            </ul>\n        </div>\n    ",
-            providers: [CHIPS_VALUE_ACCESSOR]
+            providers: [exports.CHIPS_VALUE_ACCESSOR]
         }),
-        __metadata("design:paramtypes", [ElementRef])
+        __metadata("design:paramtypes", [core_1.ElementRef])
     ], Chips);
     return Chips;
 }());
-export { Chips };
+exports.Chips = Chips;
 var ChipsModule = /** @class */ (function () {
     function ChipsModule() {
     }
     ChipsModule = __decorate([
-        NgModule({
-            imports: [CommonModule, InputTextModule, SharedModule],
-            exports: [Chips, InputTextModule, SharedModule],
+        core_1.NgModule({
+            imports: [common_1.CommonModule, inputtext_1.InputTextModule, shared_1.SharedModule],
+            exports: [Chips, inputtext_1.InputTextModule, shared_1.SharedModule],
             declarations: [Chips]
         })
     ], ChipsModule);
     return ChipsModule;
 }());
-export { ChipsModule };
+exports.ChipsModule = ChipsModule;
 //# sourceMappingURL=chips.js.map

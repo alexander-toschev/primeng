@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7,15 +8,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { NgModule, Component, Input, Output, ElementRef, ViewChild, EventEmitter, ContentChildren, QueryList, TemplateRef } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { DomHandler } from '../dom/domhandler';
-import { PrimeTemplate, SharedModule } from '../common/shared';
-import { MessageService } from '../common/messageservice';
-import { trigger, state, style, transition, animate, query, animateChild } from '@angular/animations';
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var common_1 = require("@angular/common");
+var domhandler_1 = require("../dom/domhandler");
+var shared_1 = require("../common/shared");
+var messageservice_1 = require("../common/messageservice");
+var animations_1 = require("@angular/animations");
 var ToastItem = /** @class */ (function () {
     function ToastItem() {
-        this.onClose = new EventEmitter();
+        this.onClose = new core_1.EventEmitter();
     }
     ToastItem.prototype.ngAfterViewInit = function () {
         this.initTimeout();
@@ -55,49 +57,49 @@ var ToastItem = /** @class */ (function () {
         this.clearTimeout();
     };
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], ToastItem.prototype, "message", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], ToastItem.prototype, "index", void 0);
     __decorate([
-        Input(),
-        __metadata("design:type", TemplateRef)
+        core_1.Input(),
+        __metadata("design:type", core_1.TemplateRef)
     ], ToastItem.prototype, "template", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], ToastItem.prototype, "showTransitionOptions", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], ToastItem.prototype, "hideTransitionOptions", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], ToastItem.prototype, "onClose", void 0);
     __decorate([
-        ViewChild('container'),
-        __metadata("design:type", ElementRef)
+        core_1.ViewChild('container'),
+        __metadata("design:type", core_1.ElementRef)
     ], ToastItem.prototype, "containerViewChild", void 0);
     ToastItem = __decorate([
-        Component({
+        core_1.Component({
             selector: 'p-toastItem',
             template: "\n        <div #container class=\"ui-toast-message ui-shadow\" [@messageState]=\"{value: 'visible', params: {showTransitionParams: showTransitionOptions, hideTransitionParams: hideTransitionOptions}}\"\n            [ngClass]=\"{'ui-toast-message-info': message.severity == 'info','ui-toast-message-warn': message.severity == 'warn',\n                'ui-toast-message-error': message.severity == 'error','ui-toast-message-success': message.severity == 'success'}\"\n                (mouseenter)=\"onMouseEnter()\" (mouseleave)=\"onMouseLeave()\">\n            <div class=\"ui-toast-message-content\">\n                <a tabindex=\"0\" class=\"ui-toast-close-icon pi pi-times\" (click)=\"onCloseIconClick($event)\" (keydown.enter)=\"onCloseIconClick($event)\" *ngIf=\"message.closable !== false\"></a>\n                <ng-container *ngIf=\"!template\">\n                    <span class=\"ui-toast-icon pi\"\n                        [ngClass]=\"{'pi-info-circle': message.severity == 'info', 'pi-exclamation-triangle': message.severity == 'warn',\n                            'pi-times': message.severity == 'error', 'pi-check' :message.severity == 'success'}\"></span>\n                    <div class=\"ui-toast-message-text-content\">\n                        <div class=\"ui-toast-summary\">{{message.summary}}</div>\n                        <div class=\"ui-toast-detail\">{{message.detail}}</div>\n                    </div>\n                </ng-container>\n                <ng-container *ngTemplateOutlet=\"template; context: {$implicit: message}\"></ng-container>\n            </div>\n        </div>\n    ",
             animations: [
-                trigger('messageState', [
-                    state('visible', style({
+                animations_1.trigger('messageState', [
+                    animations_1.state('visible', animations_1.style({
                         transform: 'translateY(0)',
                         opacity: 1
                     })),
-                    transition('void => *', [
-                        style({ transform: 'translateY(100%)', opacity: 0 }),
-                        animate('{{showTransitionParams}}')
+                    animations_1.transition('void => *', [
+                        animations_1.style({ transform: 'translateY(100%)', opacity: 0 }),
+                        animations_1.animate('{{showTransitionParams}}')
                     ]),
-                    transition('* => void', [
-                        animate(('{{hideTransitionParams}}'), style({
+                    animations_1.transition('* => void', [
+                        animations_1.animate(('{{hideTransitionParams}}'), animations_1.style({
                             height: 0,
                             opacity: 0,
                             transform: 'translateY(-100%)'
@@ -109,7 +111,7 @@ var ToastItem = /** @class */ (function () {
     ], ToastItem);
     return ToastItem;
 }());
-export { ToastItem };
+exports.ToastItem = ToastItem;
 var Toast = /** @class */ (function () {
     function Toast(messageService) {
         this.messageService = messageService;
@@ -118,7 +120,7 @@ var Toast = /** @class */ (function () {
         this.position = 'top-right';
         this.showTransitionOptions = '300ms ease-out';
         this.hideTransitionOptions = '250ms ease-in';
-        this.onClose = new EventEmitter();
+        this.onClose = new core_1.EventEmitter();
     }
     Toast.prototype.ngOnInit = function () {
         var _this = this;
@@ -177,7 +179,7 @@ var Toast = /** @class */ (function () {
             this.mask = document.createElement('div');
             this.mask.style.zIndex = String(parseInt(this.containerViewChild.nativeElement.style.zIndex) - 1);
             var maskStyleClass = 'ui-widget-overlay ui-dialog-mask';
-            DomHandler.addMultipleClasses(this.mask, maskStyleClass);
+            domhandler_1.DomHandler.addMultipleClasses(this.mask, maskStyleClass);
             document.body.appendChild(this.mask);
         }
     };
@@ -189,7 +191,7 @@ var Toast = /** @class */ (function () {
     };
     Toast.prototype.onAnimationStart = function (event) {
         if (event.fromState === 'void' && this.autoZIndex) {
-            this.containerViewChild.nativeElement.style.zIndex = String(this.baseZIndex + (++DomHandler.zindex));
+            this.containerViewChild.nativeElement.style.zIndex = String(this.baseZIndex + (++domhandler_1.DomHandler.zindex));
         }
     };
     Toast.prototype.ngOnDestroy = function () {
@@ -202,81 +204,81 @@ var Toast = /** @class */ (function () {
         this.disableModality();
     };
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Toast.prototype, "key", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Toast.prototype, "autoZIndex", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], Toast.prototype, "baseZIndex", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], Toast.prototype, "style", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Toast.prototype, "styleClass", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Toast.prototype, "position", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Toast.prototype, "modal", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Toast.prototype, "showTransitionOptions", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Toast.prototype, "hideTransitionOptions", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], Toast.prototype, "onClose", void 0);
     __decorate([
-        ViewChild('container'),
-        __metadata("design:type", ElementRef)
+        core_1.ViewChild('container'),
+        __metadata("design:type", core_1.ElementRef)
     ], Toast.prototype, "containerViewChild", void 0);
     __decorate([
-        ContentChildren(PrimeTemplate),
-        __metadata("design:type", QueryList)
+        core_1.ContentChildren(shared_1.PrimeTemplate),
+        __metadata("design:type", core_1.QueryList)
     ], Toast.prototype, "templates", void 0);
     Toast = __decorate([
-        Component({
+        core_1.Component({
             selector: 'p-toast',
             template: "\n        <div #container [ngClass]=\"{'ui-toast ui-widget': true, \n                'ui-toast-top-right': position === 'top-right',\n                'ui-toast-top-left': position === 'top-left',\n                'ui-toast-bottom-right': position === 'bottom-right',\n                'ui-toast-bottom-left': position === 'bottom-left',\n                'ui-toast-top-center': position === 'top-center',\n                'ui-toast-bottom-center': position === 'bottom-center',\n                'ui-toast-center': position === 'center'}\" \n                [ngStyle]=\"style\" [class]=\"styleClass\">\n            <p-toastItem *ngFor=\"let msg of messages; let i=index\" [message]=\"msg\" [index]=\"i\" (onClose)=\"onMessageClose($event)\"\n                    [template]=\"template\" @toastAnimation (@toastAnimation.start)=\"onAnimationStart($event)\" [showTransitionOptions]=\"showTransitionOptions\" [hideTransitionOptions]=\"hideTransitionOptions\"></p-toastItem>\n        </div>\n    ",
             animations: [
-                trigger('toastAnimation', [
-                    transition(':enter, :leave', [
-                        query('@*', animateChild())
+                animations_1.trigger('toastAnimation', [
+                    animations_1.transition(':enter, :leave', [
+                        animations_1.query('@*', animations_1.animateChild())
                     ])
                 ])
             ]
         }),
-        __metadata("design:paramtypes", [MessageService])
+        __metadata("design:paramtypes", [messageservice_1.MessageService])
     ], Toast);
     return Toast;
 }());
-export { Toast };
+exports.Toast = Toast;
 var ToastModule = /** @class */ (function () {
     function ToastModule() {
     }
     ToastModule = __decorate([
-        NgModule({
-            imports: [CommonModule],
-            exports: [Toast, SharedModule],
+        core_1.NgModule({
+            imports: [common_1.CommonModule],
+            exports: [Toast, shared_1.SharedModule],
             declarations: [Toast, ToastItem]
         })
     ], ToastModule);
     return ToastModule;
 }());
-export { ToastModule };
+exports.ToastModule = ToastModule;
 //# sourceMappingURL=toast.js.map

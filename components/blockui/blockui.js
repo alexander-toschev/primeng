@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7,9 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { NgModule, Component, Input, ElementRef, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { DomHandler } from '../dom/domhandler';
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var common_1 = require("@angular/common");
+var domhandler_1 = require("../dom/domhandler");
 var BlockUI = /** @class */ (function () {
     function BlockUI(el) {
         this.el = el;
@@ -48,7 +50,7 @@ var BlockUI = /** @class */ (function () {
             document.body.appendChild(this.mask.nativeElement);
         }
         if (this.autoZIndex) {
-            this.mask.nativeElement.style.zIndex = String(this.baseZIndex + (++DomHandler.zindex));
+            this.mask.nativeElement.style.zIndex = String(this.baseZIndex + (++domhandler_1.DomHandler.zindex));
         }
     };
     BlockUI.prototype.unblock = function () {
@@ -58,47 +60,47 @@ var BlockUI = /** @class */ (function () {
         this.unblock();
     };
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], BlockUI.prototype, "target", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], BlockUI.prototype, "autoZIndex", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], BlockUI.prototype, "baseZIndex", void 0);
     __decorate([
-        ViewChild('mask'),
-        __metadata("design:type", ElementRef)
+        core_1.ViewChild('mask'),
+        __metadata("design:type", core_1.ElementRef)
     ], BlockUI.prototype, "mask", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean),
         __metadata("design:paramtypes", [Boolean])
     ], BlockUI.prototype, "blocked", null);
     BlockUI = __decorate([
-        Component({
+        core_1.Component({
             selector: 'p-blockUI',
             template: "\n        <div #mask class=\"ui-blockui ui-widget-overlay\" [ngClass]=\"{'ui-blockui-document':!target}\" [ngStyle]=\"{display: blocked ? 'block' : 'none'}\">\n            <ng-content></ng-content>\n        </div>\n    "
         }),
-        __metadata("design:paramtypes", [ElementRef])
+        __metadata("design:paramtypes", [core_1.ElementRef])
     ], BlockUI);
     return BlockUI;
 }());
-export { BlockUI };
+exports.BlockUI = BlockUI;
 var BlockUIModule = /** @class */ (function () {
     function BlockUIModule() {
     }
     BlockUIModule = __decorate([
-        NgModule({
-            imports: [CommonModule],
+        core_1.NgModule({
+            imports: [common_1.CommonModule],
             exports: [BlockUI],
             declarations: [BlockUI]
         })
     ], BlockUIModule);
     return BlockUIModule;
 }());
-export { BlockUIModule };
+exports.BlockUIModule = BlockUIModule;
 //# sourceMappingURL=blockui.js.map

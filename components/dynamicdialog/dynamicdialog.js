@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7,13 +8,14 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { Component, NgModule, ComponentFactoryResolver, ViewChild, ChangeDetectorRef, Renderer2, NgZone, ElementRef } from '@angular/core';
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { DynamicDialogContent } from './dynamicdialogcontent';
-import { DynamicDialogConfig } from './dynamicdialog-config';
-import { CommonModule } from '@angular/common';
-import { DomHandler } from '../dom/domhandler';
-import { DynamicDialogRef } from './dynamicdialog-ref';
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var animations_1 = require("@angular/animations");
+var dynamicdialogcontent_1 = require("./dynamicdialogcontent");
+var dynamicdialog_config_1 = require("./dynamicdialog-config");
+var common_1 = require("@angular/common");
+var domhandler_1 = require("../dom/domhandler");
+var dynamicdialog_ref_1 = require("./dynamicdialog-ref");
 var DynamicDialogComponent = /** @class */ (function () {
     function DynamicDialogComponent(componentFactoryResolver, cd, renderer, config, dialogRef, zone) {
         this.componentFactoryResolver = componentFactoryResolver;
@@ -42,7 +44,7 @@ var DynamicDialogComponent = /** @class */ (function () {
     };
     DynamicDialogComponent.prototype.moveOnTop = function () {
         if (this.config.autoZIndex !== false) {
-            var zIndex = this.config.baseZIndex || 0 + (++DomHandler.zindex);
+            var zIndex = this.config.baseZIndex || 0 + (++domhandler_1.DomHandler.zindex);
             this.container.style.zIndex = String(zIndex);
             this.maskViewChild.nativeElement.style.zIndex = String(zIndex - 1);
         }
@@ -53,7 +55,7 @@ var DynamicDialogComponent = /** @class */ (function () {
                 this.container = event.element;
                 this.moveOnTop();
                 this.bindGlobalListeners();
-                DomHandler.addClass(document.body, 'ui-overflow-hidden');
+                domhandler_1.DomHandler.addClass(document.body, 'ui-overflow-hidden');
                 break;
             case 'void':
                 this.onContainerDestroy();
@@ -66,7 +68,7 @@ var DynamicDialogComponent = /** @class */ (function () {
         }
     };
     DynamicDialogComponent.prototype.onContainerDestroy = function () {
-        DomHandler.removeClass(document.body, 'ui-overflow-hidden');
+        domhandler_1.DomHandler.removeClass(document.body, 'ui-overflow-hidden');
         this.unbindGlobalListeners();
         this.container = null;
     };
@@ -90,7 +92,7 @@ var DynamicDialogComponent = /** @class */ (function () {
         var _this = this;
         this.documentEscapeListener = this.renderer.listen('document', 'keydown', function (event) {
             if (event.which == 27) {
-                if (parseInt(_this.container.style.zIndex) == DomHandler.zindex) {
+                if (parseInt(_this.container.style.zIndex) == domhandler_1.DomHandler.zindex) {
                     _this.close();
                 }
             }
@@ -109,48 +111,48 @@ var DynamicDialogComponent = /** @class */ (function () {
         }
     };
     __decorate([
-        ViewChild(DynamicDialogContent),
-        __metadata("design:type", DynamicDialogContent)
+        core_1.ViewChild(dynamicdialogcontent_1.DynamicDialogContent),
+        __metadata("design:type", dynamicdialogcontent_1.DynamicDialogContent)
     ], DynamicDialogComponent.prototype, "insertionPoint", void 0);
     __decorate([
-        ViewChild('mask'),
-        __metadata("design:type", ElementRef)
+        core_1.ViewChild('mask'),
+        __metadata("design:type", core_1.ElementRef)
     ], DynamicDialogComponent.prototype, "maskViewChild", void 0);
     DynamicDialogComponent = __decorate([
-        Component({
+        core_1.Component({
             selector: 'p-dynamicDialog',
             template: "\n\t\t<div #mask class=\"ui-widget-overlay ui-dialog-mask ui-dialog-mask-scrollblocker\" *ngIf=\"visible\" (click)=\"onMaskClick()\"></div>\n\t\t<div [ngClass]=\"{'ui-dialog ui-dynamicdialog ui-widget ui-widget-content ui-corner-all ui-shadow':true, 'ui-dialog-rtl': config.rtl}\" [ngStyle]=\"config.style\" [class]=\"config.styleClass\"\n\t\t\t[@animation]=\"{value: 'visible', params: {transitionParams: config.transitionOptions || '150ms cubic-bezier(0, 0, 0.2, 1)'}}\" \n\t\t\t(@animation.start)=\"onAnimationStart($event)\" (@animation.done)=\"onAnimationEnd($event)\" role=\"dialog\" *ngIf=\"visible\"\n\t\t\t[style.width]=\"config.width\" [style.height]=\"config.height\">\n            <div class=\"ui-dialog-titlebar ui-widget-header ui-helper-clearfix ui-corner-top\" *ngIf=\"config.showHeader === false ? false: true\">\n                <span class=\"ui-dialog-title\">{{config.header}}</span>\n                <a [ngClass]=\"'ui-dialog-titlebar-icon ui-dialog-titlebar-close ui-corner-all'\" tabindex=\"0\" role=\"button\" (click)=\"close()\" (keydown.enter)=\"close()\" *ngIf=\"config.closable === false ? false : true\">\n                    <span class=\"pi pi-times\"></span>\n                </a>\n            </div>\n            <div class=\"ui-dialog-content ui-widget-content\" [ngStyle]=\"config.contentStyle\">\n\t\t\t\t<ng-template pDynamicDialogContent></ng-template>\n\t\t\t</div>\n\t\t\t<div class=\"ui-dialog-footer ui-widget-content\" *ngIf=\"config.footer\">\n\t\t\t\t{{config.footer}}\n            </div>\n\t\t</div>\n\t",
             animations: [
-                trigger('animation', [
-                    state('void', style({
+                animations_1.trigger('animation', [
+                    animations_1.state('void', animations_1.style({
                         transform: 'translateX(-50%) translateY(-50%) scale(0.7)',
                         opacity: 0
                     })),
-                    state('visible', style({
+                    animations_1.state('visible', animations_1.style({
                         transform: 'translateX(-50%) translateY(-50%) scale(1)',
                         opacity: 1
                     })),
-                    transition('* => *', animate('{{transitionParams}}'))
+                    animations_1.transition('* => *', animations_1.animate('{{transitionParams}}'))
                 ])
             ]
         }),
-        __metadata("design:paramtypes", [ComponentFactoryResolver, ChangeDetectorRef, Renderer2,
-            DynamicDialogConfig, DynamicDialogRef, NgZone])
+        __metadata("design:paramtypes", [core_1.ComponentFactoryResolver, core_1.ChangeDetectorRef, core_1.Renderer2,
+            dynamicdialog_config_1.DynamicDialogConfig, dynamicdialog_ref_1.DynamicDialogRef, core_1.NgZone])
     ], DynamicDialogComponent);
     return DynamicDialogComponent;
 }());
-export { DynamicDialogComponent };
+exports.DynamicDialogComponent = DynamicDialogComponent;
 var DynamicDialogModule = /** @class */ (function () {
     function DynamicDialogModule() {
     }
     DynamicDialogModule = __decorate([
-        NgModule({
-            imports: [CommonModule],
-            declarations: [DynamicDialogComponent, DynamicDialogContent],
+        core_1.NgModule({
+            imports: [common_1.CommonModule],
+            declarations: [DynamicDialogComponent, dynamicdialogcontent_1.DynamicDialogContent],
             entryComponents: [DynamicDialogComponent]
         })
     ], DynamicDialogModule);
     return DynamicDialogModule;
 }());
-export { DynamicDialogModule };
+exports.DynamicDialogModule = DynamicDialogModule;
 //# sourceMappingURL=dynamicdialog.js.map

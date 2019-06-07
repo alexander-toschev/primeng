@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7,9 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { NgModule, Directive, ElementRef, Input, NgZone } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { DomHandler } from '../dom/domhandler';
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var common_1 = require("@angular/common");
+var domhandler_1 = require("../dom/domhandler");
 var Tooltip = /** @class */ (function () {
     function Tooltip(el, zone) {
         this.el = el;
@@ -117,9 +119,9 @@ var Tooltip = /** @class */ (function () {
         if (this.appendTo === 'body')
             document.body.appendChild(this.container);
         else if (this.appendTo === 'target')
-            DomHandler.appendChild(this.container, this.el.nativeElement);
+            domhandler_1.DomHandler.appendChild(this.container, this.el.nativeElement);
         else
-            DomHandler.appendChild(this.container, this.appendTo);
+            domhandler_1.DomHandler.appendChild(this.container, this.appendTo);
         this.container.style.display = 'inline-block';
     };
     Tooltip.prototype.show = function () {
@@ -128,9 +130,9 @@ var Tooltip = /** @class */ (function () {
         }
         this.create();
         this.align();
-        DomHandler.fadeIn(this.container, 250);
+        domhandler_1.DomHandler.fadeIn(this.container, 250);
         if (this.tooltipZIndex === 'auto')
-            this.container.style.zIndex = ++DomHandler.zindex;
+            this.container.style.zIndex = ++domhandler_1.DomHandler.zindex;
         else
             this.container.style.zIndex = this.tooltipZIndex;
         this.bindDocumentResizeListener();
@@ -203,8 +205,8 @@ var Tooltip = /** @class */ (function () {
     Tooltip.prototype.getHostOffset = function () {
         if (this.appendTo === 'body' || this.appendTo === 'target') {
             var offset = this.el.nativeElement.getBoundingClientRect();
-            var targetLeft = offset.left + DomHandler.getWindowScrollLeft();
-            var targetTop = offset.top + DomHandler.getWindowScrollTop();
+            var targetLeft = offset.left + domhandler_1.DomHandler.getWindowScrollLeft();
+            var targetTop = offset.top + domhandler_1.DomHandler.getWindowScrollTop();
             return { left: targetLeft, top: targetTop };
         }
         else {
@@ -214,32 +216,32 @@ var Tooltip = /** @class */ (function () {
     Tooltip.prototype.alignRight = function () {
         this.preAlign('right');
         var hostOffset = this.getHostOffset();
-        var left = hostOffset.left + DomHandler.getOuterWidth(this.el.nativeElement);
-        var top = hostOffset.top + (DomHandler.getOuterHeight(this.el.nativeElement) - DomHandler.getOuterHeight(this.container)) / 2;
+        var left = hostOffset.left + domhandler_1.DomHandler.getOuterWidth(this.el.nativeElement);
+        var top = hostOffset.top + (domhandler_1.DomHandler.getOuterHeight(this.el.nativeElement) - domhandler_1.DomHandler.getOuterHeight(this.container)) / 2;
         this.container.style.left = left + 'px';
         this.container.style.top = top + 'px';
     };
     Tooltip.prototype.alignLeft = function () {
         this.preAlign('left');
         var hostOffset = this.getHostOffset();
-        var left = hostOffset.left - DomHandler.getOuterWidth(this.container);
-        var top = hostOffset.top + (DomHandler.getOuterHeight(this.el.nativeElement) - DomHandler.getOuterHeight(this.container)) / 2;
+        var left = hostOffset.left - domhandler_1.DomHandler.getOuterWidth(this.container);
+        var top = hostOffset.top + (domhandler_1.DomHandler.getOuterHeight(this.el.nativeElement) - domhandler_1.DomHandler.getOuterHeight(this.container)) / 2;
         this.container.style.left = left + 'px';
         this.container.style.top = top + 'px';
     };
     Tooltip.prototype.alignTop = function () {
         this.preAlign('top');
         var hostOffset = this.getHostOffset();
-        var left = hostOffset.left + (DomHandler.getOuterWidth(this.el.nativeElement) - DomHandler.getOuterWidth(this.container)) / 2;
-        var top = hostOffset.top - DomHandler.getOuterHeight(this.container);
+        var left = hostOffset.left + (domhandler_1.DomHandler.getOuterWidth(this.el.nativeElement) - domhandler_1.DomHandler.getOuterWidth(this.container)) / 2;
+        var top = hostOffset.top - domhandler_1.DomHandler.getOuterHeight(this.container);
         this.container.style.left = left + 'px';
         this.container.style.top = top + 'px';
     };
     Tooltip.prototype.alignBottom = function () {
         this.preAlign('bottom');
         var hostOffset = this.getHostOffset();
-        var left = hostOffset.left + (DomHandler.getOuterWidth(this.el.nativeElement) - DomHandler.getOuterWidth(this.container)) / 2;
-        var top = hostOffset.top + DomHandler.getOuterHeight(this.el.nativeElement);
+        var left = hostOffset.left + (domhandler_1.DomHandler.getOuterWidth(this.el.nativeElement) - domhandler_1.DomHandler.getOuterWidth(this.container)) / 2;
+        var top = hostOffset.top + domhandler_1.DomHandler.getOuterHeight(this.el.nativeElement);
         this.container.style.left = left + 'px';
         this.container.style.top = top + 'px';
     };
@@ -253,9 +255,9 @@ var Tooltip = /** @class */ (function () {
         var offset = this.container.getBoundingClientRect();
         var targetTop = offset.top;
         var targetLeft = offset.left;
-        var width = DomHandler.getOuterWidth(this.container);
-        var height = DomHandler.getOuterHeight(this.container);
-        var viewport = DomHandler.getViewport();
+        var width = domhandler_1.DomHandler.getOuterWidth(this.container);
+        var height = domhandler_1.DomHandler.getOuterHeight(this.container);
+        var viewport = domhandler_1.DomHandler.getViewport();
         return (targetLeft + width > viewport.width) || (targetLeft < 0) || (targetTop < 0) || (targetTop + height > viewport.height);
     };
     Tooltip.prototype.onWindowResize = function (e) {
@@ -293,7 +295,7 @@ var Tooltip = /** @class */ (function () {
             else if (this.appendTo === 'target')
                 this.el.nativeElement.removeChild(this.container);
             else
-                DomHandler.removeChild(this.container, this.appendTo);
+                domhandler_1.DomHandler.removeChild(this.container, this.appendTo);
         }
         this.unbindDocumentResizeListener();
         this.clearTimeouts();
@@ -320,74 +322,74 @@ var Tooltip = /** @class */ (function () {
         this.remove();
     };
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Tooltip.prototype, "tooltipPosition", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Tooltip.prototype, "tooltipEvent", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], Tooltip.prototype, "appendTo", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Tooltip.prototype, "positionStyle", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Tooltip.prototype, "tooltipStyleClass", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Tooltip.prototype, "tooltipZIndex", void 0);
     __decorate([
-        Input("tooltipDisabled"),
+        core_1.Input("tooltipDisabled"),
         __metadata("design:type", Boolean)
     ], Tooltip.prototype, "disabled", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Tooltip.prototype, "escape", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], Tooltip.prototype, "showDelay", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], Tooltip.prototype, "hideDelay", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], Tooltip.prototype, "life", void 0);
     __decorate([
-        Input('pTooltip'),
+        core_1.Input('pTooltip'),
         __metadata("design:type", String),
         __metadata("design:paramtypes", [String])
     ], Tooltip.prototype, "text", null);
     Tooltip = __decorate([
-        Directive({
+        core_1.Directive({
             selector: '[pTooltip]'
         }),
-        __metadata("design:paramtypes", [ElementRef, NgZone])
+        __metadata("design:paramtypes", [core_1.ElementRef, core_1.NgZone])
     ], Tooltip);
     return Tooltip;
 }());
-export { Tooltip };
+exports.Tooltip = Tooltip;
 var TooltipModule = /** @class */ (function () {
     function TooltipModule() {
     }
     TooltipModule = __decorate([
-        NgModule({
-            imports: [CommonModule],
+        core_1.NgModule({
+            imports: [common_1.CommonModule],
             exports: [Tooltip],
             declarations: [Tooltip]
         })
     ], TooltipModule);
     return TooltipModule;
 }());
-export { TooltipModule };
+exports.TooltipModule = TooltipModule;
 //# sourceMappingURL=tooltip.js.map

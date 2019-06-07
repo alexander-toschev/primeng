@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7,16 +8,17 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { NgModule, Component, ElementRef, Input, Output, EventEmitter, forwardRef, Renderer2, ViewChild, ChangeDetectorRef, ContentChildren, QueryList } from '@angular/core';
-import { trigger, state, style, transition, animate } from '@angular/animations';
-import { CommonModule } from '@angular/common';
-import { ButtonModule } from '../button/button';
-import { DomHandler } from '../dom/domhandler';
-import { SharedModule, PrimeTemplate } from '../common/shared';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
-export var CALENDAR_VALUE_ACCESSOR = {
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(function () { return Calendar; }),
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var animations_1 = require("@angular/animations");
+var common_1 = require("@angular/common");
+var button_1 = require("../button/button");
+var domhandler_1 = require("../dom/domhandler");
+var shared_1 = require("../common/shared");
+var forms_1 = require("@angular/forms");
+exports.CALENDAR_VALUE_ACCESSOR = {
+    provide: forms_1.NG_VALUE_ACCESSOR,
+    useExisting: core_1.forwardRef(function () { return Calendar; }),
     multi: true
 };
 var Calendar = /** @class */ (function () {
@@ -48,15 +50,15 @@ var Calendar = /** @class */ (function () {
         this.timeSeparator = ":";
         this.showTransitionOptions = '225ms ease-out';
         this.hideTransitionOptions = '195ms ease-in';
-        this.onFocus = new EventEmitter();
-        this.onBlur = new EventEmitter();
-        this.onClose = new EventEmitter();
-        this.onSelect = new EventEmitter();
-        this.onInput = new EventEmitter();
-        this.onTodayClick = new EventEmitter();
-        this.onClearClick = new EventEmitter();
-        this.onMonthChange = new EventEmitter();
-        this.onYearChange = new EventEmitter();
+        this.onFocus = new core_1.EventEmitter();
+        this.onBlur = new core_1.EventEmitter();
+        this.onClose = new core_1.EventEmitter();
+        this.onSelect = new core_1.EventEmitter();
+        this.onInput = new core_1.EventEmitter();
+        this.onTodayClick = new core_1.EventEmitter();
+        this.onClearClick = new core_1.EventEmitter();
+        this.onMonthChange = new core_1.EventEmitter();
+        this.onYearChange = new core_1.EventEmitter();
         this._locale = {
             firstDayOfWeek: 0,
             dayNames: ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"],
@@ -679,7 +681,7 @@ var Calendar = /** @class */ (function () {
     };
     Calendar.prototype.onInputClick = function (event) {
         if (this.overlay && this.autoZIndex) {
-            this.overlay.style.zIndex = String(this.baseZIndex + (++DomHandler.zindex));
+            this.overlay.style.zIndex = String(this.baseZIndex + (++domhandler_1.DomHandler.zindex));
         }
         if (this.showOnFocus && !this.overlayVisible) {
             this.showOverlay();
@@ -1057,7 +1059,7 @@ var Calendar = /** @class */ (function () {
                     this.overlay = event.element;
                     this.appendOverlay();
                     if (this.autoZIndex) {
-                        this.overlay.style.zIndex = String(this.baseZIndex + (++DomHandler.zindex));
+                        this.overlay.style.zIndex = String(this.baseZIndex + (++domhandler_1.DomHandler.zindex));
                     }
                     this.alignOverlay();
                 }
@@ -1084,7 +1086,7 @@ var Calendar = /** @class */ (function () {
             if (this.appendTo === 'body')
                 document.body.appendChild(this.overlay);
             else
-                DomHandler.appendChild(this.overlay, this.appendTo);
+                domhandler_1.DomHandler.appendChild(this.overlay, this.appendTo);
         }
     };
     Calendar.prototype.restoreOverlayAppend = function () {
@@ -1098,9 +1100,9 @@ var Calendar = /** @class */ (function () {
         }
         else {
             if (this.appendTo)
-                DomHandler.absolutePosition(this.overlay, this.inputfieldViewChild.nativeElement);
+                domhandler_1.DomHandler.absolutePosition(this.overlay, this.inputfieldViewChild.nativeElement);
             else
-                DomHandler.relativePosition(this.overlay, this.inputfieldViewChild.nativeElement);
+                domhandler_1.DomHandler.relativePosition(this.overlay, this.inputfieldViewChild.nativeElement);
         }
     };
     Calendar.prototype.enableModality = function (element) {
@@ -1109,12 +1111,12 @@ var Calendar = /** @class */ (function () {
             this.mask = document.createElement('div');
             this.mask.style.zIndex = String(parseInt(element.style.zIndex) - 1);
             var maskStyleClass = 'ui-widget-overlay ui-datepicker-mask ui-datepicker-mask-scrollblocker';
-            DomHandler.addMultipleClasses(this.mask, maskStyleClass);
+            domhandler_1.DomHandler.addMultipleClasses(this.mask, maskStyleClass);
             this.maskClickListener = this.renderer.listen(this.mask, 'click', function (event) {
                 _this.disableModality();
             });
             document.body.appendChild(this.mask);
-            DomHandler.addClass(document.body, 'ui-overflow-hidden');
+            domhandler_1.DomHandler.addClass(document.body, 'ui-overflow-hidden');
         }
     };
     Calendar.prototype.disableModality = function () {
@@ -1124,13 +1126,13 @@ var Calendar = /** @class */ (function () {
             var hasBlockerMasks = void 0;
             for (var i = 0; i < bodyChildren.length; i++) {
                 var bodyChild = bodyChildren[i];
-                if (DomHandler.hasClass(bodyChild, 'ui-datepicker-mask-scrollblocker')) {
+                if (domhandler_1.DomHandler.hasClass(bodyChild, 'ui-datepicker-mask-scrollblocker')) {
                     hasBlockerMasks = true;
                     break;
                 }
             }
             if (!hasBlockerMasks) {
-                DomHandler.removeClass(document.body, 'ui-overflow-hidden');
+                domhandler_1.DomHandler.removeClass(document.body, 'ui-overflow-hidden');
             }
             this.unbindMaskClickListener();
             this.mask = null;
@@ -1484,11 +1486,11 @@ var Calendar = /** @class */ (function () {
             this.el.nativeElement.contains(event.target) || (this.overlay && this.overlay.contains(event.target)));
     };
     Calendar.prototype.isNavIconClicked = function (event) {
-        return (DomHandler.hasClass(event.target, 'ui-datepicker-prev') || DomHandler.hasClass(event.target, 'ui-datepicker-prev-icon')
-            || DomHandler.hasClass(event.target, 'ui-datepicker-next') || DomHandler.hasClass(event.target, 'ui-datepicker-next-icon'));
+        return (domhandler_1.DomHandler.hasClass(event.target, 'ui-datepicker-prev') || domhandler_1.DomHandler.hasClass(event.target, 'ui-datepicker-prev-icon')
+            || domhandler_1.DomHandler.hasClass(event.target, 'ui-datepicker-next') || domhandler_1.DomHandler.hasClass(event.target, 'ui-datepicker-next-icon'));
     };
     Calendar.prototype.onWindowResize = function () {
-        if (this.overlayVisible && !DomHandler.isAndroid()) {
+        if (this.overlayVisible && !domhandler_1.DomHandler.isAndroid()) {
             this.hideOverlay();
         }
     };
@@ -1503,306 +1505,306 @@ var Calendar = /** @class */ (function () {
         this.onOverlayHide();
     };
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Date)
     ], Calendar.prototype, "defaultDate", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], Calendar.prototype, "style", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Calendar.prototype, "styleClass", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], Calendar.prototype, "inputStyle", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Calendar.prototype, "inputId", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Calendar.prototype, "name", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Calendar.prototype, "inputStyleClass", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Calendar.prototype, "placeholder", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], Calendar.prototype, "disabled", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Calendar.prototype, "dateFormat", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Calendar.prototype, "inline", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Calendar.prototype, "showOtherMonths", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Calendar.prototype, "selectOtherMonths", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Calendar.prototype, "showIcon", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Calendar.prototype, "icon", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], Calendar.prototype, "appendTo", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Calendar.prototype, "readonlyInput", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], Calendar.prototype, "shortYearCutoff", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Calendar.prototype, "monthNavigator", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Calendar.prototype, "yearNavigator", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Calendar.prototype, "yearRange", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Calendar.prototype, "hourFormat", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Calendar.prototype, "timeOnly", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], Calendar.prototype, "stepHour", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], Calendar.prototype, "stepMinute", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], Calendar.prototype, "stepSecond", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Calendar.prototype, "showSeconds", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Calendar.prototype, "required", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Calendar.prototype, "showOnFocus", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Calendar.prototype, "dataType", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Calendar.prototype, "selectionMode", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], Calendar.prototype, "maxDateCount", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Calendar.prototype, "showButtonBar", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Calendar.prototype, "todayButtonStyleClass", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Calendar.prototype, "clearButtonStyleClass", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Calendar.prototype, "autoZIndex", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], Calendar.prototype, "baseZIndex", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Calendar.prototype, "panelStyleClass", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], Calendar.prototype, "panelStyle", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Calendar.prototype, "keepInvalid", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Calendar.prototype, "hideOnDateTimeSelect", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], Calendar.prototype, "numberOfMonths", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Calendar.prototype, "view", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Calendar.prototype, "touchUI", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Calendar.prototype, "timeSeparator", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Calendar.prototype, "showTransitionOptions", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Calendar.prototype, "hideTransitionOptions", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], Calendar.prototype, "onFocus", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], Calendar.prototype, "onBlur", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], Calendar.prototype, "onClose", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], Calendar.prototype, "onSelect", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], Calendar.prototype, "onInput", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], Calendar.prototype, "onTodayClick", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], Calendar.prototype, "onClearClick", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], Calendar.prototype, "onMonthChange", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], Calendar.prototype, "onYearChange", void 0);
     __decorate([
-        ContentChildren(PrimeTemplate),
-        __metadata("design:type", QueryList)
+        core_1.ContentChildren(shared_1.PrimeTemplate),
+        __metadata("design:type", core_1.QueryList)
     ], Calendar.prototype, "templates", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], Calendar.prototype, "tabindex", void 0);
     __decorate([
-        ViewChild('inputfield'),
-        __metadata("design:type", ElementRef)
+        core_1.ViewChild('inputfield'),
+        __metadata("design:type", core_1.ElementRef)
     ], Calendar.prototype, "inputfieldViewChild", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean),
         __metadata("design:paramtypes", [Boolean])
     ], Calendar.prototype, "utc", null);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Date),
         __metadata("design:paramtypes", [Date])
     ], Calendar.prototype, "minDate", null);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Date),
         __metadata("design:paramtypes", [Date])
     ], Calendar.prototype, "maxDate", null);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Array),
         __metadata("design:paramtypes", [Array])
     ], Calendar.prototype, "disabledDates", null);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Array),
         __metadata("design:paramtypes", [Array])
     ], Calendar.prototype, "disabledDays", null);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean),
         __metadata("design:paramtypes", [Boolean])
     ], Calendar.prototype, "showTime", null);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object),
         __metadata("design:paramtypes", [Object])
     ], Calendar.prototype, "locale", null);
     Calendar = __decorate([
-        Component({
+        core_1.Component({
             selector: 'p-calendar',
             template: "\n        <span [ngClass]=\"{'ui-calendar':true, 'ui-calendar-w-btn': showIcon, 'ui-calendar-timeonly': timeOnly}\" [ngStyle]=\"style\" [class]=\"styleClass\">\n            <ng-template [ngIf]=\"!inline\">\n                <input #inputfield type=\"text\" [attr.id]=\"inputId\" [attr.name]=\"name\" [attr.required]=\"required\" [value]=\"inputFieldValue\" (focus)=\"onInputFocus($event)\" (keydown)=\"onInputKeydown($event)\" (click)=\"onInputClick($event)\" (blur)=\"onInputBlur($event)\"\n                    [readonly]=\"readonlyInput\" (input)=\"onUserInput($event)\" [ngStyle]=\"inputStyle\" [class]=\"inputStyleClass\" [placeholder]=\"placeholder||''\" [disabled]=\"disabled\" [attr.tabindex]=\"tabindex\"\n                    [ngClass]=\"'ui-inputtext ui-widget ui-state-default ui-corner-all'\" autocomplete=\"off\"\n                    ><button type=\"button\" [icon]=\"icon\" pButton *ngIf=\"showIcon\" (click)=\"onButtonClick($event,inputfield)\" class=\"ui-datepicker-trigger ui-calendar-button\"\n                    [ngClass]=\"{'ui-state-disabled':disabled}\" [disabled]=\"disabled\" tabindex=\"-1\"></button>\n            </ng-template>\n            <div [class]=\"panelStyleClass\" [ngStyle]=\"panelStyle\" [ngClass]=\"{'ui-datepicker ui-widget ui-widget-content ui-helper-clearfix ui-corner-all': true, 'ui-datepicker-inline':inline,'ui-shadow':!inline,\n                'ui-state-disabled':disabled,'ui-datepicker-timeonly':timeOnly,'ui-datepicker-multiple-month': this.numberOfMonths > 1, 'ui-datepicker-monthpicker': (view === 'month'), 'ui-datepicker-touch-ui': touchUI}\"\n                [@overlayAnimation]=\"touchUI ? {value: 'visibleTouchUI', params: {showTransitionParams: showTransitionOptions, hideTransitionParams: hideTransitionOptions}}: \n                                            {value: 'visible', params: {showTransitionParams: showTransitionOptions, hideTransitionParams: hideTransitionOptions}}\" \n                                            [@.disabled]=\"inline === true\" (@overlayAnimation.start)=\"onOverlayAnimationStart($event)\" (@overlayAnimation.done)=\"onOverlayAnimationDone($event)\" *ngIf=\"inline || overlayVisible\">\n                <ng-container *ngIf=\"!timeOnly\">\n                    <div class=\"ui-datepicker-group ui-widget-content\" *ngFor=\"let month of months; let i = index;\">\n                        <div class=\"ui-datepicker-header ui-widget-header ui-helper-clearfix ui-corner-all\">\n                            <ng-content select=\"p-header\"></ng-content>\n                            <a class=\"ui-datepicker-prev ui-corner-all\" (click)=\"navBackward($event)\" *ngIf=\"i === 0\">\n                                <span class=\"ui-datepicker-prev-icon pi pi-chevron-left\"></span>\n                            </a>\n                            <a class=\"ui-datepicker-next ui-corner-all\" (click)=\"navForward($event)\" *ngIf=\"numberOfMonths === 1 ? true : (i === numberOfMonths -1)\">\n                                <span class=\"ui-datepicker-next-icon pi pi-chevron-right\"></span>\n                            </a>\n                            <div class=\"ui-datepicker-title\">\n                                <span class=\"ui-datepicker-month\" *ngIf=\"!monthNavigator && (view !== 'month')\">{{locale.monthNames[month.month]}}</span>\n                                <select class=\"ui-datepicker-month\" *ngIf=\"monthNavigator && (view !== 'month') && numberOfMonths === 1\" (change)=\"onMonthDropdownChange($event.target.value)\">\n                                    <option [value]=\"i\" *ngFor=\"let monthName of locale.monthNames;let i = index\" [selected]=\"i === month.month\">{{monthName}}</option>\n                                </select>\n                                <select class=\"ui-datepicker-year\" *ngIf=\"yearNavigator && numberOfMonths === 1\" (change)=\"onYearDropdownChange($event.target.value)\">\n                                    <option [value]=\"year\" *ngFor=\"let year of yearOptions\" [selected]=\"year === currentYear\">{{year}}</option>\n                                </select>\n                                <span class=\"ui-datepicker-year\" *ngIf=\"!yearNavigator\">{{view === 'month' ? currentYear : month.year}}</span>\n                            </div>\n                        </div>\n                        <div class=\"ui-datepicker-calendar-container\" *ngIf=\"view ==='date'\">\n                            <table class=\"ui-datepicker-calendar\">\n                                <thead>\n                                    <tr>\n                                        <th scope=\"col\" *ngFor=\"let weekDay of weekDays;let begin = first; let end = last\">\n                                            <span>{{weekDay}}</span>\n                                        </th>\n                                    </tr>\n                                </thead>\n                                <tbody>\n                                    <tr *ngFor=\"let week of month.dates\">\n                                        <td *ngFor=\"let date of week\" [ngClass]=\"{'ui-datepicker-other-month': date.otherMonth,\n                                            'ui-datepicker-current-day':isSelected(date),'ui-datepicker-today':date.today}\">\n                                            <ng-container *ngIf=\"date.otherMonth ? showOtherMonths : true\">\n                                                <a class=\"ui-state-default\" *ngIf=\"date.selectable\" [ngClass]=\"{'ui-state-active':isSelected(date), 'ui-state-highlight':date.today}\"\n                                                    (click)=\"onDateSelect($event,date)\" draggable=\"false\">\n                                                    <ng-container *ngIf=\"!dateTemplate\">{{date.day}}</ng-container>\n                                                    <ng-container *ngTemplateOutlet=\"dateTemplate; context: {$implicit: date}\"></ng-container>\n                                                </a>\n                                                <span class=\"ui-state-default ui-state-disabled\" [ngClass]=\"{'ui-state-active':isSelected(date), 'ui-state-highlight':date.today}\" *ngIf=\"!date.selectable\">\n                                                    {{date.day}}\n                                                </span>\n                                            </ng-container>\n                                        </td>\n                                    </tr>\n                                </tbody>\n                            </table>\n                        </div>\n                    </div>\n                    <div class=\"ui-monthpicker\" *ngIf=\"view === 'month'\">\n                        <a tabindex=\"0\" *ngFor=\"let m of monthPickerValues; let i = index\" (click)=\"onMonthSelect($event, i)\" class=\"ui-monthpicker-month\" [ngClass]=\"{'ui-state-active': isMonthSelected(i)}\">\n                            {{m}}\n                        </a>\n                    </div>\n                </ng-container>\n                <div class=\"ui-timepicker ui-widget-header ui-corner-all\" *ngIf=\"showTime||timeOnly\">\n                    <div class=\"ui-hour-picker\">\n                        <a tabindex=\"0\" (mousedown)=\"onTimePickerElementMouseDown($event, 0, 1)\" (mouseup)=\"onTimePickerElementMouseUp($event)\">\n                            <span class=\"pi pi-chevron-up\"></span>\n                        </a>\n                        <span [ngStyle]=\"{'display': currentHour < 10 ? 'inline': 'none'}\">0</span><span>{{currentHour}}</span>\n                        <a tabindex=\"0\" (mousedown)=\"onTimePickerElementMouseDown($event, 0, -1)\" (mouseup)=\"onTimePickerElementMouseUp($event)\">\n                            <span class=\"pi pi-chevron-down\"></span>\n                        </a>\n                    </div>\n                    <div class=\"ui-separator\">\n                        <a tabindex=\"0\">\n                            <span class=\"pi pi-chevron-up\"></span>\n                        </a>\n                        <span>{{timeSeparator}}</span>\n                        <a tabindex=\"0\">\n                            <span class=\"pi pi-chevron-down\"></span>\n                        </a>\n                    </div>\n                    <div class=\"ui-minute-picker\">\n                        <a tabindex=\"0\" (mousedown)=\"onTimePickerElementMouseDown($event, 1, 1)\" (mouseup)=\"onTimePickerElementMouseUp($event)\">\n                            <span class=\"pi pi-chevron-up\"></span>\n                        </a>\n                        <span [ngStyle]=\"{'display': currentMinute < 10 ? 'inline': 'none'}\">0</span><span>{{currentMinute}}</span>\n                        <a tabindex=\"0\" (mousedown)=\"onTimePickerElementMouseDown($event, 1, -1)\" (mouseup)=\"onTimePickerElementMouseUp($event)\">\n                            <span class=\"pi pi-chevron-down\"></span>\n                        </a>\n                    </div>\n                    <div class=\"ui-separator\" *ngIf=\"showSeconds\">\n                        <a tabindex=\"0\">\n                            <span class=\"pi pi-chevron-up\"></span>\n                        </a>\n                        <span>{{timeSeparator}}</span>\n                        <a tabindex=\"0\">\n                            <span class=\"pi pi-chevron-down\"></span>\n                        </a>\n                    </div>\n                    <div class=\"ui-second-picker\" *ngIf=\"showSeconds\">\n                        <a tabindex=\"0\" (mousedown)=\"onTimePickerElementMouseDown($event, 2, 1)\" (mouseup)=\"onTimePickerElementMouseUp($event)\">\n                            <span class=\"pi pi-chevron-up\"></span>\n                        </a>\n                        <span [ngStyle]=\"{'display': currentSecond < 10 ? 'inline': 'none'}\">0</span><span>{{currentSecond}}</span>\n                        <a tabindex=\"0\" (mousedown)=\"onTimePickerElementMouseDown($event, 2, -1)\" (mouseup)=\"onTimePickerElementMouseUp($event)\">\n                            <span class=\"pi pi-chevron-down\"></span>\n                        </a>\n                    </div>\n                    <div class=\"ui-ampm-picker\" *ngIf=\"hourFormat=='12'\">\n                        <a tabindex=\"0\" (click)=\"toggleAMPM($event)\">\n                            <span class=\"pi pi-chevron-up\"></span>\n                        </a>\n                        <span>{{pm ? 'PM' : 'AM'}}</span>\n                        <a tabindex=\"0\" (click)=\"toggleAMPM($event)\">\n                            <span class=\"pi pi-chevron-down\"></span>\n                        </a>\n                    </div>\n                </div>\n                <div class=\"ui-datepicker-buttonbar ui-widget-header\" *ngIf=\"showButtonBar\">\n                    <div class=\"ui-g\">\n                        <div class=\"ui-g-6\">\n                            <button type=\"button\" [label]=\"_locale.today\" (click)=\"onTodayButtonClick($event)\" pButton [ngClass]=\"[todayButtonStyleClass]\"></button>\n                        </div>\n                        <div class=\"ui-g-6\">\n                            <button type=\"button\" [label]=\"_locale.clear\" (click)=\"onClearButtonClick($event)\" pButton [ngClass]=\"[clearButtonStyleClass]\"></button>\n                        </div>\n                    </div>\n                </div>\n                <ng-content select=\"p-footer\"></ng-content>\n            </div>\n        </span>\n    ",
             animations: [
-                trigger('overlayAnimation', [
-                    state('visible', style({
+                animations_1.trigger('overlayAnimation', [
+                    animations_1.state('visible', animations_1.style({
                         transform: 'translateY(0)',
                         opacity: 1
                     })),
-                    state('visibleTouchUI', style({
+                    animations_1.state('visibleTouchUI', animations_1.style({
                         transform: 'translate(-50%,-50%)',
                         opacity: 1
                     })),
-                    transition('void => visible', [
-                        style({ transform: 'translateY(5%)', opacity: 0 }),
-                        animate('{{showTransitionParams}}')
+                    animations_1.transition('void => visible', [
+                        animations_1.style({ transform: 'translateY(5%)', opacity: 0 }),
+                        animations_1.animate('{{showTransitionParams}}')
                     ]),
-                    transition('visible => void', [
-                        animate(('{{hideTransitionParams}}'), style({
+                    animations_1.transition('visible => void', [
+                        animations_1.animate(('{{hideTransitionParams}}'), animations_1.style({
                             opacity: 0,
                             transform: 'translateY(5%)'
                         }))
                     ]),
-                    transition('void => visibleTouchUI', [
-                        style({ opacity: 0, transform: 'translate3d(-50%, -40%, 0) scale(0.9)' }),
-                        animate('{{showTransitionParams}}')
+                    animations_1.transition('void => visibleTouchUI', [
+                        animations_1.style({ opacity: 0, transform: 'translate3d(-50%, -40%, 0) scale(0.9)' }),
+                        animations_1.animate('{{showTransitionParams}}')
                     ]),
-                    transition('visibleTouchUI => void', [
-                        animate(('{{hideTransitionParams}}'), style({
+                    animations_1.transition('visibleTouchUI => void', [
+                        animations_1.animate(('{{hideTransitionParams}}'), animations_1.style({
                             opacity: 0,
                             transform: 'translate3d(-50%, -40%, 0) scale(0.9)'
                         }))
@@ -1813,24 +1815,24 @@ var Calendar = /** @class */ (function () {
                 '[class.ui-inputwrapper-filled]': 'filled',
                 '[class.ui-inputwrapper-focus]': 'focus'
             },
-            providers: [CALENDAR_VALUE_ACCESSOR]
+            providers: [exports.CALENDAR_VALUE_ACCESSOR]
         }),
-        __metadata("design:paramtypes", [ElementRef, Renderer2, ChangeDetectorRef])
+        __metadata("design:paramtypes", [core_1.ElementRef, core_1.Renderer2, core_1.ChangeDetectorRef])
     ], Calendar);
     return Calendar;
 }());
-export { Calendar };
+exports.Calendar = Calendar;
 var CalendarModule = /** @class */ (function () {
     function CalendarModule() {
     }
     CalendarModule = __decorate([
-        NgModule({
-            imports: [CommonModule, ButtonModule, SharedModule],
-            exports: [Calendar, ButtonModule, SharedModule],
+        core_1.NgModule({
+            imports: [common_1.CommonModule, button_1.ButtonModule, shared_1.SharedModule],
+            exports: [Calendar, button_1.ButtonModule, shared_1.SharedModule],
             declarations: [Calendar]
         })
     ], CalendarModule);
     return CalendarModule;
 }());
-export { CalendarModule };
+exports.CalendarModule = CalendarModule;
 //# sourceMappingURL=calendar.js.map

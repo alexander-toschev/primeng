@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7,9 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { NgModule, Component, ElementRef, Input } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Calendar } from '@fullcalendar/core';
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var common_1 = require("@angular/common");
+var core_2 = require("@fullcalendar/core");
 var FullCalendar = /** @class */ (function () {
     function FullCalendar(el) {
         this.el = el;
@@ -61,7 +63,7 @@ var FullCalendar = /** @class */ (function () {
         configurable: true
     });
     FullCalendar.prototype.initialize = function () {
-        this.calendar = new Calendar(this.el.nativeElement.children[0], this.config);
+        this.calendar = new core_2.Calendar(this.el.nativeElement.children[0], this.config);
         this.calendar.render();
         this.initialized = true;
         if (this.events) {
@@ -80,44 +82,44 @@ var FullCalendar = /** @class */ (function () {
         }
     };
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], FullCalendar.prototype, "style", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], FullCalendar.prototype, "styleClass", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object),
         __metadata("design:paramtypes", [Object])
     ], FullCalendar.prototype, "events", null);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object),
         __metadata("design:paramtypes", [Object])
     ], FullCalendar.prototype, "options", null);
     FullCalendar = __decorate([
-        Component({
+        core_1.Component({
             selector: 'p-fullCalendar',
             template: '<div [ngStyle]="style" [class]="styleClass"></div>'
         }),
-        __metadata("design:paramtypes", [ElementRef])
+        __metadata("design:paramtypes", [core_1.ElementRef])
     ], FullCalendar);
     return FullCalendar;
 }());
-export { FullCalendar };
+exports.FullCalendar = FullCalendar;
 var FullCalendarModule = /** @class */ (function () {
     function FullCalendarModule() {
     }
     FullCalendarModule = __decorate([
-        NgModule({
-            imports: [CommonModule],
+        core_1.NgModule({
+            imports: [common_1.CommonModule],
             exports: [FullCalendar],
             declarations: [FullCalendar]
         })
     ], FullCalendarModule);
     return FullCalendarModule;
 }());
-export { FullCalendarModule };
+exports.FullCalendarModule = FullCalendarModule;
 //# sourceMappingURL=fullcalendar.js.map

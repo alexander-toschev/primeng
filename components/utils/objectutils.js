@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var ObjectUtils = /** @class */ (function () {
     function ObjectUtils() {
     }
@@ -177,5 +179,5 @@ var ObjectUtils = /** @class */ (function () {
     };
     return ObjectUtils;
 }());
-export { ObjectUtils };
+exports.ObjectUtils = ObjectUtils;
 //# sourceMappingURL=objectutils.js.map

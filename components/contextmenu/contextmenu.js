@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -10,10 +11,11 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 var __param = (this && this.__param) || function (paramIndex, decorator) {
     return function (target, key) { decorator(target, key, paramIndex); }
 };
-import { NgModule, Component, ElementRef, Input, Renderer2, Inject, forwardRef, ViewChild, NgZone } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { DomHandler } from '../dom/domhandler';
-import { RouterModule } from '@angular/router';
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var common_1 = require("@angular/common");
+var domhandler_1 = require("../dom/domhandler");
+var router_1 = require("@angular/router");
 var ContextMenuSub = /** @class */ (function () {
     function ContextMenuSub(contextMenu) {
         this.contextMenu = contextMenu;
@@ -30,7 +32,7 @@ var ContextMenuSub = /** @class */ (function () {
         var nextElement = item.children[0].nextElementSibling;
         if (nextElement) {
             var sublist = nextElement.children[0];
-            sublist.style.zIndex = ++DomHandler.zindex;
+            sublist.style.zIndex = ++domhandler_1.DomHandler.zindex;
             this.position(sublist, item);
         }
     };
@@ -59,19 +61,19 @@ var ContextMenuSub = /** @class */ (function () {
         this.activeItem = null;
     };
     ContextMenuSub.prototype.position = function (sublist, item) {
-        this.containerOffset = DomHandler.getOffset(item.parentElement);
-        var viewport = DomHandler.getViewport();
-        var sublistWidth = sublist.offsetParent ? sublist.offsetWidth : DomHandler.getHiddenElementOuterWidth(sublist);
-        var itemOuterWidth = DomHandler.getOuterWidth(item.children[0]);
-        var itemOuterHeight = DomHandler.getOuterHeight(item.children[0]);
-        var sublistHeight = sublist.offsetHeight ? sublist.offsetHeight : DomHandler.getHiddenElementOuterHeight(sublist);
-        if ((parseInt(this.containerOffset.top) + itemOuterHeight + sublistHeight) > (viewport.height - DomHandler.calculateScrollbarHeight())) {
+        this.containerOffset = domhandler_1.DomHandler.getOffset(item.parentElement);
+        var viewport = domhandler_1.DomHandler.getViewport();
+        var sublistWidth = sublist.offsetParent ? sublist.offsetWidth : domhandler_1.DomHandler.getHiddenElementOuterWidth(sublist);
+        var itemOuterWidth = domhandler_1.DomHandler.getOuterWidth(item.children[0]);
+        var itemOuterHeight = domhandler_1.DomHandler.getOuterHeight(item.children[0]);
+        var sublistHeight = sublist.offsetHeight ? sublist.offsetHeight : domhandler_1.DomHandler.getHiddenElementOuterHeight(sublist);
+        if ((parseInt(this.containerOffset.top) + itemOuterHeight + sublistHeight) > (viewport.height - domhandler_1.DomHandler.calculateScrollbarHeight())) {
             sublist.style.bottom = '0px';
         }
         else {
             sublist.style.top = '0px';
         }
-        if ((parseInt(this.containerOffset.left) + itemOuterWidth + sublistWidth) > (viewport.width - DomHandler.calculateScrollbarWidth())) {
+        if ((parseInt(this.containerOffset.left) + itemOuterWidth + sublistWidth) > (viewport.width - domhandler_1.DomHandler.calculateScrollbarWidth())) {
             sublist.style.left = -sublistWidth + 'px';
         }
         else {
@@ -79,24 +81,24 @@ var ContextMenuSub = /** @class */ (function () {
         }
     };
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], ContextMenuSub.prototype, "item", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], ContextMenuSub.prototype, "root", void 0);
     ContextMenuSub = __decorate([
-        Component({
+        core_1.Component({
             selector: 'p-contextMenuSub',
             template: "\n        <ul [ngClass]=\"{'ui-widget-content ui-corner-all ui-submenu-list ui-shadow':!root}\" class=\"ui-menu-list\" (click)=\"listClick($event)\">\n            <ng-template ngFor let-child [ngForOf]=\"(root ? item : item.items)\">\n                <li *ngIf=\"child.separator\" class=\"ui-menu-separator ui-widget-content\" [ngClass]=\"{'ui-helper-hidden': child.visible === false}\">\n                <li *ngIf=\"!child.separator\" #item [ngClass]=\"{'ui-menuitem ui-corner-all':true,'ui-menuitem-active':item==activeItem,'ui-helper-hidden': child.visible === false}\"\n                    (mouseenter)=\"onItemMouseEnter($event,item,child)\" (mouseleave)=\"onItemMouseLeave($event,item)\">\n                    <a *ngIf=\"!child.routerLink\" [href]=\"child.url||'#'\" [attr.target]=\"child.target\" [attr.title]=\"child.title\" [attr.id]=\"child.id\" (click)=\"itemClick($event, child)\"\n                        [ngClass]=\"{'ui-menuitem-link ui-corner-all':true,'ui-state-disabled':child.disabled}\" [ngStyle]=\"child.style\" [class]=\"child.styleClass\">\n                        <span class=\"ui-submenu-icon pi pi-fw pi-caret-right\" *ngIf=\"child.items\"></span>\n                        <span class=\"ui-menuitem-icon\" *ngIf=\"child.icon\" [ngClass]=\"child.icon\"></span>\n                        <span class=\"ui-menuitem-text\">{{child.label}}</span>\n                    </a>\n                    <a *ngIf=\"child.routerLink\" [routerLink]=\"child.routerLink\" [queryParams]=\"child.queryParams\" [routerLinkActive]=\"'ui-state-active'\"\n                        [routerLinkActiveOptions]=\"child.routerLinkActiveOptions||{exact:false}\" [attr.target]=\"child.target\" [attr.title]=\"child.title\" [attr.id]=\"child.id\"\n                        (click)=\"itemClick($event, child)\" [ngClass]=\"{'ui-menuitem-link ui-corner-all':true,'ui-state-disabled':child.disabled}\"\n                        [ngStyle]=\"child.style\" [class]=\"child.styleClass\">\n                        <span class=\"ui-submenu-icon pi pi-fw pi-caret-right\" *ngIf=\"child.items\"></span>\n                        <span class=\"ui-menuitem-icon\" *ngIf=\"child.icon\" [ngClass]=\"child.icon\"></span>\n                        <span class=\"ui-menuitem-text\">{{child.label}}</span>\n                    </a>\n                    <p-contextMenuSub class=\"ui-submenu\" [item]=\"child\" *ngIf=\"child.items\"></p-contextMenuSub>\n                </li>\n            </ng-template>\n        </ul>\n    "
         }),
-        __param(0, Inject(forwardRef(function () { return ContextMenu; }))),
+        __param(0, core_1.Inject(core_1.forwardRef(function () { return ContextMenu; }))),
         __metadata("design:paramtypes", [ContextMenu])
     ], ContextMenuSub);
     return ContextMenuSub;
 }());
-export { ContextMenuSub };
+exports.ContextMenuSub = ContextMenuSub;
 var ContextMenu = /** @class */ (function () {
     function ContextMenu(el, renderer, zone) {
         this.el = el;
@@ -125,14 +127,14 @@ var ContextMenu = /** @class */ (function () {
             if (this.appendTo === 'body')
                 document.body.appendChild(this.containerViewChild.nativeElement);
             else
-                DomHandler.appendChild(this.containerViewChild.nativeElement, this.appendTo);
+                domhandler_1.DomHandler.appendChild(this.containerViewChild.nativeElement, this.appendTo);
         }
     };
     ContextMenu.prototype.show = function (event) {
         this.position(event);
         this.moveOnTop();
         this.containerViewChild.nativeElement.style.display = 'block';
-        DomHandler.fadeIn(this.containerViewChild.nativeElement, 250);
+        domhandler_1.DomHandler.fadeIn(this.containerViewChild.nativeElement, 250);
         this.bindGlobalListeners();
         if (event) {
             event.preventDefault();
@@ -144,7 +146,7 @@ var ContextMenu = /** @class */ (function () {
     };
     ContextMenu.prototype.moveOnTop = function () {
         if (this.autoZIndex) {
-            this.containerViewChild.nativeElement.style.zIndex = String(this.baseZIndex + (++DomHandler.zindex));
+            this.containerViewChild.nativeElement.style.zIndex = String(this.baseZIndex + (++domhandler_1.DomHandler.zindex));
         }
     };
     ContextMenu.prototype.toggle = function (event) {
@@ -157,9 +159,9 @@ var ContextMenu = /** @class */ (function () {
         if (event) {
             var left = event.pageX + 1;
             var top_1 = event.pageY + 1;
-            var width = this.containerViewChild.nativeElement.offsetParent ? this.containerViewChild.nativeElement.offsetWidth : DomHandler.getHiddenElementOuterWidth(this.containerViewChild.nativeElement);
-            var height = this.containerViewChild.nativeElement.offsetParent ? this.containerViewChild.nativeElement.offsetHeight : DomHandler.getHiddenElementOuterHeight(this.containerViewChild.nativeElement);
-            var viewport = DomHandler.getViewport();
+            var width = this.containerViewChild.nativeElement.offsetParent ? this.containerViewChild.nativeElement.offsetWidth : domhandler_1.DomHandler.getHiddenElementOuterWidth(this.containerViewChild.nativeElement);
+            var height = this.containerViewChild.nativeElement.offsetParent ? this.containerViewChild.nativeElement.offsetHeight : domhandler_1.DomHandler.getHiddenElementOuterHeight(this.containerViewChild.nativeElement);
+            var viewport = domhandler_1.DomHandler.getViewport();
             //flip
             if (left + width - document.body.scrollLeft > viewport.width) {
                 left -= width;
@@ -221,66 +223,66 @@ var ContextMenu = /** @class */ (function () {
         }
     };
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Array)
     ], ContextMenu.prototype, "model", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], ContextMenu.prototype, "global", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], ContextMenu.prototype, "target", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], ContextMenu.prototype, "style", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], ContextMenu.prototype, "styleClass", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], ContextMenu.prototype, "appendTo", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], ContextMenu.prototype, "autoZIndex", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], ContextMenu.prototype, "baseZIndex", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], ContextMenu.prototype, "triggerEvent", void 0);
     __decorate([
-        ViewChild('container'),
-        __metadata("design:type", ElementRef)
+        core_1.ViewChild('container'),
+        __metadata("design:type", core_1.ElementRef)
     ], ContextMenu.prototype, "containerViewChild", void 0);
     ContextMenu = __decorate([
-        Component({
+        core_1.Component({
             selector: 'p-contextMenu',
             template: "\n        <div #container [ngClass]=\"'ui-contextmenu ui-widget ui-widget-content ui-corner-all ui-shadow'\"\n            [class]=\"styleClass\" [ngStyle]=\"style\">\n            <p-contextMenuSub [item]=\"model\" root=\"root\"></p-contextMenuSub>\n        </div>\n    "
         }),
-        __metadata("design:paramtypes", [ElementRef, Renderer2, NgZone])
+        __metadata("design:paramtypes", [core_1.ElementRef, core_1.Renderer2, core_1.NgZone])
     ], ContextMenu);
     return ContextMenu;
 }());
-export { ContextMenu };
+exports.ContextMenu = ContextMenu;
 var ContextMenuModule = /** @class */ (function () {
     function ContextMenuModule() {
     }
     ContextMenuModule = __decorate([
-        NgModule({
-            imports: [CommonModule, RouterModule],
-            exports: [ContextMenu, RouterModule],
+        core_1.NgModule({
+            imports: [common_1.CommonModule, router_1.RouterModule],
+            exports: [ContextMenu, router_1.RouterModule],
             declarations: [ContextMenu, ContextMenuSub]
         })
     ], ContextMenuModule);
     return ContextMenuModule;
 }());
-export { ContextMenuModule };
+exports.ContextMenuModule = ContextMenuModule;
 //# sourceMappingURL=contextmenu.js.map

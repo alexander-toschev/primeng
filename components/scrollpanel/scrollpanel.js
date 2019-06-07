@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7,9 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { NgModule, Component, Input, ElementRef, NgZone, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { DomHandler } from '../dom/domhandler';
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var common_1 = require("@angular/common");
+var domhandler_1 = require("../dom/domhandler");
 var ScrollPanel = /** @class */ (function () {
     function ScrollPanel(el, zone) {
         this.el = el;
@@ -38,7 +40,7 @@ var ScrollPanel = /** @class */ (function () {
         var container = this.containerViewChild.nativeElement;
         var content = this.contentViewChild.nativeElement;
         var xBar = this.xBarViewChild.nativeElement;
-        var containerStyles = getComputedStyle(container), xBarStyles = getComputedStyle(xBar), pureContainerHeight = DomHandler.getHeight(container) - parseInt(xBarStyles['height'], 10);
+        var containerStyles = getComputedStyle(container), xBarStyles = getComputedStyle(xBar), pureContainerHeight = domhandler_1.DomHandler.getHeight(container) - parseInt(xBarStyles['height'], 10);
         if (containerStyles['max-height'] != "none" && pureContainerHeight == 0) {
             if (content.offsetHeight + parseInt(xBarStyles['height'], 10) > parseInt(containerStyles['max-height'], 10)) {
                 container.style.height = containerStyles['max-height'];
@@ -66,17 +68,17 @@ var ScrollPanel = /** @class */ (function () {
         this.scrollYRatio = ownHeight / totalHeight;
         this.requestAnimationFrame(function () {
             if (_this.scrollXRatio >= 1) {
-                DomHandler.addClass(xBar, 'ui-scrollpanel-hidden');
+                domhandler_1.DomHandler.addClass(xBar, 'ui-scrollpanel-hidden');
             }
             else {
-                DomHandler.removeClass(xBar, 'ui-scrollpanel-hidden');
+                domhandler_1.DomHandler.removeClass(xBar, 'ui-scrollpanel-hidden');
                 xBar.style.cssText = 'width:' + Math.max(_this.scrollXRatio * 100, 10) + '%; left:' + (content.scrollLeft / totalWidth) * 100 + '%;bottom:' + bottom + 'px;';
             }
             if (_this.scrollYRatio >= 1) {
-                DomHandler.addClass(yBar, 'ui-scrollpanel-hidden');
+                domhandler_1.DomHandler.addClass(yBar, 'ui-scrollpanel-hidden');
             }
             else {
-                DomHandler.removeClass(yBar, 'ui-scrollpanel-hidden');
+                domhandler_1.DomHandler.removeClass(yBar, 'ui-scrollpanel-hidden');
                 yBar.style.cssText = 'height:' + Math.max(_this.scrollYRatio * 100, 10) + '%; top: calc(' + (content.scrollTop / totalHeight) * 100 + '% - ' + xBar.clientHeight + 'px);right:' + right + 'px;';
             }
         });
@@ -84,8 +86,8 @@ var ScrollPanel = /** @class */ (function () {
     ScrollPanel.prototype.onYBarMouseDown = function (e) {
         this.isYBarClicked = true;
         this.lastPageY = e.pageY;
-        DomHandler.addClass(this.yBarViewChild.nativeElement, 'ui-scrollpanel-grabbed');
-        DomHandler.addClass(document.body, 'ui-scrollpanel-grabbed');
+        domhandler_1.DomHandler.addClass(this.yBarViewChild.nativeElement, 'ui-scrollpanel-grabbed');
+        domhandler_1.DomHandler.addClass(document.body, 'ui-scrollpanel-grabbed');
         document.addEventListener('mousemove', this.onDocumentMouseMove);
         document.addEventListener('mouseup', this.onDocumentMouseUp);
         e.preventDefault();
@@ -93,8 +95,8 @@ var ScrollPanel = /** @class */ (function () {
     ScrollPanel.prototype.onXBarMouseDown = function (e) {
         this.isXBarClicked = true;
         this.lastPageX = e.pageX;
-        DomHandler.addClass(this.xBarViewChild.nativeElement, 'ui-scrollpanel-grabbed');
-        DomHandler.addClass(document.body, 'ui-scrollpanel-grabbed');
+        domhandler_1.DomHandler.addClass(this.xBarViewChild.nativeElement, 'ui-scrollpanel-grabbed');
+        domhandler_1.DomHandler.addClass(document.body, 'ui-scrollpanel-grabbed');
         document.addEventListener('mousemove', this.onDocumentMouseMove);
         document.addEventListener('mouseup', this.onDocumentMouseUp);
         e.preventDefault();
@@ -133,9 +135,9 @@ var ScrollPanel = /** @class */ (function () {
         this.contentViewChild.nativeElement.scrollTop = scrollTop;
     };
     ScrollPanel.prototype.onDocumentMouseUp = function (e) {
-        DomHandler.removeClass(this.yBarViewChild.nativeElement, 'ui-scrollpanel-grabbed');
-        DomHandler.removeClass(this.xBarViewChild.nativeElement, 'ui-scrollpanel-grabbed');
-        DomHandler.removeClass(document.body, 'ui-scrollpanel-grabbed');
+        domhandler_1.DomHandler.removeClass(this.yBarViewChild.nativeElement, 'ui-scrollpanel-grabbed');
+        domhandler_1.DomHandler.removeClass(this.xBarViewChild.nativeElement, 'ui-scrollpanel-grabbed');
+        domhandler_1.DomHandler.removeClass(document.body, 'ui-scrollpanel-grabbed');
         document.removeEventListener('mousemove', this.onDocumentMouseMove);
         document.removeEventListener('mouseup', this.onDocumentMouseUp);
         this.isXBarClicked = false;
@@ -158,50 +160,50 @@ var ScrollPanel = /** @class */ (function () {
         this.moveBar();
     };
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], ScrollPanel.prototype, "style", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], ScrollPanel.prototype, "styleClass", void 0);
     __decorate([
-        ViewChild('container'),
-        __metadata("design:type", ElementRef)
+        core_1.ViewChild('container'),
+        __metadata("design:type", core_1.ElementRef)
     ], ScrollPanel.prototype, "containerViewChild", void 0);
     __decorate([
-        ViewChild('content'),
-        __metadata("design:type", ElementRef)
+        core_1.ViewChild('content'),
+        __metadata("design:type", core_1.ElementRef)
     ], ScrollPanel.prototype, "contentViewChild", void 0);
     __decorate([
-        ViewChild('xBar'),
-        __metadata("design:type", ElementRef)
+        core_1.ViewChild('xBar'),
+        __metadata("design:type", core_1.ElementRef)
     ], ScrollPanel.prototype, "xBarViewChild", void 0);
     __decorate([
-        ViewChild('yBar'),
-        __metadata("design:type", ElementRef)
+        core_1.ViewChild('yBar'),
+        __metadata("design:type", core_1.ElementRef)
     ], ScrollPanel.prototype, "yBarViewChild", void 0);
     ScrollPanel = __decorate([
-        Component({
+        core_1.Component({
             selector: 'p-scrollPanel',
             template: "\n        <div #container [ngClass]=\"'ui-scrollpanel ui-widget ui-widget-content ui-corner-all'\" [ngStyle]=\"style\" [class]=\"styleClass\">\n            <div class=\"ui-scrollpanel-wrapper\">\n                <div #content class=\"ui-scrollpanel-content\">\n                    <ng-content></ng-content>\n                </div>\n            </div>\n            <div #xBar class=\"ui-scrollpanel-bar ui-scrollpanel-bar-x\"></div>\n            <div #yBar class=\"ui-scrollpanel-bar ui-scrollpanel-bar-y\"></div>   \n        </div>\n    "
         }),
-        __metadata("design:paramtypes", [ElementRef, NgZone])
+        __metadata("design:paramtypes", [core_1.ElementRef, core_1.NgZone])
     ], ScrollPanel);
     return ScrollPanel;
 }());
-export { ScrollPanel };
+exports.ScrollPanel = ScrollPanel;
 var ScrollPanelModule = /** @class */ (function () {
     function ScrollPanelModule() {
     }
     ScrollPanelModule = __decorate([
-        NgModule({
-            imports: [CommonModule],
+        core_1.NgModule({
+            imports: [common_1.CommonModule],
             exports: [ScrollPanel],
             declarations: [ScrollPanel]
         })
     ], ScrollPanelModule);
     return ScrollPanelModule;
 }());
-export { ScrollPanelModule };
+exports.ScrollPanelModule = ScrollPanelModule;
 //# sourceMappingURL=scrollpanel.js.map

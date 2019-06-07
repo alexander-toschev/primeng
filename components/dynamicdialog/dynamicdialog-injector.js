@@ -1,3 +1,5 @@
+"use strict";
+Object.defineProperty(exports, "__esModule", { value: true });
 var DynamicDialogInjector = /** @class */ (function () {
     function DynamicDialogInjector(_parentInjector, _additionalTokens) {
         this._parentInjector = _parentInjector;
@@ -11,5 +13,5 @@ var DynamicDialogInjector = /** @class */ (function () {
     };
     return DynamicDialogInjector;
 }());
-export { DynamicDialogInjector };
+exports.DynamicDialogInjector = DynamicDialogInjector;
 //# sourceMappingURL=dynamicdialog-injector.js.map

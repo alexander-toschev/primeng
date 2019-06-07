@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7,10 +8,11 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { NgModule, Component, Input, Output, EventEmitter, Renderer2, ElementRef, ChangeDetectorRef, NgZone } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { DomHandler } from '../dom/domhandler';
-import { trigger, state, style, transition, animate } from '@angular/animations';
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var common_1 = require("@angular/common");
+var domhandler_1 = require("../dom/domhandler");
+var animations_1 = require("@angular/animations");
 var OverlayPanel = /** @class */ (function () {
     function OverlayPanel(el, renderer, cd, zone) {
         this.el = el;
@@ -22,15 +24,15 @@ var OverlayPanel = /** @class */ (function () {
         this.baseZIndex = 0;
         this.showTransitionOptions = '225ms ease-out';
         this.hideTransitionOptions = '195ms ease-in';
-        this.onShow = new EventEmitter();
-        this.onHide = new EventEmitter();
+        this.onShow = new core_1.EventEmitter();
+        this.onHide = new core_1.EventEmitter();
         this.visible = false;
     }
     OverlayPanel.prototype.bindDocumentClickListener = function () {
         var _this = this;
         if (!this.documentClickListener && this.dismissable) {
             this.zone.runOutsideAngular(function () {
-                var documentEvent = DomHandler.isIOS() ? 'touchstart' : 'click';
+                var documentEvent = domhandler_1.DomHandler.isIOS() ? 'touchstart' : 'click';
                 _this.documentClickListener = _this.renderer.listen('document', documentEvent, function (event) {
                     if (!_this.container.contains(event.target) && _this.target !== event.target && !_this.target.contains(event.target)) {
                         _this.zone.run(function () {
@@ -75,7 +77,7 @@ var OverlayPanel = /** @class */ (function () {
             if (this.appendTo === 'body')
                 document.body.appendChild(this.container);
             else
-                DomHandler.appendChild(this.container, this.appendTo);
+                domhandler_1.DomHandler.appendChild(this.container, this.appendTo);
         }
     };
     OverlayPanel.prototype.restoreAppend = function () {
@@ -90,15 +92,15 @@ var OverlayPanel = /** @class */ (function () {
                 this.onShow.emit(null);
                 this.appendContainer();
                 if (this.autoZIndex) {
-                    this.container.style.zIndex = String(this.baseZIndex + (++DomHandler.zindex));
+                    this.container.style.zIndex = String(this.baseZIndex + (++domhandler_1.DomHandler.zindex));
                 }
-                DomHandler.absolutePosition(this.container, this.target);
-                if (DomHandler.getOffset(this.container).top < DomHandler.getOffset(this.target).top) {
-                    DomHandler.addClass(this.container, 'ui-overlaypanel-flipped');
+                domhandler_1.DomHandler.absolutePosition(this.container, this.target);
+                if (domhandler_1.DomHandler.getOffset(this.container).top < domhandler_1.DomHandler.getOffset(this.target).top) {
+                    domhandler_1.DomHandler.addClass(this.container, 'ui-overlaypanel-flipped');
                 }
-                if (DomHandler.getOffset(this.container).left < DomHandler.getOffset(this.target).left &&
-                    DomHandler.getOffset(this.container).left > 0) {
-                    DomHandler.addClass(this.container, 'ui-overlaypanel-shifted');
+                if (domhandler_1.DomHandler.getOffset(this.container).left < domhandler_1.DomHandler.getOffset(this.target).left &&
+                    domhandler_1.DomHandler.getOffset(this.container).left > 0) {
+                    domhandler_1.DomHandler.addClass(this.container, 'ui-overlaypanel-shifted');
                 }
                 this.bindDocumentClickListener();
                 this.bindDocumentResizeListener();
@@ -141,84 +143,84 @@ var OverlayPanel = /** @class */ (function () {
         }
     };
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], OverlayPanel.prototype, "dismissable", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], OverlayPanel.prototype, "showCloseIcon", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], OverlayPanel.prototype, "style", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], OverlayPanel.prototype, "styleClass", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], OverlayPanel.prototype, "appendTo", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], OverlayPanel.prototype, "autoZIndex", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], OverlayPanel.prototype, "baseZIndex", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], OverlayPanel.prototype, "showTransitionOptions", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], OverlayPanel.prototype, "hideTransitionOptions", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], OverlayPanel.prototype, "onShow", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], OverlayPanel.prototype, "onHide", void 0);
     OverlayPanel = __decorate([
-        Component({
+        core_1.Component({
             selector: 'p-overlayPanel',
             template: "\n        <div [ngClass]=\"'ui-overlaypanel ui-widget ui-widget-content ui-corner-all ui-shadow'\" [ngStyle]=\"style\" [class]=\"styleClass\"\n            [@animation]=\"{value: 'visible', params: {showTransitionParams: showTransitionOptions, hideTransitionParams: hideTransitionOptions}}\" (@animation.start)=\"onAnimationStart($event)\" *ngIf=\"visible\">\n            <div class=\"ui-overlaypanel-content\">\n                <ng-content></ng-content>\n            </div>\n            <a tabindex=\"0\" *ngIf=\"showCloseIcon\" class=\"ui-overlaypanel-close ui-state-default\" (click)=\"onCloseClick($event)\" (keydown.enter)=\"hide()\">\n                <span class=\"ui-overlaypanel-close-icon pi pi-times\"></span>\n            </a>\n        </div>\n    ",
             animations: [
-                trigger('animation', [
-                    state('void', style({
+                animations_1.trigger('animation', [
+                    animations_1.state('void', animations_1.style({
                         transform: 'translateY(5%)',
                         opacity: 0
                     })),
-                    state('visible', style({
+                    animations_1.state('visible', animations_1.style({
                         transform: 'translateY(0)',
                         opacity: 1
                     })),
-                    transition('void => visible', animate('{{showTransitionParams}}')),
-                    transition('visible => void', animate('{{hideTransitionParams}}'))
+                    animations_1.transition('void => visible', animations_1.animate('{{showTransitionParams}}')),
+                    animations_1.transition('visible => void', animations_1.animate('{{hideTransitionParams}}'))
                 ])
             ]
         }),
-        __metadata("design:paramtypes", [ElementRef, Renderer2, ChangeDetectorRef, NgZone])
+        __metadata("design:paramtypes", [core_1.ElementRef, core_1.Renderer2, core_1.ChangeDetectorRef, core_1.NgZone])
     ], OverlayPanel);
     return OverlayPanel;
 }());
-export { OverlayPanel };
+exports.OverlayPanel = OverlayPanel;
 var OverlayPanelModule = /** @class */ (function () {
     function OverlayPanelModule() {
     }
     OverlayPanelModule = __decorate([
-        NgModule({
-            imports: [CommonModule],
+        core_1.NgModule({
+            imports: [common_1.CommonModule],
             exports: [OverlayPanel],
             declarations: [OverlayPanel]
         })
     ], OverlayPanelModule);
     return OverlayPanelModule;
 }());
-export { OverlayPanelModule };
+exports.OverlayPanelModule = OverlayPanelModule;
 //# sourceMappingURL=overlaypanel.js.map

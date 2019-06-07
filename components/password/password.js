@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7,9 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { NgModule, Directive, ElementRef, HostListener, Input, NgZone } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { DomHandler } from '../dom/domhandler';
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var common_1 = require("@angular/common");
+var domhandler_1 = require("../dom/domhandler");
 var Password = /** @class */ (function () {
     function Password(el, zone) {
         this.el = el;
@@ -47,7 +49,7 @@ var Password = /** @class */ (function () {
         this.info.textContent = this.promptLabel;
         this.panel.appendChild(this.meter);
         this.panel.appendChild(this.info);
-        this.panel.style.minWidth = DomHandler.getOuterWidth(this.el.nativeElement) + 'px';
+        this.panel.style.minWidth = domhandler_1.DomHandler.getOuterWidth(this.el.nativeElement) + 'px';
         document.body.appendChild(this.panel);
     };
     Password.prototype.onFocus = function (e) {
@@ -56,21 +58,21 @@ var Password = /** @class */ (function () {
             if (!this.panel) {
                 this.createPanel();
             }
-            this.panel.style.zIndex = String(++DomHandler.zindex);
+            this.panel.style.zIndex = String(++domhandler_1.DomHandler.zindex);
             this.zone.runOutsideAngular(function () {
                 setTimeout(function () {
-                    DomHandler.addClass(_this.panel, 'ui-password-panel-visible');
-                    DomHandler.removeClass(_this.panel, 'ui-password-panel-hidden');
+                    domhandler_1.DomHandler.addClass(_this.panel, 'ui-password-panel-visible');
+                    domhandler_1.DomHandler.removeClass(_this.panel, 'ui-password-panel-hidden');
                 }, 1);
-                DomHandler.absolutePosition(_this.panel, _this.el.nativeElement);
+                domhandler_1.DomHandler.absolutePosition(_this.panel, _this.el.nativeElement);
             });
         }
     };
     Password.prototype.onBlur = function (e) {
         var _this = this;
         if (this.feedback) {
-            DomHandler.addClass(this.panel, 'ui-password-panel-hidden');
-            DomHandler.removeClass(this.panel, 'ui-password-panel-visible');
+            domhandler_1.DomHandler.addClass(this.panel, 'ui-password-panel-hidden');
+            domhandler_1.DomHandler.removeClass(this.panel, 'ui-password-panel-visible');
             this.zone.runOutsideAngular(function () {
                 setTimeout(function () {
                     _this.ngOnDestroy();
@@ -141,56 +143,56 @@ var Password = /** @class */ (function () {
         }
     };
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Password.prototype, "promptLabel", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Password.prototype, "weakLabel", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Password.prototype, "mediumLabel", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Password.prototype, "strongLabel", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Password.prototype, "feedback", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean),
         __metadata("design:paramtypes", [Boolean])
     ], Password.prototype, "showPassword", null);
     __decorate([
-        HostListener('input', ['$event']),
+        core_1.HostListener('input', ['$event']),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", void 0)
     ], Password.prototype, "onInput", null);
     __decorate([
-        HostListener('focus', ['$event']),
+        core_1.HostListener('focus', ['$event']),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", void 0)
     ], Password.prototype, "onFocus", null);
     __decorate([
-        HostListener('blur', ['$event']),
+        core_1.HostListener('blur', ['$event']),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", void 0)
     ], Password.prototype, "onBlur", null);
     __decorate([
-        HostListener('keyup', ['$event']),
+        core_1.HostListener('keyup', ['$event']),
         __metadata("design:type", Function),
         __metadata("design:paramtypes", [Object]),
         __metadata("design:returntype", void 0)
     ], Password.prototype, "onKeyup", null);
     Password = __decorate([
-        Directive({
+        core_1.Directive({
             selector: '[pPassword]',
             host: {
                 '[class.ui-inputtext]': 'true',
@@ -200,22 +202,22 @@ var Password = /** @class */ (function () {
                 '[class.ui-state-filled]': 'filled'
             }
         }),
-        __metadata("design:paramtypes", [ElementRef, NgZone])
+        __metadata("design:paramtypes", [core_1.ElementRef, core_1.NgZone])
     ], Password);
     return Password;
 }());
-export { Password };
+exports.Password = Password;
 var PasswordModule = /** @class */ (function () {
     function PasswordModule() {
     }
     PasswordModule = __decorate([
-        NgModule({
-            imports: [CommonModule],
+        core_1.NgModule({
+            imports: [common_1.CommonModule],
             exports: [Password],
             declarations: [Password]
         })
     ], PasswordModule);
     return PasswordModule;
 }());
-export { PasswordModule };
+exports.PasswordModule = PasswordModule;
 //# sourceMappingURL=password.js.map

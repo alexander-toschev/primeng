@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7,21 +8,22 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { NgModule, Component, ElementRef, Input, Output, EventEmitter, forwardRef, ViewChild } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { InputTextModule } from '../inputtext/inputtext';
-import { NG_VALUE_ACCESSOR } from '@angular/forms';
-export var SPINNER_VALUE_ACCESSOR = {
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(function () { return Spinner; }),
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var common_1 = require("@angular/common");
+var inputtext_1 = require("../inputtext/inputtext");
+var forms_1 = require("@angular/forms");
+exports.SPINNER_VALUE_ACCESSOR = {
+    provide: forms_1.NG_VALUE_ACCESSOR,
+    useExisting: core_1.forwardRef(function () { return Spinner; }),
     multi: true
 };
 var Spinner = /** @class */ (function () {
     function Spinner(el) {
         this.el = el;
-        this.onChange = new EventEmitter();
-        this.onFocus = new EventEmitter();
-        this.onBlur = new EventEmitter();
+        this.onChange = new core_1.EventEmitter();
+        this.onFocus = new core_1.EventEmitter();
+        this.onBlur = new core_1.EventEmitter();
         this.step = 1;
         this.onModelChange = function () { };
         this.onModelTouched = function () { };
@@ -210,123 +212,123 @@ var Spinner = /** @class */ (function () {
         this.filled = (this.value !== undefined && this.value != null);
     };
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], Spinner.prototype, "onChange", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], Spinner.prototype, "onFocus", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], Spinner.prototype, "onBlur", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], Spinner.prototype, "step", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], Spinner.prototype, "min", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], Spinner.prototype, "max", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], Spinner.prototype, "maxlength", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], Spinner.prototype, "size", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Spinner.prototype, "placeholder", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Spinner.prototype, "inputId", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Spinner.prototype, "disabled", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Spinner.prototype, "readonly", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], Spinner.prototype, "tabindex", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Spinner.prototype, "required", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Spinner.prototype, "name", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], Spinner.prototype, "inputStyle", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Spinner.prototype, "inputStyleClass", void 0);
     __decorate([
-        ViewChild('inputfield'),
-        __metadata("design:type", ElementRef)
+        core_1.ViewChild('inputfield'),
+        __metadata("design:type", core_1.ElementRef)
     ], Spinner.prototype, "inputfieldViewChild", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String),
         __metadata("design:paramtypes", [String])
     ], Spinner.prototype, "decimalSeparator", null);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String),
         __metadata("design:paramtypes", [String])
     ], Spinner.prototype, "thousandSeparator", null);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean),
         __metadata("design:paramtypes", [Boolean])
     ], Spinner.prototype, "formatInput", null);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String),
         __metadata("design:paramtypes", [String])
     ], Spinner.prototype, "type", null);
     Spinner = __decorate([
-        Component({
+        core_1.Component({
             selector: 'p-spinner',
             template: "\n        <span class=\"ui-spinner ui-widget ui-corner-all\">\n            <input #inputfield type=\"number\" [attr.id]=\"inputId\" [value]=\"value === 0 ? '0' : value||null\" [attr.name]=\"name\"\n            [attr.size]=\"size\" [attr.maxlength]=\"maxlength\" [attr.tabindex]=\"tabindex\" [attr.placeholder]=\"placeholder\" [disabled]=\"disabled\" [readonly]=\"readonly\" [attr.required]=\"required\"\n            (keydown)=\"onInputKeydown($event)\" (blur)=\"onInputBlur($event)\" (input)=\"onInput($event)\" (change)=\"onInputChange($event)\" (focus)=\"onInputFocus($event)\"\n            [ngStyle]=\"inputStyle\" [class]=\"inputStyleClass\" [ngClass]=\"'ui-spinner-input ui-inputtext ui-widget ui-state-default ui-corner-all'\">\n            <button type=\"button\" [ngClass]=\"{'ui-spinner-button ui-spinner-up ui-corner-tr ui-button ui-widget ui-state-default':true,'ui-state-disabled':disabled}\" [disabled]=\"disabled||readonly\" [attr.tabindex]=\"tabindex\" [attr.readonly]=\"readonly\"\n                (mouseleave)=\"onUpButtonMouseleave($event)\" (mousedown)=\"onUpButtonMousedown($event)\" (mouseup)=\"onUpButtonMouseup($event)\">\n                <span class=\"ui-spinner-button-icon pi pi-caret-up ui-clickable\"></span>\n            </button>\n            <button type=\"button\" [ngClass]=\"{'ui-spinner-button ui-spinner-down ui-corner-br ui-button ui-widget ui-state-default':true,'ui-state-disabled':disabled}\" [disabled]=\"disabled||readonly\" [attr.tabindex]=\"tabindex\" [attr.readonly]=\"readonly\"\n                (mouseleave)=\"onDownButtonMouseleave($event)\" (mousedown)=\"onDownButtonMousedown($event)\" (mouseup)=\"onDownButtonMouseup($event)\">\n                <span class=\"ui-spinner-button-icon pi pi-caret-down ui-clickable\"></span>\n            </button>\n        </span>\n    ",
             host: {
                 '[class.ui-inputwrapper-filled]': 'filled',
                 '[class.ui-inputwrapper-focus]': 'focus'
             },
-            providers: [SPINNER_VALUE_ACCESSOR]
+            providers: [exports.SPINNER_VALUE_ACCESSOR]
         }),
-        __metadata("design:paramtypes", [ElementRef])
+        __metadata("design:paramtypes", [core_1.ElementRef])
     ], Spinner);
     return Spinner;
 }());
-export { Spinner };
+exports.Spinner = Spinner;
 var SpinnerModule = /** @class */ (function () {
     function SpinnerModule() {
     }
     SpinnerModule = __decorate([
-        NgModule({
-            imports: [CommonModule, InputTextModule],
+        core_1.NgModule({
+            imports: [common_1.CommonModule, inputtext_1.InputTextModule],
             exports: [Spinner],
             declarations: [Spinner]
         })
     ], SpinnerModule);
     return SpinnerModule;
 }());
-export { SpinnerModule };
+exports.SpinnerModule = SpinnerModule;
 //# sourceMappingURL=spinner.js.map

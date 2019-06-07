@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7,17 +8,18 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { NgModule, Component, ElementRef, Input, Output, ViewChild, EventEmitter, ContentChild, ContentChildren, QueryList } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { Header, Footer, PrimeTemplate, SharedModule } from '../common/shared';
-import { ScrollingModule } from '@angular/cdk/scrolling';
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var common_1 = require("@angular/common");
+var shared_1 = require("../common/shared");
+var scrolling_1 = require("@angular/cdk/scrolling");
 var VirtualScroller = /** @class */ (function () {
     function VirtualScroller(el) {
         this.el = el;
         this.cache = true;
         this.first = 0;
         this.trackBy = function (index, item) { return item; };
-        this.onLazyLoad = new EventEmitter();
+        this.onLazyLoad = new core_1.EventEmitter();
         this._totalRecords = 0;
         this.lazyValue = [];
         this.page = 0;
@@ -96,92 +98,92 @@ var VirtualScroller = /** @class */ (function () {
         }
     };
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], VirtualScroller.prototype, "itemSize", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], VirtualScroller.prototype, "style", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], VirtualScroller.prototype, "styleClass", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], VirtualScroller.prototype, "scrollHeight", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], VirtualScroller.prototype, "lazy", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], VirtualScroller.prototype, "cache", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], VirtualScroller.prototype, "rows", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], VirtualScroller.prototype, "first", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Function)
     ], VirtualScroller.prototype, "trackBy", void 0);
     __decorate([
-        ContentChild(Header),
+        core_1.ContentChild(shared_1.Header),
         __metadata("design:type", Object)
     ], VirtualScroller.prototype, "header", void 0);
     __decorate([
-        ContentChild(Footer),
+        core_1.ContentChild(shared_1.Footer),
         __metadata("design:type", Object)
     ], VirtualScroller.prototype, "footer", void 0);
     __decorate([
-        ContentChildren(PrimeTemplate),
-        __metadata("design:type", QueryList)
+        core_1.ContentChildren(shared_1.PrimeTemplate),
+        __metadata("design:type", core_1.QueryList)
     ], VirtualScroller.prototype, "templates", void 0);
     __decorate([
-        ViewChild('viewport'),
-        __metadata("design:type", ElementRef)
+        core_1.ViewChild('viewport'),
+        __metadata("design:type", core_1.ElementRef)
     ], VirtualScroller.prototype, "viewPortViewChild", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], VirtualScroller.prototype, "onLazyLoad", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number),
         __metadata("design:paramtypes", [Number])
     ], VirtualScroller.prototype, "totalRecords", null);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Array),
         __metadata("design:paramtypes", [Array])
     ], VirtualScroller.prototype, "value", null);
     VirtualScroller = __decorate([
-        Component({
+        core_1.Component({
             selector: 'p-virtualScroller',
             template: "\n        <div [ngClass]=\"'ui-virtualscroller ui-widget'\" [ngStyle]=\"style\" [class]=\"styleClass\">\n            <div class=\"ui-virtualscroller-header ui-widget-header ui-corner-top\" *ngIf=\"header\">\n                <ng-content select=\"p-header\"></ng-content>\n            </div>\n            <div #content class=\"ui-virtualscroller-content ui-widget-content\">\n                <ul class=\"ui-virtualscroller-list\">\n                    <cdk-virtual-scroll-viewport #viewport [ngStyle]=\"{'height': scrollHeight}\" [itemSize]=\"itemSize\" (scrolledIndexChange)=\"onScrollIndexChange($event)\">\n                        <ng-container *cdkVirtualFor=\"let item of value; trackBy: trackBy; let i = index; let c = count; let f = first; let l = last; let e = even; let o = odd; \">\n                            <li [ngStyle]=\"{'height': itemSize + 'px'}\">\n                                <ng-container *ngTemplateOutlet=\"item ? itemTemplate : loadingItemTemplate; context: {$implicit: item, index: i, count: c, first: f, last: l, even: e, odd: o}\"></ng-container>\n                            </li>\n                        </ng-container>\n                    </cdk-virtual-scroll-viewport>\n                </ul>\n            </div>\n            <div class=\"ui-virtualscroller-footer ui-widget-header ui-corner-bottom\" *ngIf=\"footer\">\n                <ng-content select=\"p-footer\"></ng-content>\n            </div>\n        </div>\n    "
         }),
-        __metadata("design:paramtypes", [ElementRef])
+        __metadata("design:paramtypes", [core_1.ElementRef])
     ], VirtualScroller);
     return VirtualScroller;
 }());
-export { VirtualScroller };
+exports.VirtualScroller = VirtualScroller;
 var VirtualScrollerModule = /** @class */ (function () {
     function VirtualScrollerModule() {
     }
     VirtualScrollerModule = __decorate([
-        NgModule({
-            imports: [CommonModule, ScrollingModule],
-            exports: [VirtualScroller, SharedModule, ScrollingModule],
+        core_1.NgModule({
+            imports: [common_1.CommonModule, scrolling_1.ScrollingModule],
+            exports: [VirtualScroller, shared_1.SharedModule, scrolling_1.ScrollingModule],
             declarations: [VirtualScroller]
         })
     ], VirtualScrollerModule);
     return VirtualScrollerModule;
 }());
-export { VirtualScrollerModule };
+exports.VirtualScrollerModule = VirtualScrollerModule;
 //# sourceMappingURL=virtualscroller.js.map

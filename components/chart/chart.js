@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7,15 +8,16 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { NgModule, Component, ElementRef, Input, Output, EventEmitter } from '@angular/core';
-import { CommonModule } from '@angular/common';
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var common_1 = require("@angular/common");
 var UIChart = /** @class */ (function () {
     function UIChart(el) {
         this.el = el;
         this.options = {};
         this.plugins = [];
         this.responsive = true;
-        this.onDataSelect = new EventEmitter();
+        this.onDataSelect = new core_1.EventEmitter();
     }
     Object.defineProperty(UIChart.prototype, "data", {
         get: function () {
@@ -85,59 +87,59 @@ var UIChart = /** @class */ (function () {
         }
     };
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], UIChart.prototype, "type", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], UIChart.prototype, "options", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Array)
     ], UIChart.prototype, "plugins", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], UIChart.prototype, "width", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], UIChart.prototype, "height", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], UIChart.prototype, "responsive", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], UIChart.prototype, "onDataSelect", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object),
         __metadata("design:paramtypes", [Object])
     ], UIChart.prototype, "data", null);
     UIChart = __decorate([
-        Component({
+        core_1.Component({
             selector: 'p-chart',
             template: "\n        <div style=\"position:relative\" [style.width]=\"responsive && !width ? null : width\" [style.height]=\"responsive && !height ? null : height\">\n            <canvas [attr.width]=\"responsive && !width ? null : width\" [attr.height]=\"responsive && !height ? null : height\" (click)=\"onCanvasClick($event)\"></canvas>\n        </div>\n    "
         }),
-        __metadata("design:paramtypes", [ElementRef])
+        __metadata("design:paramtypes", [core_1.ElementRef])
     ], UIChart);
     return UIChart;
 }());
-export { UIChart };
+exports.UIChart = UIChart;
 var ChartModule = /** @class */ (function () {
     function ChartModule() {
     }
     ChartModule = __decorate([
-        NgModule({
-            imports: [CommonModule],
+        core_1.NgModule({
+            imports: [common_1.CommonModule],
             exports: [UIChart],
             declarations: [UIChart]
         })
     ], ChartModule);
     return ChartModule;
 }());
-export { ChartModule };
+exports.ChartModule = ChartModule;
 //# sourceMappingURL=chart.js.map

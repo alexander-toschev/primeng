@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7,11 +8,12 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { NgModule, Component, ElementRef, Input, Output, EventEmitter, ContentChild, ContentChildren, QueryList } from '@angular/core';
-import { CommonModule } from '@angular/common';
-import { ObjectUtils } from '../utils/objectutils';
-import { Header, Footer, PrimeTemplate, SharedModule } from '../common/shared';
-import { PaginatorModule } from '../paginator/paginator';
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var common_1 = require("@angular/common");
+var objectutils_1 = require("../utils/objectutils");
+var shared_1 = require("../common/shared");
+var paginator_1 = require("../paginator/paginator");
 var DataView = /** @class */ (function () {
     function DataView(el) {
         this.el = el;
@@ -21,12 +23,12 @@ var DataView = /** @class */ (function () {
         this.alwaysShowPaginator = true;
         this.currentPageReportTemplate = '{currentPage} of {totalPages}';
         this.emptyMessage = 'No records found';
-        this.onLazyLoad = new EventEmitter();
+        this.onLazyLoad = new core_1.EventEmitter();
         this.trackBy = function (index, item) { return item; };
         this.loadingIcon = 'pi pi-spinner';
         this.first = 0;
-        this.onPage = new EventEmitter();
-        this.onSort = new EventEmitter();
+        this.onPage = new core_1.EventEmitter();
+        this.onSort = new core_1.EventEmitter();
         this._sortOrder = 1;
     }
     DataView.prototype.ngOnInit = function () {
@@ -133,8 +135,8 @@ var DataView = /** @class */ (function () {
         }
         else if (this.value) {
             this.value.sort(function (data1, data2) {
-                var value1 = ObjectUtils.resolveFieldData(data1, _this.sortField);
-                var value2 = ObjectUtils.resolveFieldData(data2, _this.sortField);
+                var value1 = objectutils_1.ObjectUtils.resolveFieldData(data1, _this.sortField);
+                var value2 = objectutils_1.ObjectUtils.resolveFieldData(data2, _this.sortField);
                 var result = null;
                 if (value1 == null && value2 != null)
                     result = -1;
@@ -174,7 +176,7 @@ var DataView = /** @class */ (function () {
         this.filterValue = filter;
         if (this.value && this.value.length) {
             var searchFields = this.filterBy.split(',');
-            this.filteredValue = ObjectUtils.filter(this.value, searchFields, filter);
+            this.filteredValue = objectutils_1.ObjectUtils.filter(this.value, searchFields, filter);
             if (this.filteredValue.length === this.value.length) {
                 this.filteredValue = null;
             }
@@ -188,134 +190,134 @@ var DataView = /** @class */ (function () {
         return this.filterValue && this.filterValue.trim().length > 0;
     };
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], DataView.prototype, "layout", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], DataView.prototype, "paginator", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], DataView.prototype, "rows", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], DataView.prototype, "totalRecords", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], DataView.prototype, "pageLinks", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Array)
     ], DataView.prototype, "rowsPerPageOptions", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], DataView.prototype, "paginatorPosition", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], DataView.prototype, "alwaysShowPaginator", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], DataView.prototype, "paginatorDropdownAppendTo", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], DataView.prototype, "currentPageReportTemplate", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], DataView.prototype, "showCurrentPageReport", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], DataView.prototype, "lazy", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], DataView.prototype, "emptyMessage", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], DataView.prototype, "onLazyLoad", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], DataView.prototype, "style", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], DataView.prototype, "styleClass", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Function)
     ], DataView.prototype, "trackBy", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], DataView.prototype, "filterBy", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], DataView.prototype, "loading", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], DataView.prototype, "loadingIcon", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number)
     ], DataView.prototype, "first", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], DataView.prototype, "onPage", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], DataView.prototype, "onSort", void 0);
     __decorate([
-        ContentChild(Header),
+        core_1.ContentChild(shared_1.Header),
         __metadata("design:type", Object)
     ], DataView.prototype, "header", void 0);
     __decorate([
-        ContentChild(Footer),
+        core_1.ContentChild(shared_1.Footer),
         __metadata("design:type", Object)
     ], DataView.prototype, "footer", void 0);
     __decorate([
-        ContentChildren(PrimeTemplate),
-        __metadata("design:type", QueryList)
+        core_1.ContentChildren(shared_1.PrimeTemplate),
+        __metadata("design:type", core_1.QueryList)
     ], DataView.prototype, "templates", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String),
         __metadata("design:paramtypes", [String])
     ], DataView.prototype, "sortField", null);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Number),
         __metadata("design:paramtypes", [Number])
     ], DataView.prototype, "sortOrder", null);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Array),
         __metadata("design:paramtypes", [Array])
     ], DataView.prototype, "value", null);
     DataView = __decorate([
-        Component({
+        core_1.Component({
             selector: 'p-dataView',
             template: "\n        <div [ngClass]=\"{'ui-dataview ui-widget': true, 'ui-dataview-list': (layout === 'list'), 'ui-dataview-grid': (layout === 'grid')}\" [ngStyle]=\"style\" [class]=\"styleClass\">\n            <div class=\"ui-dataview-loading ui-widget-overlay\" *ngIf=\"loading\"></div>\n            <div class=\"ui-dataview-loading-content\" *ngIf=\"loading\">\n                <i [class]=\"'ui-dataview-loading-icon pi-spin ' + loadingIcon\"></i>\n            </div>\n            <div class=\"ui-dataview-header ui-widget-header ui-corner-top\">\n                <ng-content select=\"p-header\"></ng-content>\n            </div>\n            <p-paginator [rows]=\"rows\" [first]=\"first\" [totalRecords]=\"totalRecords\" [pageLinkSize]=\"pageLinks\" [alwaysShow]=\"alwaysShowPaginator\"\n                (onPageChange)=\"paginate($event)\" styleClass=\"ui-paginator-top\" [rowsPerPageOptions]=\"rowsPerPageOptions\" *ngIf=\"paginator && (paginatorPosition === 'top' || paginatorPosition =='both')\"\n                [dropdownAppendTo]=\"paginatorDropdownAppendTo\" [templateLeft]=\"paginatorLeftTemplate\" [templateRight]=\"paginatorRightTemplate\"\n                [currentPageReportTemplate]=\"currentPageReportTemplate\" [showCurrentPageReport]=\"showCurrentPageReport\"></p-paginator>\n            <div class=\"ui-dataview-content ui-widget-content\">\n                <div class=\"ui-g\">\n                    <ng-template ngFor let-rowData let-rowIndex=\"index\" [ngForOf]=\"paginator ? ((filteredValue||value) | slice:(lazy ? 0 : first):((lazy ? 0 : first) + rows)) : (filteredValue||value)\" [ngForTrackBy]=\"trackBy\">\n                        <ng-container *ngTemplateOutlet=\"itemTemplate; context: {$implicit: rowData, rowIndex: rowIndex}\"></ng-container>\n                    </ng-template>\n                    <div *ngIf=\"isEmpty()\" class=\"ui-g-12 ui-dataview-emptymessage\">{{emptyMessage}}</div>\n                </div>\n            </div>\n            <p-paginator [rows]=\"rows\" [first]=\"first\" [totalRecords]=\"totalRecords\" [pageLinkSize]=\"pageLinks\" [alwaysShow]=\"alwaysShowPaginator\"\n                (onPageChange)=\"paginate($event)\" styleClass=\"ui-paginator-bottom\" [rowsPerPageOptions]=\"rowsPerPageOptions\" *ngIf=\"paginator && (paginatorPosition === 'bottom' || paginatorPosition =='both')\"\n                [dropdownAppendTo]=\"paginatorDropdownAppendTo\" [templateLeft]=\"paginatorLeftTemplate\" [templateRight]=\"paginatorRightTemplate\"\n                [currentPageReportTemplate]=\"currentPageReportTemplate\" [showCurrentPageReport]=\"showCurrentPageReport\"></p-paginator>\n            <div class=\"ui-dataview-footer ui-widget-header ui-corner-bottom\" *ngIf=\"footer\">\n                <ng-content select=\"p-footer\"></ng-content>\n            </div>\n        </div>\n    "
         }),
-        __metadata("design:paramtypes", [ElementRef])
+        __metadata("design:paramtypes", [core_1.ElementRef])
     ], DataView);
     return DataView;
 }());
-export { DataView };
+exports.DataView = DataView;
 var DataViewLayoutOptions = /** @class */ (function () {
     function DataViewLayoutOptions(dv) {
         this.dv = dv;
@@ -325,15 +327,15 @@ var DataViewLayoutOptions = /** @class */ (function () {
         event.preventDefault();
     };
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], DataViewLayoutOptions.prototype, "style", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], DataViewLayoutOptions.prototype, "styleClass", void 0);
     DataViewLayoutOptions = __decorate([
-        Component({
+        core_1.Component({
             selector: 'p-dataViewLayoutOptions',
             template: "\n        <div [ngClass]=\"'ui-dataview-layout-options ui-selectbutton ui-buttonset'\" [ngStyle]=\"style\" [class]=\"styleClass\">\n            <a tabindex=\"0\" class=\"ui-button ui-button-icon-only ui-state-default\" (click)=\"changeLayout($event, 'list')\" (keydown.enter)=\"changeLayout($event, 'list')\"\n                [ngClass]=\"{'ui-state-active': dv.layout === 'list'}\">\n                <i class=\"pi pi-bars ui-button-icon-left\"></i>\n                <span class=\"ui-button-text ui-clickable\">ui-btn</span>\n            </a><a tabindex=\"0\" class=\"ui-button ui-button-icon-only ui-state-default\" (click)=\"changeLayout($event, 'grid')\" (keydown.enter)=\"changeLayout($event, 'grid')\"\n                [ngClass]=\"{'ui-state-active': dv.layout === 'grid'}\">\n                <i class=\"pi pi-th-large ui-button-icon-left\"></i>\n                <span class=\"ui-button-text ui-clickable\">ui-btn</span>\n            </a>\n        </div>\n    "
         }),
@@ -341,18 +343,18 @@ var DataViewLayoutOptions = /** @class */ (function () {
     ], DataViewLayoutOptions);
     return DataViewLayoutOptions;
 }());
-export { DataViewLayoutOptions };
+exports.DataViewLayoutOptions = DataViewLayoutOptions;
 var DataViewModule = /** @class */ (function () {
     function DataViewModule() {
     }
     DataViewModule = __decorate([
-        NgModule({
-            imports: [CommonModule, SharedModule, PaginatorModule],
-            exports: [DataView, SharedModule, DataViewLayoutOptions],
+        core_1.NgModule({
+            imports: [common_1.CommonModule, shared_1.SharedModule, paginator_1.PaginatorModule],
+            exports: [DataView, shared_1.SharedModule, DataViewLayoutOptions],
             declarations: [DataView, DataViewLayoutOptions]
         })
     ], DataViewModule);
     return DataViewModule;
 }());
-export { DataViewModule };
+exports.DataViewModule = DataViewModule;
 //# sourceMappingURL=dataview.js.map

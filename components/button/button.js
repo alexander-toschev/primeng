@@ -1,3 +1,4 @@
+"use strict";
 var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
     var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
     if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
@@ -7,9 +8,10 @@ var __decorate = (this && this.__decorate) || function (decorators, target, key,
 var __metadata = (this && this.__metadata) || function (k, v) {
     if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
 };
-import { NgModule, Directive, Component, ElementRef, EventEmitter, Output, Input } from '@angular/core';
-import { DomHandler } from '../dom/domhandler';
-import { CommonModule } from '@angular/common';
+Object.defineProperty(exports, "__esModule", { value: true });
+var core_1 = require("@angular/core");
+var domhandler_1 = require("../dom/domhandler");
+var common_1 = require("@angular/common");
 var ButtonDirective = /** @class */ (function () {
     function ButtonDirective(el) {
         this.el = el;
@@ -17,7 +19,7 @@ var ButtonDirective = /** @class */ (function () {
         this.cornerStyleClass = 'ui-corner-all';
     }
     ButtonDirective.prototype.ngAfterViewInit = function () {
-        DomHandler.addMultipleClasses(this.el.nativeElement, this.getStyleClass());
+        domhandler_1.DomHandler.addMultipleClasses(this.el.nativeElement, this.getStyleClass());
         if (this.icon) {
             var iconElement = document.createElement("span");
             iconElement.setAttribute("aria-hidden", "true");
@@ -61,15 +63,15 @@ var ButtonDirective = /** @class */ (function () {
         set: function (val) {
             this._label = val;
             if (this.initialized) {
-                DomHandler.findSingle(this.el.nativeElement, '.ui-button-text').textContent = this._label;
+                domhandler_1.DomHandler.findSingle(this.el.nativeElement, '.ui-button-text').textContent = this._label;
                 if (!this.icon) {
                     if (this._label) {
-                        DomHandler.removeClass(this.el.nativeElement, 'ui-button-text-empty');
-                        DomHandler.addClass(this.el.nativeElement, 'ui-button-text-only');
+                        domhandler_1.DomHandler.removeClass(this.el.nativeElement, 'ui-button-text-empty');
+                        domhandler_1.DomHandler.addClass(this.el.nativeElement, 'ui-button-text-only');
                     }
                     else {
-                        DomHandler.addClass(this.el.nativeElement, 'ui-button-text-empty');
-                        DomHandler.removeClass(this.el.nativeElement, 'ui-button-text-only');
+                        domhandler_1.DomHandler.addClass(this.el.nativeElement, 'ui-button-text-empty');
+                        domhandler_1.DomHandler.removeClass(this.el.nativeElement, 'ui-button-text-only');
                     }
                 }
             }
@@ -85,7 +87,7 @@ var ButtonDirective = /** @class */ (function () {
             this._icon = val;
             if (this.initialized) {
                 var iconPosClass = (this.iconPos == 'right') ? 'ui-button-icon-right' : 'ui-button-icon-left';
-                DomHandler.findSingle(this.el.nativeElement, '.ui-clickable').className =
+                domhandler_1.DomHandler.findSingle(this.el.nativeElement, '.ui-clickable').className =
                     iconPosClass + ' ui-clickable ' + this.icon;
             }
         },
@@ -99,99 +101,99 @@ var ButtonDirective = /** @class */ (function () {
         this.initialized = false;
     };
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], ButtonDirective.prototype, "iconPos", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], ButtonDirective.prototype, "cornerStyleClass", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String),
         __metadata("design:paramtypes", [String])
     ], ButtonDirective.prototype, "label", null);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String),
         __metadata("design:paramtypes", [String])
     ], ButtonDirective.prototype, "icon", null);
     ButtonDirective = __decorate([
-        Directive({
+        core_1.Directive({
             selector: '[pButton]'
         }),
-        __metadata("design:paramtypes", [ElementRef])
+        __metadata("design:paramtypes", [core_1.ElementRef])
     ], ButtonDirective);
     return ButtonDirective;
 }());
-export { ButtonDirective };
+exports.ButtonDirective = ButtonDirective;
 var Button = /** @class */ (function () {
     function Button() {
         this.iconPos = 'left';
-        this.onClick = new EventEmitter();
-        this.onFocus = new EventEmitter();
-        this.onBlur = new EventEmitter();
+        this.onClick = new core_1.EventEmitter();
+        this.onFocus = new core_1.EventEmitter();
+        this.onBlur = new core_1.EventEmitter();
     }
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Button.prototype, "type", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Button.prototype, "iconPos", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Button.prototype, "icon", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Button.prototype, "label", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Boolean)
     ], Button.prototype, "disabled", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", Object)
     ], Button.prototype, "style", void 0);
     __decorate([
-        Input(),
+        core_1.Input(),
         __metadata("design:type", String)
     ], Button.prototype, "styleClass", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], Button.prototype, "onClick", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], Button.prototype, "onFocus", void 0);
     __decorate([
-        Output(),
-        __metadata("design:type", EventEmitter)
+        core_1.Output(),
+        __metadata("design:type", core_1.EventEmitter)
     ], Button.prototype, "onBlur", void 0);
     Button = __decorate([
-        Component({
+        core_1.Component({
             selector: 'p-button',
             template: "\n        <button [attr.type]=\"type\" [class]=\"styleClass\" [style]=\"style\" [disabled]=\"disabled\"\n            [ngClass]=\"{'ui-button ui-widget ui-state-default ui-corner-all':true,\n                        'ui-button-icon-only': (icon && !label),\n                        'ui-button-text-icon-left': (icon && label && iconPos === 'left'),\n                        'ui-button-text-icon-right': (icon && label && iconPos === 'right'),\n                        'ui-button-text-only': (!icon && label),\n                        'ui-button-text-empty': (!icon && !label),\n                        'ui-state-disabled': disabled}\"\n                        (click)=\"onClick.emit($event)\" (focus)=\"onFocus.emit($event)\" (blur)=\"onBlur.emit($event)\">\n            <ng-content></ng-content>\n            <span [ngClass]=\"{'ui-clickable': true,\n                        'ui-button-icon-left': (iconPos === 'left'), \n                        'ui-button-icon-right': (iconPos === 'right')}\"\n                        [class]=\"icon\" *ngIf=\"icon\"></span>\n            <span class=\"ui-button-text ui-clickable\">{{label||'ui-btn'}}</span>\n        </button>\n    "
         })
     ], Button);
     return Button;
 }());
-export { Button };
+exports.Button = Button;
 var ButtonModule = /** @class */ (function () {
     function ButtonModule() {
     }
     ButtonModule = __decorate([
-        NgModule({
-            imports: [CommonModule],
+        core_1.NgModule({
+            imports: [common_1.CommonModule],
             exports: [ButtonDirective, Button],
             declarations: [ButtonDirective, Button]
         })
     ], ButtonModule);
     return ButtonModule;
 }());
-export { ButtonModule };
+exports.ButtonModule = ButtonModule;
 //# sourceMappingURL=button.js.map
